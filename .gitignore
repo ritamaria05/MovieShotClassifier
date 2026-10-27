@@ -218,3 +218,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+*.txt
+ShotBench/
+ShotQA_meta/
+data_shotqa/
+.venv/
+splits/
+*.csv
