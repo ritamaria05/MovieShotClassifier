@@ -226,3 +226,4 @@ data_shotqa/
 .venv/
 splits/
 *.csv
+!requirements.txt
