@@ -71,7 +71,11 @@ These are not required to make the current baseline work:
 - [ ] Fine-tune only the last SigLIP layers.
 - [ ] Compare frozen features, partial fine-tuning, and full fine-tuning.
 - [ ] Use early stopping, checkpointing, and validation monitoring.
+- [ ] Use a multi task learning model to predict shot size and framing simultaneously.
 - [ ] Compare all models on the same film-separated test set.
+
+## Optional tasks
+- [ ] Add other characteristics like color palette, brightness, or motion blur, which are easier to implement, and show other aspects of computer vision.
 
 ## What is realistic on a normal PC?
 
