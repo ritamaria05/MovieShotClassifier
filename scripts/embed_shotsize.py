@@ -5,12 +5,15 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
+from paths import DATA_PROCESSED_DIR, SPLITS_DIR, ensure_output_dirs
 
 dev = 'mps' if torch.backends.mps.is_available() else 'cuda' if torch.cuda.is_available() else 'cpu'
 NAME = 'google/siglip-base-patch16-224'
 model = AutoModel.from_pretrained(NAME).eval().to(dev)
 proc = AutoImageProcessor.from_pretrained(NAME)
-os.makedirs('emb', exist_ok=True)
+EMB_DIR = DATA_PROCESSED_DIR / 'emb'
+ensure_output_dirs()
+EMB_DIR.mkdir(parents=True, exist_ok=True)
 
 def load(p):
     im = Image.open(p)
@@ -34,8 +37,14 @@ def embed(df, cache, bs=32):
     return e
 
 for name in ['shot_size']:
-    tr, va, te = [pd.read_csv(f'splits/{s}_{name}.csv') for s in ['train', 'val', 'test']]
-    Xtr, Xva, Xte = [embed(d, f'emb/{s}_{name}.npy') for d, s in [(tr, 'train'), (va, 'val'), (te, 'test')]]
+    tr, va, te = [
+        pd.read_csv(SPLITS_DIR / f'{s}_{name}.csv')
+        for s in ['train', 'val', 'test']
+    ]
+    Xtr, Xva, Xte = [
+        embed(d, EMB_DIR / f'{s}_{name}.npy')
+        for d, s in [(tr, 'train'), (va, 'val'), (te, 'test')]
+    ]
 
     # near-duplicates: teste vs treino+val
     sim = (Xte @ np.vstack([Xtr, Xva]).T).max(1)

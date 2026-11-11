@@ -22,7 +22,8 @@
   and `transformers`.
 - [ ] Obtain the ShotQA metadata files:
   `ShotQA_meta/meta.jsonl`, `sft.json`, and `grpo.json`.
-- [ ] Obtain or extract the ShotQA images into `data_shotqa/`.
+- [ ] Obtain or extract the ShotQA images into `data_shotqa/` or
+  `data/raw/data_shotqa/`.
 - [ ] Obtain the ShotBench images in `ShotBench/image/`.
 - [ ] Record the Python version, package versions, dataset versions, and model
   revision so the experiment can be reproduced.
@@ -32,11 +33,12 @@
 - [ ] Run `make_annotations.py`.
 - [ ] Run `build_labels.py`.
 - [ ] Run `final_labels.py`.
-- [ ] Download/extract every image listed in `lista_extrair.txt`.
+- [ ] Download/extract every image listed in `txt/lista_extrair.txt`.
 - [ ] Run `verify.py` and resolve missing images.
 - [ ] Run `check_meta.py` and inspect label/metadata disagreements.
 - [ ] Run `check_overlap.py` and investigate unexpected overlap.
-- [ ] Run `build_dataset.py`.
+- [ ] Run `build_dataset.py` (or `python scripts/prepare_data.py` for all
+  preparation steps).
 - [ ] Confirm that the generated split files contain the expected classes and
   that films do not cross from training into the ShotBench test set.
 
