@@ -228,3 +228,6 @@ splits/
 *.csv
 !requirements.txt
 emb/
+data/
+csv/
+txt/
