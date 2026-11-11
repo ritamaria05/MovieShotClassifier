@@ -176,6 +176,36 @@ Despite the general project theme, the current implementation loops over
 Existing cached embeddings can be reused; the script skips extraction when the
 corresponding `.npy` file already exists.
 
+## Shot-size SigLIP fine-tuning
+
+After the split CSVs and referenced images exist, train a shot-size classifier
+with:
+
+```bash
+python scripts/finetune_shotsize.py
+```
+
+The script reuses `data/processed/splits/train_shot_size.csv`,
+`val_shot_size.csv`, and `test_shot_size.csv`; it never regenerates them. By
+default (`--mode head`) SigLIP is frozen and only a linear classification head
+is trained. To also train the final vision layers, use for example:
+
+```bash
+python scripts/finetune_shotsize.py --mode last_layers --unfreeze-last-layers 2 \
+  --epochs 5 --batch-size 16 --learning-rate 1e-4
+```
+
+Important options include `--model-name`, `--epochs`, `--batch-size`,
+`--learning-rate`, `--seed`, and `--output-dir`. The default output directory
+is `data/processed/finetune_shotsize/` and contains the best validation
+macro-F1 checkpoint, `class_mapping.json`, `history.json`, test predictions,
+and `metrics.json`. Test metrics are computed once from the best validation
+checkpoint on single-label test rows; multi-label test rows remain in the
+prediction CSV and are reported as excluded from strict classification metrics.
+The model and local images are not included in Git. The command downloads the
+configured Hugging Face model if it is not already cached, so run it locally
+after preparing the datasets.
+
 ## Current implementation status
 
 Already implemented:
