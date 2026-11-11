@@ -1,7 +1,9 @@
 import json, re, os, glob
 import pandas as pd
+from paths import CSV_DIR, SHOTQA_META_DIR, TXT_DIR, ensure_output_dirs
 
-data = json.load(open('ShotQA_meta/sft.json'))
+ensure_output_dirs()
+data = json.load(open(SHOTQA_META_DIR / 'sft.json'))
 q_re = re.compile(r"Question:\s*(.+?)\nOptions:\n(.+?)\nPlease select", re.S)
 opt_re = re.compile(r"^([A-H])\.\s*(.+)$", re.M)
 
@@ -28,7 +30,7 @@ for item in data:
 
 df = pd.DataFrame(rows, columns=['image', 'question', 'label'])
 df['dimension'] = df['question'].str.extract(r"What'?s the (.+?) of this shot", expand=False)
-df.to_csv('shotqa_labels.csv', index=False)
+df.to_csv(CSV_DIR / 'shotqa_labels.csv', index=False)
 
 print(len(data), 'conversas |', df['image'].nunique(), 'imagens |', len(df), 'perguntas | ignoradas:', skipped)
 print('\nperguntas mais comuns:\n', df['question'].value_counts().head(12))
@@ -46,8 +48,10 @@ sb = {stem(p) for p in glob.glob('ShotBench/image/*')}
 qa = {stem(p) for p in df['image']}
 print('\nimagens em comum com o ShotBench:', len(sb & qa))
 
-open('lista_shot_size.txt', 'w').write('\n'.join(sorted(ss['image'].unique())) + '\n')
+open(TXT_DIR / 'lista_shot_size.txt', 'w').write(
+    '\n'.join(sorted(ss['image'].unique())) + '\n'
+)
 
-g = json.load(open('ShotQA_meta/grpo.json'))
+g = json.load(open(SHOTQA_META_DIR / 'grpo.json'))
 print('\ngrpo.json:', type(g), len(g))
 print(json.dumps(g[0], ensure_ascii=False)[:600])
