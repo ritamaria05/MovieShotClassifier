@@ -222,6 +222,30 @@ The tracked `emb/` files show that shot-size embedding extraction has been run
 at least once. No trained classifier artifact or prediction file is currently
 tracked.
 
+## Reproducible shot-size model comparison
+
+Run the separate comparison workflow from the repository root after preparing
+the existing split CSVs:
+
+```bash
+python scripts/compare_shotsize_models.py
+```
+
+By default it compares `google/siglip-base-patch16-224` and
+`google/siglip-so400m-patch14-384` with both balanced logistic regression and a
+balanced RBF SVM. Classifier hyperparameters are selected by validation
+macro-F1, the selected classifier is refit on train plus validation, and final
+metrics use only strict single-label rows from the unchanged test split.
+Embeddings are cached under `data/processed/compare_shotsize/embeddings/` with
+model-specific names, and the machine-readable report is written to
+`data/processed/compare_shotsize/comparison_results.json`. Use
+`--base-model`, `--so400m-model`, `--output-dir`, `--batch-size`,
+`--logistic-c`, `--svm-c`, and `--svm-gamma` to configure the comparison.
+The SO400M model is intentionally loaded exactly as configured; failures are
+reported rather than silently falling back to another model. The comparison is
+not run as part of the normal preparation pipeline because its memory and
+runtime requirements vary by CPU, MPS, and CUDA hardware.
+
 ## Remaining work
 
 1. **Prepare the data locally:** obtain `ShotQA_meta`, `data_shotqa`, and
