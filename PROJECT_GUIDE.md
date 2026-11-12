@@ -222,6 +222,39 @@ The tracked `emb/` files show that shot-size embedding extraction has been run
 at least once. No trained classifier artifact or prediction file is currently
 tracked.
 
+## Reproducible shot-size model comparison
+
+Run the separate comparison workflow from the repository root after preparing
+the existing split CSVs:
+
+```bash
+python scripts/compare_shotsize_models.py
+```
+
+By default it compares `google/siglip-base-patch16-224` and
+`google/siglip-so400m-patch14-384` with both balanced logistic regression and a
+balanced RBF SVM. Classifier hyperparameters are selected by validation
+macro-F1, the selected classifier is refit on train plus validation, and final
+metrics use strict single-label test rows whose class also occurs in
+train+validation. Multi-label rows and test-only classes are retained in each
+prediction CSV and reported separately; they are not silently counted in
+strict metrics. The report includes confusion matrices and bootstrap 95%
+confidence intervals for accuracy and macro-F1.
+
+Embeddings are cached under `data/processed/compare_shotsize/embeddings/` with
+model name, revision, split, and an image-path/order/stat fingerprint in each
+filename and metadata sidecar. Prediction CSVs are written under
+`data/processed/compare_shotsize/predictions/`, and the machine-readable report
+is written to `data/processed/compare_shotsize/comparison_results.json`. Use
+`--base-model`, `--so400m-model`, `--model-revision`, `--output-dir`,
+`--batch-size`, `--image-workers`, `--logistic-c`, `--svm-c`, and `--svm-gamma`
+to configure the comparison. The safer macOS/MPS defaults are batch size 2 and
+two image workers.
+The SO400M model is intentionally loaded exactly as configured; failures are
+reported rather than silently falling back to another model. The comparison is
+not run as part of the normal preparation pipeline because its memory and
+runtime requirements vary by CPU, MPS, and CUDA hardware.
+
 ## Remaining work
 
 1. **Prepare the data locally:** obtain `ShotQA_meta`, `data_shotqa`, and
