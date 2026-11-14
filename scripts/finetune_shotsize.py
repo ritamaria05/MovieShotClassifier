@@ -35,6 +35,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model-name", default=DEFAULT_MODEL)
     parser.add_argument("--epochs", type=int, default=5)
+    parser.add_argument("--patience", type=int, default=2)
+    parser.add_argument("--min-delta", type=float, default=0.001)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--learning-rate", type=float, default=1e-4)
     parser.add_argument("--weight-decay", type=float, default=1e-4)
@@ -225,6 +227,10 @@ def main() -> int:
     args = parse_args()
     if args.epochs < 1 or args.batch_size < 1:
         raise ValueError("--epochs and --batch-size must be positive")
+    if args.patience < 1:
+        raise ValueError("--patience must be positive")
+    if args.min_delta < 0:
+        raise ValueError("--min-delta must be non-negative")
     set_seed(args.seed)
     splits = {name: load_split(name) for name in SPLIT_NAMES}
     label_to_id = {label: index for index, label in enumerate(sorted(splits["train"]["label"].unique()))}
@@ -273,6 +279,7 @@ def main() -> int:
     history: list[dict[str, float | int]] = []
     best_f1 = -float("inf")
     best_path = args.output_dir / "best_model.pt"
+    epochs_without_improvement = 0
     for epoch in range(1, args.epochs + 1):
         train_loss, train_f1 = run_epoch(
             model, train_loader, processor, device, criterion, optimizer
@@ -297,11 +304,15 @@ def main() -> int:
             f"epoch {epoch}/{args.epochs}: train loss={train_loss:.4f}, "
             f"train F1={train_f1:.4f}, val loss={val_loss:.4f}, val F1={val_f1:.4f}"
         )
-        if val_f1 > best_f1:
+        if val_f1 > best_f1 + args.min_delta:
             best_f1 = val_f1
+            epochs_without_improvement = 0
             torch.save(
                 {
-                    "model_state": {key: value.detach().cpu() for key, value in model.state_dict().items()},
+                    "model_state": {
+                        key: value.detach().cpu()
+                        for key, value in model.state_dict().items()
+                    },
                     "model_name": args.model_name,
                     "mode": args.mode,
                     "unfreeze_last_layers": args.unfreeze_last_layers,
@@ -311,6 +322,15 @@ def main() -> int:
                 },
                 best_path,
             )
+        else:
+            epochs_without_improvement += 1
+            print(
+                f"No validation improvement for "
+                f"{epochs_without_improvement}/{args.patience} epoch(s)"
+            )
+            if epochs_without_improvement >= args.patience:
+                print(f"Early stopping at epoch {epoch}")
+                break
     (args.output_dir / "history.json").write_text(json.dumps(history, indent=2), encoding="utf-8")
 
     checkpoint = torch.load(best_path, map_location=device, weights_only=False)
