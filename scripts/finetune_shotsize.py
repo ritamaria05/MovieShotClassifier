@@ -12,6 +12,12 @@ is the same as before):
                          then fine-tuning for --epochs epochs (LP-FT)
   --unfreeze-post-layers also train vision_model.post_layernorm and the
                          attention-pooling head (needs --mode last_layers)
+  --augment              horizontal flip + mild brightness/contrast jitter on
+                         training images (no crops: they would change shot size)
+  --ordinal-sigma S      soft ordinal targets: training mass spreads to
+                         neighbouring classes (needs --class-order)
+  --class-order ...      class names from tightest to widest shot
+  --label-smoothing E    label smoothing for the training loss
   --debug-samples N      use N random rows per split (quick smoke test)
 
 Besides predictions_test.csv, the script writes predictions_val.csv,
@@ -30,7 +36,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 import torch
-from PIL import Image, ImageOps
+from PIL import Image, ImageEnhance, ImageOps
 from sklearn.metrics import accuracy_score, f1_score
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
@@ -101,6 +107,25 @@ def parse_args() -> argparse.Namespace:
         "fine-tuning; requires --mode last_layers",
     )
     parser.add_argument(
+        "--augment",
+        action="store_true",
+        help="flip + brightness/contrast jitter on training images",
+    )
+    parser.add_argument(
+        "--ordinal-sigma",
+        type=float,
+        default=0.0,
+        help="if > 0, train on soft targets that spread mass to neighbouring "
+        "classes (Gaussian in class-rank space); needs --class-order",
+    )
+    parser.add_argument(
+        "--class-order",
+        nargs="+",
+        default=None,
+        help="class names from tightest to widest shot, spelled as in class_mapping.json",
+    )
+    parser.add_argument("--label-smoothing", type=float, default=0.0)
+    parser.add_argument(
         "--debug-samples",
         type=int,
         default=0,
@@ -126,10 +151,22 @@ def set_seed(seed: int) -> None:
         torch.cuda.manual_seed_all(seed)
 
 
+def augment_image(image: Image.Image) -> Image.Image:
+    """Flip and mild photometric jitter. No crop/zoom: they change the shot size."""
+    if random.random() < 0.5:
+        image = ImageOps.mirror(image)
+    image = ImageEnhance.Brightness(image).enhance(random.uniform(0.85, 1.15))
+    image = ImageEnhance.Contrast(image).enhance(random.uniform(0.85, 1.15))
+    return image
+
+
 class ShotSizeDataset(Dataset[tuple[Image.Image, int, str]]):
-    def __init__(self, frame: pd.DataFrame, label_to_id: dict[str, int]) -> None:
+    def __init__(
+        self, frame: pd.DataFrame, label_to_id: dict[str, int], augment: bool = False
+    ) -> None:
         self.frame = frame.reset_index(drop=True)
         self.label_to_id = label_to_id
+        self.augment = augment
 
     def __len__(self) -> int:
         return len(self.frame)
@@ -140,6 +177,8 @@ class ShotSizeDataset(Dataset[tuple[Image.Image, int, str]]):
             image = Image.open(row["path"]).convert("RGB")
         except (FileNotFoundError, OSError) as error:
             raise RuntimeError(f"Could not read image {row['path']}: {error}") from error
+        if self.augment:
+            image = augment_image(image)
         return image, self.label_to_id.get(row["label"], -1), str(row["path"])
 
 
@@ -261,6 +300,13 @@ def move_inputs(inputs: dict[str, torch.Tensor], device: torch.device) -> dict[s
     return {key: value.to(device) for key, value in inputs.items()}
 
 
+def ordinal_soft_targets(labels: torch.Tensor, rank: torch.Tensor, sigma: float) -> torch.Tensor:
+    """Gaussian distribution over classes centred on the true class, in rank space."""
+    distance = (rank[None, :] - rank[labels][:, None]).float()
+    target = torch.exp(-0.5 * (distance / sigma) ** 2)
+    return target / target.sum(dim=1, keepdim=True)
+
+
 def run_epoch(
     model: SigLIPShotSizeClassifier,
     loader: DataLoader,
@@ -269,6 +315,7 @@ def run_epoch(
     criterion: nn.Module,
     optimizer: torch.optim.Optimizer | None,
     scheduler: torch.optim.lr_scheduler.LRScheduler | None = None,
+    ordinal: tuple[torch.Tensor, float] | None = None,
 ) -> tuple[float, float]:
     training = optimizer is not None
     model.train(training)
@@ -281,7 +328,10 @@ def run_epoch(
             inputs = move_inputs(processor(images=list(images), return_tensors="pt"), device)
             labels = labels.to(device)
             logits = model(inputs)
-            loss = criterion(logits, labels)
+            if training and ordinal is not None:
+                loss = criterion(logits, ordinal_soft_targets(labels, ordinal[0], ordinal[1]))
+            else:
+                loss = criterion(logits, labels)
             if training:
                 optimizer.zero_grad(set_to_none=True)
                 loss.backward()
@@ -345,6 +395,10 @@ def main() -> int:
         raise ValueError("--head-lr must be positive")
     if args.lp_epochs > 0 and args.mode != "last_layers":
         raise ValueError("--lp-epochs requires --mode last_layers")
+    if args.ordinal_sigma < 0 or not 0.0 <= args.label_smoothing < 1.0:
+        raise ValueError("--ordinal-sigma must be >= 0 and --label-smoothing in [0, 1)")
+    if args.ordinal_sigma > 0 and args.class_order is None:
+        raise ValueError("--ordinal-sigma requires --class-order")
     if args.unfreeze_post_layers and args.mode != "last_layers":
         raise ValueError("--unfreeze-post-layers requires --mode last_layers")
     set_seed(args.seed)
@@ -388,7 +442,7 @@ def main() -> int:
     model = SigLIPShotSizeClassifier(backbone, feature_dim, len(label_to_id)).to(device)
 
     train_loader = DataLoader(
-        ShotSizeDataset(splits["train"], label_to_id),
+        ShotSizeDataset(splits["train"], label_to_id, augment=args.augment),
         batch_size=args.batch_size,
         shuffle=True,
         num_workers=args.num_workers,
@@ -400,7 +454,17 @@ def main() -> int:
         dtype=torch.float32,
         device=device,
     )
-    criterion = nn.CrossEntropyLoss(weight=weights)
+    criterion = nn.CrossEntropyLoss(weight=weights, label_smoothing=args.label_smoothing)
+    ordinal = None
+    if args.ordinal_sigma > 0:
+        if set(args.class_order) != set(label_to_id):
+            raise ValueError(
+                f"--class-order {args.class_order} does not match the classes {sorted(label_to_id)}"
+            )
+        rank = torch.zeros(len(label_to_id), dtype=torch.long)
+        for position, name in enumerate(args.class_order):
+            rank[label_to_id[name]] = position
+        ordinal = (rank.to(device), args.ordinal_sigma)
     head_lr = args.head_lr if args.head_lr is not None else args.learning_rate
 
     plan: list[tuple[str, int]] = []
@@ -440,7 +504,7 @@ def main() -> int:
         for _ in range(stage_epochs):
             epoch += 1
             train_loss, train_f1 = run_epoch(
-                model, train_loader, processor, device, criterion, optimizer, scheduler
+                model, train_loader, processor, device, criterion, optimizer, scheduler, ordinal
             )
             val_loader = DataLoader(
                 ShotSizeDataset(splits["val"], label_to_id),
