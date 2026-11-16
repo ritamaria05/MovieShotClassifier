@@ -3,12 +3,26 @@
 The default mode trains only a linear classification head on frozen SigLIP
 image features. ``--mode last_layers`` additionally unfreezes the final
 vision encoder layers.
+
+Optional training-recipe flags (all off by default, so the default behaviour
+is the same as before):
+  --head-lr              separate learning rate for the new linear head
+  --scheduler cosine     cosine decay, with --warmup-ratio of linear warmup
+  --lp-epochs N          linear probing first (backbone frozen) for N epochs,
+                         then fine-tuning for --epochs epochs (LP-FT)
+  --unfreeze-post-layers also train vision_model.post_layernorm and the
+                         attention-pooling head (needs --mode last_layers)
+  --debug-samples N      use N random rows per split (quick smoke test)
+
+Besides predictions_test.csv, the script writes predictions_val.csv,
+logits_val.npy, logits_test.npy and config.json to the output directory.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import math
 import random
 from pathlib import Path
 from typing import Any
@@ -16,7 +30,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 import torch
-from PIL import Image
+from PIL import Image, ImageOps
 from sklearn.metrics import accuracy_score, f1_score
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
@@ -34,12 +48,30 @@ SPLIT_NAMES = ("train", "val", "test")
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model-name", default=DEFAULT_MODEL)
-    parser.add_argument("--epochs", type=int, default=5)
+    parser.add_argument(
+        "--epochs",
+        type=int,
+        default=5,
+        help="fine-tuning epochs (any --lp-epochs come before these)",
+    )
     parser.add_argument("--patience", type=int, default=2)
     parser.add_argument("--min-delta", type=float, default=0.001)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--learning-rate", type=float, default=1e-4)
+    parser.add_argument(
+        "--head-lr",
+        type=float,
+        default=None,
+        help="learning rate of the new linear head (default: --learning-rate)",
+    )
     parser.add_argument("--weight-decay", type=float, default=1e-4)
+    parser.add_argument("--scheduler", choices=("none", "cosine"), default="none")
+    parser.add_argument(
+        "--warmup-ratio",
+        type=float,
+        default=0.0,
+        help="fraction of fine-tuning steps used for linear warmup (cosine only)",
+    )
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument(
@@ -54,6 +86,25 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=2,
         help="number of final vision encoder layers for --mode last_layers",
+    )
+    parser.add_argument(
+        "--unfreeze-post-layers",
+        action="store_true",
+        help="also train vision_model.post_layernorm and the pooling head "
+        "(requires --mode last_layers)",
+    )
+    parser.add_argument(
+        "--lp-epochs",
+        type=int,
+        default=0,
+        help="linear-probing epochs (backbone frozen, head only) run before "
+        "fine-tuning; requires --mode last_layers",
+    )
+    parser.add_argument(
+        "--debug-samples",
+        type=int,
+        default=0,
+        help="if > 0, use this many random rows per split (smoke test only)",
     )
     parser.add_argument("--num-workers", type=int, default=0)
     return parser.parse_args()
@@ -119,7 +170,7 @@ def load_split(name: str) -> pd.DataFrame:
         raise ValueError(f"{path} is missing required columns: {sorted(missing)}")
     if frame.empty:
         raise ValueError(f"{path} is empty")
-    missing_images = [path for path in frame["path"] if not Path(path).is_file()]
+    missing_images = [p for p in frame["path"] if not Path(p).is_file()]
     if missing_images:
         preview = ", ".join(map(str, missing_images[:3]))
         raise FileNotFoundError(
@@ -137,7 +188,10 @@ def collate(
 
 
 def configure_trainable_layers(
-    model: SigLIPShotSizeClassifier, mode: str, layer_count: int
+    model: SigLIPShotSizeClassifier,
+    mode: str,
+    layer_count: int,
+    unfreeze_post: bool = False,
 ) -> None:
     for parameter in model.backbone.parameters():
         parameter.requires_grad = False
@@ -145,11 +199,8 @@ def configure_trainable_layers(
         return
     if layer_count < 1:
         raise ValueError("--unfreeze-last-layers must be at least 1 in last_layers mode")
-    layers = getattr(
-        getattr(getattr(model.backbone, "vision_model", None), "encoder", None),
-        "layers",
-        None,
-    )
+    vision_model = getattr(model.backbone, "vision_model", None)
+    layers = getattr(getattr(vision_model, "encoder", None), "layers", None)
     if layers is None or layer_count > len(layers):
         raise ValueError("Could not locate the requested SigLIP vision encoder layers")
     for layer in layers[-layer_count:]:
@@ -159,6 +210,51 @@ def configure_trainable_layers(
     if projection is not None:
         for parameter in projection.parameters():
             parameter.requires_grad = True
+    if unfreeze_post:
+        for name in ("post_layernorm", "head"):
+            module = getattr(vision_model, name, None)
+            if module is None:
+                print(f"WARNING: vision_model.{name} not found; nothing to unfreeze for it")
+                continue
+            for parameter in module.parameters():
+                parameter.requires_grad = True
+
+
+def build_optimizer(
+    model: SigLIPShotSizeClassifier,
+    backbone_lr: float,
+    head_lr: float,
+    weight_decay: float,
+) -> torch.optim.Optimizer:
+    head_params = list(model.classifier.parameters())
+    head_ids = {id(parameter) for parameter in head_params}
+    backbone_params = [
+        parameter
+        for parameter in model.parameters()
+        if parameter.requires_grad and id(parameter) not in head_ids
+    ]
+    groups: list[dict[str, Any]] = [{"params": head_params, "lr": head_lr}]
+    if backbone_params:
+        groups.append({"params": backbone_params, "lr": backbone_lr})
+    return torch.optim.AdamW(groups, weight_decay=weight_decay)
+
+
+def cosine_warmup_factor(step: int, warmup_steps: int, total_steps: int) -> float:
+    if warmup_steps > 0 and step < warmup_steps:
+        return (step + 1) / warmup_steps
+    progress = (step - warmup_steps) / max(1, total_steps - warmup_steps)
+    return 0.5 * (1.0 + math.cos(math.pi * min(1.0, progress)))
+
+
+def make_scheduler(
+    optimizer: torch.optim.Optimizer, kind: str, warmup_ratio: float, total_steps: int
+) -> torch.optim.lr_scheduler.LRScheduler | None:
+    if kind == "none":
+        return None
+    warmup_steps = int(round(warmup_ratio * total_steps))
+    return torch.optim.lr_scheduler.LambdaLR(
+        optimizer, lambda step: cosine_warmup_factor(step, warmup_steps, total_steps)
+    )
 
 
 def move_inputs(inputs: dict[str, torch.Tensor], device: torch.device) -> dict[str, torch.Tensor]:
@@ -172,6 +268,7 @@ def run_epoch(
     device: torch.device,
     criterion: nn.Module,
     optimizer: torch.optim.Optimizer | None,
+    scheduler: torch.optim.lr_scheduler.LRScheduler | None = None,
 ) -> tuple[float, float]:
     training = optimizer is not None
     model.train(training)
@@ -189,6 +286,8 @@ def run_epoch(
                 optimizer.zero_grad(set_to_none=True)
                 loss.backward()
                 optimizer.step()
+                if scheduler is not None:
+                    scheduler.step()
             losses.append(float(loss.detach().cpu()))
             predictions.extend(logits.argmax(dim=1).detach().cpu().tolist())
             targets.extend(labels.detach().cpu().tolist())
@@ -203,7 +302,9 @@ def predict(
     device: torch.device,
     batch_size: int,
     num_workers: int,
-) -> pd.DataFrame:
+    flip: bool = False,
+) -> tuple[pd.DataFrame, np.ndarray]:
+    """Return the frame with a `prediction` column and the raw logits."""
     dataset = ShotSizeDataset(frame, label_to_id)
     loader = DataLoader(
         dataset,
@@ -213,14 +314,19 @@ def predict(
         collate_fn=collate,
     )
     model.eval()
-    predicted: list[int] = []
+    chunks: list[np.ndarray] = []
     with torch.no_grad():
         for images, _, _ in tqdm(loader, desc="predict", leave=False):
-            inputs = move_inputs(processor(images=list(images), return_tensors="pt"), device)
-            predicted.extend(model(inputs).argmax(dim=1).cpu().tolist())
+            images = list(images)
+            if flip:
+                images = [ImageOps.mirror(image) for image in images]
+            inputs = move_inputs(processor(images=images, return_tensors="pt"), device)
+            chunks.append(model(inputs).float().cpu().numpy())
+    logits = np.concatenate(chunks, axis=0)
+    classes = list(label_to_id)
     result = frame.copy()
-    result["prediction"] = [list(label_to_id)[index] for index in predicted]
-    return result
+    result["prediction"] = [classes[index] for index in logits.argmax(axis=1)]
+    return result, logits
 
 
 def main() -> int:
@@ -231,6 +337,16 @@ def main() -> int:
         raise ValueError("--patience must be positive")
     if args.min_delta < 0:
         raise ValueError("--min-delta must be non-negative")
+    if args.lp_epochs < 0:
+        raise ValueError("--lp-epochs must be non-negative")
+    if not 0.0 <= args.warmup_ratio < 1.0:
+        raise ValueError("--warmup-ratio must be in [0, 1)")
+    if args.head_lr is not None and args.head_lr <= 0:
+        raise ValueError("--head-lr must be positive")
+    if args.lp_epochs > 0 and args.mode != "last_layers":
+        raise ValueError("--lp-epochs requires --mode last_layers")
+    if args.unfreeze_post_layers and args.mode != "last_layers":
+        raise ValueError("--unfreeze-post-layers requires --mode last_layers")
     set_seed(args.seed)
     splits = {name: load_split(name) for name in SPLIT_NAMES}
     label_to_id = {label: index for index, label in enumerate(sorted(splits["train"]["label"].unique()))}
@@ -242,9 +358,24 @@ def main() -> int:
     }
     if unknown:
         raise ValueError(f"Validation/test contain labels absent from train: {sorted(unknown)}")
+    if args.debug_samples > 0:
+        print(f"DEBUG: using {args.debug_samples} random rows per split")
+        splits = {
+            name: frame.sample(
+                n=min(args.debug_samples, len(frame)), random_state=args.seed
+            ).reset_index(drop=True)
+            for name, frame in splits.items()
+        }
     args.output_dir.mkdir(parents=True, exist_ok=True)
     (args.output_dir / "class_mapping.json").write_text(
         json.dumps(label_to_id, indent=2, sort_keys=True), encoding="utf-8"
+    )
+    (args.output_dir / "config.json").write_text(
+        json.dumps(
+            {k: str(v) if isinstance(v, Path) else v for k, v in vars(args).items()},
+            indent=2,
+        ),
+        encoding="utf-8",
     )
 
     device = select_device()
@@ -255,7 +386,6 @@ def main() -> int:
     if feature_dim is None:
         feature_dim = backbone.config.vision_config.hidden_size
     model = SigLIPShotSizeClassifier(backbone, feature_dim, len(label_to_id)).to(device)
-    configure_trainable_layers(model, args.mode, args.unfreeze_last_layers)
 
     train_loader = DataLoader(
         ShotSizeDataset(splits["train"], label_to_id),
@@ -266,81 +396,121 @@ def main() -> int:
     )
     counts = splits["train"]["label"].value_counts()
     weights = torch.tensor(
-        [len(splits["train"]) / (len(label_to_id) * counts[label]) for label in label_to_id],
+        [len(splits["train"]) / (len(label_to_id) * counts.get(label, 1)) for label in label_to_id],
         dtype=torch.float32,
         device=device,
     )
     criterion = nn.CrossEntropyLoss(weight=weights)
-    optimizer = torch.optim.AdamW(
-        (parameter for parameter in model.parameters() if parameter.requires_grad),
-        lr=args.learning_rate,
-        weight_decay=args.weight_decay,
-    )
-    history: list[dict[str, float | int]] = []
+    head_lr = args.head_lr if args.head_lr is not None else args.learning_rate
+
+    plan: list[tuple[str, int]] = []
+    if args.lp_epochs > 0:
+        plan.append(("lp", args.lp_epochs))
+    plan.append(("ft", args.epochs))
+    total_epochs = sum(n for _, n in plan)
+
+    history: list[dict[str, float | int | str]] = []
     best_f1 = -float("inf")
+    best_epoch = 0
     best_path = args.output_dir / "best_model.pt"
     epochs_without_improvement = 0
-    for epoch in range(1, args.epochs + 1):
-        train_loss, train_f1 = run_epoch(
-            model, train_loader, processor, device, criterion, optimizer
-        )
-        val_loader = DataLoader(
-            ShotSizeDataset(splits["val"], label_to_id),
-            batch_size=args.batch_size,
-            shuffle=False,
-            num_workers=args.num_workers,
-            collate_fn=collate,
-        )
-        val_loss, val_f1 = run_epoch(model, val_loader, processor, device, criterion, None)
-        row = {
-            "epoch": epoch,
-            "train_loss": train_loss,
-            "train_macro_f1": train_f1,
-            "val_loss": val_loss,
-            "val_macro_f1": val_f1,
-        }
-        history.append(row)
-        print(
-            f"epoch {epoch}/{args.epochs}: train loss={train_loss:.4f}, "
-            f"train F1={train_f1:.4f}, val loss={val_loss:.4f}, val F1={val_f1:.4f}"
-        )
-        if val_f1 > best_f1 + args.min_delta:
-            best_f1 = val_f1
-            epochs_without_improvement = 0
-            torch.save(
-                {
-                    "model_state": {
-                        key: value.detach().cpu()
-                        for key, value in model.state_dict().items()
-                    },
-                    "model_name": args.model_name,
-                    "mode": args.mode,
-                    "unfreeze_last_layers": args.unfreeze_last_layers,
-                    "label_to_id": label_to_id,
-                    "epoch": epoch,
-                    "val_macro_f1": val_f1,
-                },
-                best_path,
-            )
+    epoch = 0
+    stopped = False
+    for stage, stage_epochs in plan:
+        if stage == "lp":
+            configure_trainable_layers(model, "head", args.unfreeze_last_layers)
+            optimizer = build_optimizer(model, head_lr, head_lr, args.weight_decay)
+            scheduler = None
+            print(f"Stage lp: linear probing for {stage_epochs} epoch(s), head lr={head_lr:g}")
         else:
-            epochs_without_improvement += 1
-            print(
-                f"No validation improvement for "
-                f"{epochs_without_improvement}/{args.patience} epoch(s)"
+            configure_trainable_layers(
+                model, args.mode, args.unfreeze_last_layers, args.unfreeze_post_layers
             )
-            if epochs_without_improvement >= args.patience:
-                print(f"Early stopping at epoch {epoch}")
-                break
+            optimizer = build_optimizer(model, args.learning_rate, head_lr, args.weight_decay)
+            scheduler = make_scheduler(
+                optimizer,
+                args.scheduler,
+                args.warmup_ratio,
+                len(train_loader) * stage_epochs,
+            )
+            print(
+                f"Stage ft: {stage_epochs} epoch(s), backbone lr={args.learning_rate:g}, "
+                f"head lr={head_lr:g}, scheduler={args.scheduler}"
+            )
+        for _ in range(stage_epochs):
+            epoch += 1
+            train_loss, train_f1 = run_epoch(
+                model, train_loader, processor, device, criterion, optimizer, scheduler
+            )
+            val_loader = DataLoader(
+                ShotSizeDataset(splits["val"], label_to_id),
+                batch_size=args.batch_size,
+                shuffle=False,
+                num_workers=args.num_workers,
+                collate_fn=collate,
+            )
+            val_loss, val_f1 = run_epoch(model, val_loader, processor, device, criterion, None)
+            row = {
+                "epoch": epoch,
+                "stage": stage,
+                "train_loss": train_loss,
+                "train_macro_f1": train_f1,
+                "val_loss": val_loss,
+                "val_macro_f1": val_f1,
+            }
+            history.append(row)
+            print(
+                f"epoch {epoch}/{total_epochs} [{stage}]: train loss={train_loss:.4f}, "
+                f"train F1={train_f1:.4f}, val loss={val_loss:.4f}, val F1={val_f1:.4f}"
+            )
+            if val_f1 > best_f1 + args.min_delta:
+                best_f1 = val_f1
+                best_epoch = epoch
+                epochs_without_improvement = 0
+                torch.save(
+                    {
+                        "model_state": {
+                            key: value.detach().cpu()
+                            for key, value in model.state_dict().items()
+                        },
+                        "model_name": args.model_name,
+                        "mode": args.mode,
+                        "unfreeze_last_layers": args.unfreeze_last_layers,
+                        "label_to_id": label_to_id,
+                        "epoch": epoch,
+                        "stage": stage,
+                        "val_macro_f1": val_f1,
+                    },
+                    best_path,
+                )
+            elif stage == "ft":
+                epochs_without_improvement += 1
+                print(
+                    f"No validation improvement for "
+                    f"{epochs_without_improvement}/{args.patience} epoch(s)"
+                )
+                if epochs_without_improvement >= args.patience:
+                    print(f"Early stopping at epoch {epoch}")
+                    stopped = True
+                    break
+        if stopped:
+            break
     (args.output_dir / "history.json").write_text(json.dumps(history, indent=2), encoding="utf-8")
 
     checkpoint = torch.load(best_path, map_location=device, weights_only=False)
     model.load_state_dict(checkpoint["model_state"])
     test_frame = splits["test"]
     single = ~test_frame["label"].str.contains(",")
-    test_predictions = predict(
+    test_predictions, test_logits = predict(
         model, test_frame, label_to_id, processor, device, args.batch_size, args.num_workers
     )
     test_predictions.to_csv(args.output_dir / "predictions_test.csv", index=False)
+    np.save(args.output_dir / "logits_test.npy", test_logits)
+    val_predictions, val_logits = predict(
+        model, splits["val"], label_to_id, processor, device, args.batch_size, args.num_workers
+    )
+    val_predictions.to_csv(args.output_dir / "predictions_val.csv", index=False)
+    np.save(args.output_dir / "logits_val.npy", val_logits)
     evaluated = test_predictions.loc[single]
     test_metrics = {
         "accuracy": float(accuracy_score(evaluated["label"], evaluated["prediction"])),
@@ -348,6 +518,7 @@ def main() -> int:
         "evaluated_single_label_examples": int(len(evaluated)),
         "excluded_multi_label_examples": int((~single).sum()),
         "best_val_macro_f1": float(best_f1),
+        "best_epoch": int(best_epoch),
     }
     (args.output_dir / "metrics.json").write_text(
         json.dumps(test_metrics, indent=2), encoding="utf-8"
