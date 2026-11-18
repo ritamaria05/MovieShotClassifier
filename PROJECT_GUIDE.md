@@ -40,11 +40,14 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-The scripts also import packages that are not currently listed in
-`requirements.txt`. Install them before running the full pipeline:
+The `requirements.txt` file includes the ML, image-processing, and Hugging Face
+dependencies used by the pipeline. If a package is reported as missing, verify
+that VS Code and the terminal are using the same virtual environment:
 
 ```bash
-pip install scikit-learn torch transformers
+which python
+python -m pip --version
+python -c "import cv2, torch, transformers, sklearn; print('dependencies OK')"
 ```
 
 The embedding script uses Apple MPS when available, then CUDA, and otherwise
