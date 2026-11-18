@@ -157,7 +157,7 @@ metadata is assigned its image stem as a private group.
 ### 7. Extract embeddings and evaluate the baseline
 
 ```bash
-python embed_shotsize.py
+python scripts/shotsize/embed_shotsize.py
 ```
 
 Despite the general project theme, the current implementation loops over
@@ -182,7 +182,7 @@ After the split CSVs and referenced images exist, train a shot-size classifier
 with:
 
 ```bash
-python scripts/finetune_shotsize.py
+python scripts/shotsize/finetune_shotsize.py
 ```
 
 The script reuses `data/processed/splits/train_shot_size.csv`,
@@ -191,7 +191,7 @@ default (`--mode head`) SigLIP is frozen and only a linear classification head
 is trained. To also train the final vision layers, use for example:
 
 ```bash
-python scripts/finetune_shotsize.py --mode last_layers --unfreeze-last-layers 2 \
+python scripts/shotsize/finetune_shotsize.py --mode last_layers --unfreeze-last-layers 2 \
   --epochs 5 --batch-size 16 --learning-rate 1e-4
 ```
 
@@ -228,7 +228,7 @@ Run the separate comparison workflow from the repository root after preparing
 the existing split CSVs:
 
 ```bash
-python scripts/compare_shotsize_models.py
+python scripts/shotsize/compare_shotsize_models.py
 ```
 
 By default it compares `google/siglip-base-patch16-224` and

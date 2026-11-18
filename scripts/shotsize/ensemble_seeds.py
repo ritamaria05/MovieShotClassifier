@@ -12,7 +12,7 @@ configuration), and the saved predictions_*.csv files are compatible with
 evaluate_predictions.py.
 
 Example:
-  python scripts/ensemble_seeds.py \\
+  python scripts/shotsize/ensemble_seeds.py \\
     --runs "data/processed/finetune_shotsize_protocol/seed*" --tta
 """
 
@@ -57,7 +57,7 @@ def load_frame(run_dir: Path, split: str) -> pd.DataFrame:
     if csv.exists():
         frame = pd.read_csv(csv)
     else:
-        import finetune_shotsize as fs  # needs torch; only for runs without saved CSVs
+        import scripts.shotsize.finetune_shotsize as fs  # needs torch; only for runs without saved CSVs
 
         frame = fs.load_split(split)
     frame = frame.drop(columns=["prediction"], errors="ignore")
@@ -69,7 +69,7 @@ def compute_missing_logits(run_dir: Path, wanted: list[str], args: argparse.Name
     import torch
     from transformers import AutoImageProcessor, AutoModel
 
-    import finetune_shotsize as fs
+    import scripts.shotsize.finetune_shotsize as fs
 
     device = fs.select_device()
     checkpoint = torch.load(run_dir / "best_model.pt", map_location="cpu", weights_only=False)

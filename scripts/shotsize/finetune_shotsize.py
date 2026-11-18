@@ -43,7 +43,7 @@ from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 from transformers import AutoImageProcessor, AutoModel
 
-from paths import DATA_PROCESSED_DIR, SPLITS_DIR
+from scripts.paths import DATA_PROCESSED_DIR, SPLITS_DIR
 
 
 DEFAULT_MODEL = "google/siglip-base-patch16-224"

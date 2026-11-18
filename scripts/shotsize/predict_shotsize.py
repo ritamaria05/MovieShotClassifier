@@ -6,12 +6,12 @@ decisão é uma fronteira ambígua entre classes vizinhas.
 
 Uso:
   # modo interativo (os modelos carregam uma vez; depois é só ir escrevendo)
-  python scripts/demo_predict.py
+  python scripts/shotsize/predict_shotsize.py
   > /caminho/frame.jpg | close up        (etiqueta conhecida, opcional)
   > /caminho/outro_frame.jpg             (sem etiqueta)
 
   # uma imagem só
-  python scripts/demo_predict.py /caminho/frame.jpg --label "close up"
+  python scripts/shotsize/predict_shotsize.py /caminho/frame.jpg --label "close up"
 
 Se a imagem estiver nos CSVs de treino/val/teste, a etiqueta é encontrada pelo
 nome do ficheiro e o script avisa se o modelo a viu no treino.
@@ -74,7 +74,7 @@ def load_label_index() -> dict[str, tuple[str, str]]:
     """nome do ficheiro -> (split, etiqueta), a partir dos CSVs do projeto."""
     index: dict[str, tuple[str, str]] = {}
     try:
-        from paths import SPLITS_DIR
+        from scripts.paths import SPLITS_DIR
     except Exception:
         return index
     for split in ("test", "val", "train"):
@@ -91,7 +91,7 @@ def load_models(run_dirs: list[Path]):
     import torch
     from transformers import AutoImageProcessor, AutoModel
 
-    import finetune_shotsize as fs
+    import scripts.shotsize.finetune_shotsize as fs
 
     device = fs.select_device()
     models, label_to_id, model_name = [], None, None

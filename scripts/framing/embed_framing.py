@@ -1,19 +1,37 @@
-import os, numpy as np, pandas as pd, torch
+"""Train and evaluate an MLP framing classifier on frozen SigLIP embeddings.
+
+Select the MLP's settings by validation macro-F1, then fit on train+val.
+
+Usage: python scripts/framing/embed_framing.py [--root DIR] [--out DIR]
+Inputs and embedding caches default to the project root; output defaults to
+ROOT/outputs. Relative overrides are resolved from the current directory.
+"""
+import argparse
+from pathlib import Path
+import numpy as np, pandas as pd, torch
 from PIL import Image
 from transformers import AutoModel, AutoImageProcessor
-from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
-from paths import DATA_PROCESSED_DIR, SPLITS_DIR, ensure_output_dirs
+from scripts.mlp_head import MLP_GRID, make_mlp
+from scripts.paths import ROOT
+
+ap = argparse.ArgumentParser()
+ap.add_argument('--root', type=Path, default=ROOT,
+                help='directory containing splits and emb (default: project root)')
+ap.add_argument('--out', type=Path, default=None,
+                help='output directory (default: ROOT/outputs)')
+a = ap.parse_args()
+root = a.root
+out_dir = a.out if a.out is not None else root / 'outputs'
+emb_dir = root / 'emb'
 
 dev = 'mps' if torch.backends.mps.is_available() else 'cuda' if torch.cuda.is_available() else 'cpu'
 NAME = 'google/siglip-base-patch16-224'
 model = AutoModel.from_pretrained(NAME).eval().to(dev)
 proc = AutoImageProcessor.from_pretrained(NAME)
-EMB_DIR = DATA_PROCESSED_DIR / 'emb'
-ensure_output_dirs()
-EMB_DIR.mkdir(parents=True, exist_ok=True)
+emb_dir.mkdir(parents=True, exist_ok=True)
 
 def load(p):
     im = Image.open(p)
@@ -22,11 +40,11 @@ def load(p):
 
 @torch.no_grad()
 def embed(df, cache, bs=32):
-    if os.path.exists(cache):
+    if cache.exists():
         return np.load(cache)
-    paths, out = df['path'].tolist(), []
+    paths, out = [root / p for p in df['path']], []
     with ThreadPoolExecutor(max_workers=8) as ex:
-        for i in tqdm(range(0, len(paths), bs), desc=os.path.basename(cache)):
+        for i in tqdm(range(0, len(paths), bs), desc=cache.name):
             imgs = list(ex.map(load, paths[i:i+bs]))
             x = proc(images=imgs, return_tensors='pt').to(dev)
             f = model.get_image_features(**x)
@@ -36,15 +54,9 @@ def embed(df, cache, bs=32):
     np.save(cache, e)
     return e
 
-for name in ['shot_size']:
-    tr, va, te = [
-        pd.read_csv(SPLITS_DIR / f'{s}_{name}.csv')
-        for s in ['train', 'val', 'test']
-    ]
-    Xtr, Xva, Xte = [
-        embed(d, EMB_DIR / f'{s}_{name}.npy')
-        for d, s in [(tr, 'train'), (va, 'val'), (te, 'test')]
-    ]
+for name in ['framing']:
+    tr, va, te = [pd.read_csv(root / 'splits' / f'{s}_{name}.csv') for s in ['train', 'val', 'test']]
+    Xtr, Xva, Xte = [embed(d, emb_dir / f'{s}_{name}.npy') for d, s in [(tr, 'train'), (va, 'val'), (te, 'test')]]
 
     # near-duplicates: teste vs treino+val
     sim = (Xte @ np.vstack([Xtr, Xva]).T).max(1)
@@ -52,15 +64,16 @@ for name in ['shot_size']:
           f'p95 {np.quantile(sim, .95):.3f} | >0.95: {(sim > .95).sum()} de {len(te)}')
     clean = sim <= 0.95
 
-    scores = {}
-    for C in [0.1, 1, 10, 100]:
-        clf = LogisticRegression(C=C, max_iter=3000, class_weight='balanced').fit(Xtr, tr['label'])
-        scores[C] = f1_score(va['label'], clf.predict(Xva), average='macro')
-        print(f'C={C}: val macro-F1 {scores[C]:.3f}')
-    best_C = max(scores, key=scores.get)
-    print('melhor C:', best_C)
+    scores = []
+    for params in MLP_GRID:
+        clf = make_mlp(**params).fit(Xtr, tr['label'])
+        score = f1_score(va['label'], clf.predict(Xva), average='macro')
+        scores.append(score)
+        print(f'{params}: val macro-F1 {score:.3f}')
+    best_params = MLP_GRID[int(np.argmax(scores))]
+    print('melhores parametros:', best_params)
 
-    clf = LogisticRegression(C=best_C, max_iter=3000, class_weight='balanced') \
+    clf = make_mlp(**best_params) \
         .fit(np.vstack([Xtr, Xva]), pd.concat([tr['label'], va['label']]))
     pred = clf.predict(Xte)
 
@@ -73,4 +86,10 @@ for name in ['shot_size']:
               f'permissiva: acc {lenient[m].mean():.3f}')
     s = single
     labels = sorted(set(te.label[s]))
-    print(pd.DataFrame(confusion_matrix(te.label[s], pred[s], labels=labels), index=labels, columns=labels))
+    cm = pd.DataFrame(
+        confusion_matrix(te.label[s], pred[s], labels=labels),
+        index=labels,
+        columns=labels,
+    )
+    out_dir.mkdir(parents=True, exist_ok=True)
+    cm.to_csv(out_dir / f'confusion_matrix_{name}_MLP.csv', index_label='actual')

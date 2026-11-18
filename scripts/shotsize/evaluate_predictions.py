@@ -6,11 +6,11 @@ bootstrap) and `multi` are used when present. Both compare_shotsize_models.py
 and finetune_shotsize.py already write this format.
 
 Example:
-  python evaluate_predictions.py \\
+  python scripts/shotsize/evaluate_predictions.py \\
     --system svm=data/processed/compare_shotsize/predictions/base_patch16_224__svm_rbf_test.csv \\
-    --system finetune="data/processed/finetune/seed*/predictions_test.csv" \\
+    --system finetune="data/processed/finetune_shotsize/seed*/predictions_test.csv" \\
     --baseline svm \\
-    --class-mapping data/processed/finetune/seed42/class_mapping.json \\
+    --class-mapping data/processed/finetune_shotsize/seed1/class_mapping.json \\
     --class-order "extreme close-up" "close-up" ... "extreme long shot"
 
 What it reports
