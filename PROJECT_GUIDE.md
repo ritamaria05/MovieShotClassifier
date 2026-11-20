@@ -40,11 +40,14 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-The scripts also import packages that are not currently listed in
-`requirements.txt`. Install them before running the full pipeline:
+The `requirements.txt` file includes the ML, image-processing, and Hugging Face
+dependencies used by the pipeline. If a package is reported as missing, verify
+that VS Code and the terminal are using the same virtual environment:
 
 ```bash
-pip install scikit-learn torch transformers
+which python
+python -m pip --version
+python -c "import cv2, torch, transformers, sklearn; print('dependencies OK')"
 ```
 
 The embedding script uses Apple MPS when available, then CUDA, and otherwise
@@ -157,7 +160,7 @@ metadata is assigned its image stem as a private group.
 ### 7. Extract embeddings and evaluate the baseline
 
 ```bash
-python embed_shotsize.py
+python scripts/shotsize/embed_shotsize.py
 ```
 
 Despite the general project theme, the current implementation loops over
@@ -182,7 +185,7 @@ After the split CSVs and referenced images exist, train a shot-size classifier
 with:
 
 ```bash
-python scripts/finetune_shotsize.py
+python scripts/shotsize/finetune_shotsize.py
 ```
 
 The script reuses `data/processed/splits/train_shot_size.csv`,
@@ -191,7 +194,7 @@ default (`--mode head`) SigLIP is frozen and only a linear classification head
 is trained. To also train the final vision layers, use for example:
 
 ```bash
-python scripts/finetune_shotsize.py --mode last_layers --unfreeze-last-layers 2 \
+python scripts/shotsize/finetune_shotsize.py --mode last_layers --unfreeze-last-layers 2 \
   --epochs 5 --batch-size 16 --learning-rate 1e-4
 ```
 
@@ -228,7 +231,7 @@ Run the separate comparison workflow from the repository root after preparing
 the existing split CSVs:
 
 ```bash
-python scripts/compare_shotsize_models.py
+python scripts/shotsize/compare_shotsize_models.py
 ```
 
 By default it compares `google/siglip-base-patch16-224` and

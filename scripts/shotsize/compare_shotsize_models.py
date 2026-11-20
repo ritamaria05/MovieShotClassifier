@@ -32,7 +32,7 @@ except ModuleNotFoundError as error:
         "with `pip install -r requirements.txt` before running this comparison."
     ) from error
 
-from paths import DATA_PROCESSED_DIR, SPLITS_DIR
+from scripts.paths import DATA_PROCESSED_DIR, SPLITS_DIR
 
 
 DEFAULT_BASE_MODEL = "google/siglip-base-patch16-224"

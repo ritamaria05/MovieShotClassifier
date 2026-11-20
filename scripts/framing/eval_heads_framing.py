@@ -2,7 +2,7 @@
 Compare heads on cached frozen SigLIP embeddings (framing and/or shot_size).
 Selection: GroupKFold by film over train+val (macro-F1); final fit on train+val; test with the
 same strict/lenient metrics as embed_framing.py. Never recomputes embeddings.
-Usage: python scripts/eval_heads_framing.py [--dims framing shot_size] [--root DIR] [--out DIR]
+Usage: python scripts/framing/eval_heads_framing.py [--dims framing shot_size] [--root DIR] [--out DIR]
 Inputs default to the project root; output defaults to ROOT/outputs. Relative
 overrides are resolved from the current directory.
 """
@@ -15,8 +15,8 @@ from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classifi
 from sklearn.model_selection import GroupKFold
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
-from mlp_head import MLP_GRID, make_mlp
-from paths import ROOT
+from scripts.mlp_head import MLP_GRID, make_mlp
+from scripts.paths import ROOT
 
 warnings.filterwarnings('ignore')
 HEADS = {

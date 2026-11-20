@@ -31,6 +31,7 @@ numpy==2.5.4
 packaging==26.3
 pandas==3.0.6
 pillow==12.3.0
+opencv-python==4.13.0.90
 propcache==0.5.4
 pyarrow==26.0.0
 Pygments==2.21.0
