@@ -11,7 +11,7 @@ import torch
 from PIL import Image
 from torch import nn
 
-import finetune_framing as framing
+import MovieShotClassifier.scripts.framing.finetune_framing as framing
 
 
 class FakeBackbone(nn.Module):

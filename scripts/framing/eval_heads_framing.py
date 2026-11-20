@@ -15,7 +15,7 @@ from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classifi
 from sklearn.model_selection import GroupKFold
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
-from scripts.mlp_head import MLP_GRID, make_mlp
+from MovieShotClassifier.scripts.framing.mlp_head import MLP_GRID, make_mlp
 from scripts.paths import ROOT
 
 warnings.filterwarnings('ignore')

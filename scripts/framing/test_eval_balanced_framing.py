@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-import eval_balanced_framing as experiment
+import MovieShotClassifier.scripts.framing.eval_balanced_framing as experiment
 
 
 class BalancedFramingTests(unittest.TestCase):

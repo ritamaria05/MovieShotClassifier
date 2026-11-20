@@ -14,7 +14,7 @@ from transformers import AutoModel, AutoImageProcessor
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
-from scripts.mlp_head import MLP_GRID, make_mlp
+from MovieShotClassifier.scripts.framing.mlp_head import MLP_GRID, make_mlp
 from scripts.paths import ROOT
 
 ap = argparse.ArgumentParser()

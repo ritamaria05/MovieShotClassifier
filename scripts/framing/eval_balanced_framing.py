@@ -16,7 +16,7 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, f1_score
 from sklearn.utils.class_weight import compute_sample_weight
 
-from mlp_head import MLP_GRID, make_mlp
+from MovieShotClassifier.scripts.framing.mlp_head import MLP_GRID, make_mlp
 from paths import ROOT
 
 MODEL_SUFFIXES = {'base': '', 'so400m': '_siglip-so400m-patch14-384'}
