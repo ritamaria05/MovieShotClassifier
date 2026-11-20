@@ -1,0 +1,14 @@
+{
+  "seeds": [
+    42
+  ],
+  "test_accuracy_mean": 0.8005115089514067,
+  "test_accuracy_std": 0.0,
+  "test_macro_f1_mean": 0.7898816578943594,
+  "test_macro_f1_std": 0.0,
+  "baseline": {
+    "accuracy": 0.7928388746803069,
+    "macro_f1": 0.7787336742640188
+  },
+  "baseline_note": "Matrix support matches test labels; individual examples were not verified."
+}
