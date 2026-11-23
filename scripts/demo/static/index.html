@@ -65,8 +65,22 @@ h3{margin:0 0 12px;font-size:15px;font-weight:600;color:var(--dim)}
 .nn img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:4px;display:block;margin-bottom:4px}
 .nn b{color:var(--ink);font-weight:600}
 .body svg{width:100%;display:block;border-radius:4px;background:#0c0e11;border:1px solid var(--line)}
+.palette{display:flex;height:46px;border-radius:4px;overflow:hidden;border:1px solid var(--line)}
+.palette div{min-width:0;transition:flex-grow .9s cubic-bezier(.2,.8,.2,1)}
+.swatches{display:flex;flex-wrap:wrap;gap:6px 14px;margin:8px 0 14px;font-size:13px;color:var(--dim)}
+.swatches span{color:var(--ink)}
+.swatches i,.dot{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid var(--line)}
+.hist{display:grid;grid-template-columns:repeat(32,1fr);gap:2px;align-items:end;height:120px}
+.hist i{display:block;background:var(--dim);border-radius:2px 2px 0 0;min-height:2px;transition:height .9s cubic-bezier(.2,.8,.2,1)}
+.hist i.sh{background:#5b8def}.hist i.hi{background:var(--warm)}
+.histAxis{display:flex;justify-content:space-between;font-size:12px;color:var(--dim);margin-top:6px}
+.legend{font-size:12px;color:var(--dim);margin-top:8px}.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin:0 4px 0 10px;vertical-align:-1px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chips span{border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:13px;color:var(--dim)}
+.stats b{display:block;color:var(--ink);font-size:18px;font-weight:800}
 .hidden{display:none}
-@media(prefers-reduced-motion:reduce){.scan.run{animation:none;top:50%}.col i,.hbar i u,#heat{transition:none}}
+@media(prefers-reduced-motion:reduce){.scan.run{animation:none;top:50%}.col i,.hbar i u,#heat,.hist i,.palette div{transition:none}}
 </style>
 </head>
 <body>
@@ -74,11 +88,13 @@ h3{margin:0 0 12px;font-size:15px;font-weight:600;color:var(--dim)}
 <header>
   <div>
     <h1>Shot reader</h1>
-    <p class="sub">Drop in a movie frame. Our fine-tuned SigLIP models read it, then show where they looked and which training frames it resembles.</p>
+    <p class="sub">Drop in a movie frame. Our fine-tuned SigLIP models read its shot size and framing, and we measure its color and light. Use the tabs to look at each part.</p>
   </div>
   <div class="seg" role="group" aria-label="Feature">
     <button id="f-shot_size" aria-pressed="true">Shot size</button>
     <button id="f-framing" aria-pressed="false">Framing</button>
+    <button id="f-color" aria-pressed="false">Color</button>
+    <button id="f-light" aria-pressed="false">Light</button>
   </div>
 </header>
 
@@ -103,6 +119,8 @@ h3{margin:0 0 12px;font-size:15px;font-weight:600;color:var(--dim)}
   </section>
 
   <section id="out" class="hidden" aria-live="polite">
+    <!-- Shot size / Framing tabs -->
+    <div id="pModel">
     <div class="card">
       <div class="verdict">
         <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
@@ -116,23 +134,42 @@ h3{margin:0 0 12px;font-size:15px;font-weight:600;color:var(--dim)}
       <div class="note hidden" id="note"></div>
     </div>
     <div class="card"><h3 id="probTitle"></h3><div id="probs"></div></div>
-    <div class="card body hidden" id="bodyCard"><h3>What this size frames</h3><div id="body"></div></div>
+    <div class="card body hidden" id="bodyCard"><h3 id="bodyTitle">What this size frames</h3><div id="body"></div></div>
     <div class="card hidden" id="nnCard"><h3>Closest frames in the training data</h3><div class="nn" id="nn"></div></div>
+    </div>
+
+    <!-- A tab whose data is missing (model not loaded, or the analysis failed) -->
+    <div class="card hidden" id="pMissing"><h3>Not available</h3><p class="msg" id="missingMsg" style="margin:0"></p></div>
+
+    <!-- Color tab -->
+    <div id="pColor" class="hidden">
+      <div class="card"><h3>Dominant colors</h3><div id="palette"></div></div>
+      <div class="card"><h3>Accent colors <span style="font-weight:400">(the most saturated areas)</span></h3><div id="accents"></div></div>
+      <div class="card"><h3>Color character</h3><div id="colorStats"></div></div>
+    </div>
+
+    <!-- Light tab -->
+    <div id="pLight" class="hidden">
+      <div class="card"><h3>Lighting</h3><div id="lightStats"></div></div>
+      <div class="card"><h3>Tonal distribution (dark to bright)</h3><div id="hist"></div></div>
+    </div>
   </section>
 </div>
 </main>
 
 <script>
 const $ = id => document.getElementById(id);
-let feature = 'shot_size', file = null;
+let tab = 'shot_size', file = null, data = null;   // data = last /analyze result, shared by all tabs
+const MODEL_TABS = {shot_size: 'shot size', framing: 'framing'};
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const pct = v => Math.round(v * 100) + '%';
 
-document.querySelectorAll('.seg button').forEach(b => b.onclick = () => {
-  feature = b.id.slice(2);
-  document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
-  $('out').classList.add('hidden'); clearHeat();
-});
+document.querySelectorAll('.seg button').forEach(b => b.onclick = () => selectTab(b.id.slice(2)));
+function selectTab(t) {                 // switching tabs only changes what is shown, nothing is recomputed
+  tab = t;
+  document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x.id === 'f-' + t));
+  show();
+}
 
 function setFile(f) {
   if (!f || !f.type.startsWith('image/')) { msg('That file is not an image.', true); return; }
@@ -140,7 +177,7 @@ function setFile(f) {
   $('img').onload = fit;
   $('img').src = URL.createObjectURL(f);
   $('frame').classList.add('show'); $('drop').classList.add('hidden');
-  $('go').disabled = false; $('out').classList.add('hidden'); clearHeat(); $('heatBtn').classList.add('hidden');
+  $('go').disabled = false; data = null; show();
   msg('');
 }
 function msg(t, err) { $('msg').textContent = t; $('msg').className = 'msg' + (err ? ' err' : ''); }
@@ -165,16 +202,16 @@ $('heatBtn').onclick = () => {
 };
 
 $('go').onclick = async () => {
-  $('go').disabled = true; $('scan').classList.add('run'); $('out').classList.add('hidden');
-  clearHeat(); msg('Reading the frame…');
-  const fd = new FormData(); fd.append('feature', feature); fd.append('file', file);
+  $('go').disabled = true; $('scan').classList.add('run'); data = null; show();
+  msg('Reading the frame…');
+  const fd = new FormData(); fd.append('file', file);
   try {
     const t0 = performance.now();
     const r = await fetch('/analyze', { method: 'POST', body: fd });
     if (!r.ok) throw new Error((await r.json()).detail || 'The server could not analyze this image.');
     const d = await r.json();
     await new Promise(res => setTimeout(res, Math.max(0, 1800 - (performance.now() - t0))));  // let one full sweep play
-    render(d); msg('');
+    data = d; show(); msg('');
   } catch (e) { msg(e.message, true); }
   $('scan').classList.remove('run'); $('go').disabled = false;
 };
@@ -195,8 +232,26 @@ function drawHeat(grid) {
   requestAnimationFrame(() => setHeat(true));
 }
 
-function render(d) {
+/* Show the part of `data` that belongs to the selected tab. */
+function show() {
+  ['pModel', 'pMissing', 'pColor', 'pLight'].forEach(id => $(id).classList.add('hidden'));
+  clearHeat(); $('heatBtn').classList.add('hidden');
+  if (!data) { $('out').classList.add('hidden'); return; }
   $('out').classList.remove('hidden');
+  const missing = text => { $('missingMsg').textContent = text; $('pMissing').classList.remove('hidden'); };
+  if (tab in MODEL_TABS) {
+    if (!data[tab]) return missing(`The ${MODEL_TABS[tab]} model is not loaded on the server, so this frame was not classified for it. The other tabs still work.`);
+    $('pModel').classList.remove('hidden'); renderModel(tab, data[tab]);
+  } else if (!data.look) {
+    missing('The color and light analysis failed for this image. See the server log.');
+  } else if (tab === 'color') {
+    $('pColor').classList.remove('hidden'); renderColor(data.look);
+  } else {
+    $('pLight').classList.remove('hidden'); renderLight(data.look);
+  }
+}
+
+function renderModel(feature, d) {
   $('label').textContent = d.label;
   $('pct').textContent = pct(d.confidence);
   $('arc').style.strokeDashoffset = 264 * (1 - d.confidence);
@@ -212,7 +267,12 @@ function render(d) {
     $('probs').innerHTML = `<div class="ruler" style="grid-template-columns:repeat(${d.order.length},1fr)">` +
       d.order.map((c, i) => `<div class="col ${i === win ? 'win' : ''}"><i style="height:0" data-h="${d.probs[i] * 100}"></i>${esc(c)}</div>`).join('') + '</div>';
     requestAnimationFrame(() => document.querySelectorAll('.col i').forEach(e => e.style.height = e.dataset.h + '%'));
-    $('bodyCard').classList.remove('hidden'); $('body').innerHTML = bodyDiagram(d.label);
+    $('bodyCard').classList.remove('hidden');
+    const insert = data.framing && data.framing.label === 'insert';   // the framing model sees an object/detail, not a person
+    $('bodyTitle').textContent = insert ? 'Detail / insert shot' : 'What this size frames';
+    $('body').innerHTML = insert
+      ? `<p class="msg" style="margin:0">The framing model reads this frame as an <b style="color:var(--ink)">insert</b>: a detail of an object rather than a person. Here “${esc(d.label)}” describes how tightly the <i>object</i> is framed, so the body diagram does not apply. In the training data, 78% of insert frames are labelled “extreme close up”.</p>`
+      : bodyDiagram(d.label);
   } else {
     $('probTitle').textContent = 'Probability for each framing';
     const idx = d.order.map((_, i) => i).sort((a, b) => d.probs[b] - d.probs[a]);
@@ -222,6 +282,47 @@ function render(d) {
   }
   $('nnCard').classList.toggle('hidden', !d.neighbours.length);
   $('nn').innerHTML = d.neighbours.map(n => `<figure><img src="${esc(n.url)}" alt="Similar training frame labeled ${esc(n.label)}" loading="lazy"><b>${esc(n.label)}</b><br>similarity ${n.sim.toFixed(2)}</figure>`).join('');
+}
+
+/* Color tab: palette strip (no color names, only the swatch, share and hex), then saturation and temperature. */
+function renderColor(L) {
+  const pal = L.palette.length ? L.palette : [{hex: L.mean_hex, percentage: 100}];
+  $('palette').innerHTML =
+    `<div class="palette">${pal.map(c => `<div style="background:${esc(c.hex)};flex-grow:0" data-g="${c.percentage}" title="${c.percentage}% · ${esc(c.hex)}"></div>`).join('')}</div>` +
+    `<div class="swatches" style="margin-bottom:0">${pal.map(c => `<span><i style="background:${esc(c.hex)}"></i>${c.percentage}% · ${esc(c.hex)}</span>`).join('')}</div>`;
+  const acc = L.accents || [];
+  $('accents').innerHTML = !acc.length
+    ? '<p class="msg" style="margin:0">No strongly saturated areas in this frame.</p>'
+    : `<div class="palette">${acc.map(c => `<div style="background:${esc(c.hex)};flex-grow:0" data-g="${c.percentage}" title="${c.percentage}% of the frame · ${esc(c.hex)}"></div>`).join('')}</div>` +
+      `<div class="swatches" style="margin-bottom:0">${acc.map(c => `<span><i style="background:${esc(c.hex)}"></i>${c.percentage}% · ${esc(c.hex)}</span>`).join('')}</div>` +
+      `<p class="legend" style="margin:6px 0 0">Vivid pixels cover ${pct(L.vivid)} of the frame. Each % is a share of the whole frame, so small accents still show.</p>`;
+  $('colorStats').innerHTML =
+    `<div class="chips"><span>${esc(L.temperature)} tones</span></div>
+     <div class="stats">
+       <div><b>${pct(L.saturation)}</b>saturation</div>
+       <div><b>${pct(L.neutral)}</b>neutral pixels</div>
+       <div><b><i class="dot" style="background:${esc(L.mean_hex)}"></i>${esc(L.mean_hex)}</b>average color</div>
+     </div>`;
+  requestAnimationFrame(() => document.querySelectorAll('.palette div').forEach(e => e.style.flexGrow = e.dataset.g));
+}
+
+/* Light tab: key and contrast, the numbers behind them, and the brightness histogram. */
+function renderLight(L) {
+  $('lightStats').innerHTML =
+    `<div class="chips"><span>${esc(L.lighting)}</span><span>${esc(L.contrast)}</span></div>
+     <div class="stats">
+       <div><b>${pct(L.brightness)}</b>brightness</div>
+       <div><b>${pct(L.shadows)}</b>in shadow</div>
+       <div><b>${pct(L.highlights)}</b>in highlight</div>
+       <div><b>${pct(Math.min(1, L.contrast_score))}</b>${esc(L.contrast.toLowerCase())}</div>
+       <div><b>${pct(L.dynamic_range / 255)}</b>tonal range (p5–p95)</div>
+     </div>`;
+  const h = L.histogram || [];
+  $('hist').innerHTML = !h.length ? '<p class="msg">No histogram.</p>' :
+    `<div class="hist">${h.map((v, i) => `<i class="${i < 8 ? 'sh' : i >= 24 ? 'hi' : ''}" style="height:0" data-h="${v * 100}"></i>`).join('')}</div>
+     <div class="histAxis"><span>black</span><span>white</span></div>
+     <div class="legend"><i style="background:#5b8def;margin-left:0"></i>shadow (below 64)<i style="background:var(--warm)"></i>highlight (above 192)</div>`;
+  requestAnimationFrame(() => document.querySelectorAll('.hist i').forEach(e => e.style.height = e.dataset.h + '%'));
 }
 
 /* Frame on a fixed stick figure: scale and centre per shot size, so the cut line on the body is visible. */
@@ -243,7 +344,7 @@ function bodyDiagram(label) {
 
 fetch('/status').then(r => r.json()).then(s => {
   ['shot_size', 'framing'].forEach(k => { if (!s.features.includes(k)) { const b = $('f-' + k); b.title = 'Model not loaded. See the server log.'; b.style.opacity = .4; } });
-  if (!s.features.includes(feature) && s.features.length) $('f-' + s.features[0]).click();
+  if (!s.features.includes(tab)) selectTab(s.features[0] || 'color');   // color and light need no model
 });
 </script>
 </body>

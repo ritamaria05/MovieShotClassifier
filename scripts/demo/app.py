@@ -22,10 +22,11 @@ import traceback
 from contextlib import asynccontextmanager
 from pathlib import Path
 
+import cv2
 import numpy as np
 import pandas as pd
 import torch
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from PIL import Image, ImageDraw
 from transformers import AutoImageProcessor, AutoModel
@@ -37,6 +38,8 @@ for p in (ROOT, ROOT / "scripts"):          # `scripts.paths` and plain `paths` 
 
 from scripts.paths import DATA_PROCESSED_DIR, SPLITS_DIR                    # noqa: E402
 from scripts.shotsize.predict_shotsize import DEFAULT_ORDER, load_models    # noqa: E402
+from scripts.color.color_analysis import get_color_features                  # noqa: E402
+from scripts.lighting.light_analysis import analyze_lighting, crop_letterbox # noqa: E402
 
 STATIC = Path(__file__).parent / "static"
 SS_RUNS = str(ROOT / "data/processed/finetune_shotsize_protocol/seed*")
@@ -101,9 +104,16 @@ async def lifespan(app):
             raise FileNotFoundError(f"no best_model.pt under {SS_RUNS} or {SS_SINGLE}")
         print(f"[demo] shot size runs: {[r.name for r in runs]}")
         models, proc, label_to_id, _, _ = load_models(runs)
+        models = [m.to(device).eval() for m in models]                     # same device as the inputs
         classes = [c for c, _ in sorted(label_to_id.items(), key=lambda kv: kv[1])]
+        order = [c for c in DEFAULT_ORDER if c in classes]
+        missing = [c for c in classes if c not in order]
+        if missing:                                                         # spelling/case mismatch would crash /analyze
+            print(f"[demo] WARNING: classes not in DEFAULT_ORDER, appended at the end: {missing}")
+            order += missing
+        print(f"[demo] shot size classes: {classes}")
         STATE["shot_size"] = {"models": models, "proc": proc, "classes": classes, "device": device,
-                              "order": [c for c in DEFAULT_ORDER if c in classes], "index": load_index("shot_size")}
+                              "order": order, "index": load_index("shot_size")}
     except (Exception, SystemExit) as e:                                    # keep the other feature usable
         traceback.print_exc()
         print(f"[demo] shot size unavailable: {e!r}")
@@ -131,7 +141,12 @@ def model_probs(feat: dict, images: list[Image.Image], models=None) -> np.ndarra
     """(n_models, n_images, n_classes) softmax probabilities."""
     models = models or feat["models"]
     inputs = {k: v.to(feat["device"]) for k, v in feat["proc"](images=images, return_tensors="pt").items()}
-    return np.stack([torch.softmax(m(inputs).float(), 1).cpu().numpy() for m in models])
+    out = []
+    for m in models:
+        logits = m(inputs)
+        logits = getattr(logits, "logits", logits)    # accept raw tensors or HF-style outputs
+        out.append(torch.softmax(logits.float(), 1).cpu().numpy())
+    return np.stack(out)
 
 
 def occlusion(feat: dict, image: Image.Image, cls: int, batch: int = 12) -> list[list[float]]:
@@ -171,6 +186,39 @@ def neighbours(feat: dict, image: Image.Image, key: str, k: int = 4) -> list[dic
     return [{"url": f"/thumb/{key}/{i}", "label": index["labels"][i], "sim": round(float(sims[i]), 3)} for i in top]
 
 
+def look(image: Image.Image) -> dict | None:
+    """Colour + lighting features from the two OpenCV scripts (no model involved)."""
+    try:
+        small = image.copy()
+        small.thumbnail((1280, 1280))                 # speed; the statistics barely change
+        bgr = cv2.cvtColor(np.asarray(small), cv2.COLOR_RGB2BGR)   # PIL is RGB, the scripts expect BGR
+        color = get_color_features(bgr)
+        light = analyze_lighting(bgr)
+        gray = cv2.cvtColor(crop_letterbox(bgr), cv2.COLOR_BGR2GRAY)
+        hist = np.histogram(gray, bins=32, range=(0, 256))[0].astype(float)
+        hist = hist / hist.max() if hist.max() > 0 else hist      # tallest bar = 1, for the chart
+        return {
+            "histogram": hist.round(3).tolist(),
+            "lighting": light["lighting"],
+            "brightness": light["brightness"],
+            "contrast": light["contrast"],            # one contrast definition (both scripts now agree)
+            "contrast_score": light["contrast_score"],
+            "shadows": light["shadow_ratio"],
+            "highlights": light["highlight_ratio"],
+            "dynamic_range": light["dynamic_range"],
+            "saturation": color["saturation"],
+            "neutral": color["neutral_ratio"],
+            "temperature": color["temperature"],
+            "mean_hex": color["mean_hex"],
+            "palette": color["dominant_colors"],
+            "accents": color["accent_colors"],                 # vivid colors, % of the whole frame
+            "vivid": color["chromatic_share"],
+        }
+    except Exception:                                 # never let this break the model result
+        traceback.print_exc()
+        return None
+
+
 def reliability(label: str):
     if not FRAMING_METRICS.exists():
         return None
@@ -191,38 +239,46 @@ def status():
 
 @app.get("/thumb/{key}/{i}")
 def thumb(key: str, i: int):
+    if key not in ("shot_size", "framing"):
+        raise HTTPException(404)
     index = STATE.get(key, {}).get("index")
     if not index or not 0 <= i < len(index["paths"]) or not Path(index["paths"][i]).is_file():
         raise HTTPException(404)
     return FileResponse(index["paths"][i])
 
 
+def classify(feature: str, feat: dict, image: Image.Image) -> dict:
+    """Everything the page shows for one model: label, probabilities, heatmap, neighbours."""
+    per_model = model_probs(feat, [image])[:, 0]
+    mean = per_model.mean(0)
+    classes, order = feat["classes"], feat["order"]
+    ranked = np.argsort(-mean)
+    top, second = int(ranked[0]), int(ranked[1])
+    label, label2 = classes[top], classes[second]
+    margin = float(mean[top] - mean[second])
+    note = None
+    if feature == "framing" and {label, label2} in CONFUSABLE and margin < 0.3:
+        note = f"“{label}” and “{label2}” are the pair this model mixes up most often."
+    elif feature == "shot_size" and abs(order.index(label) - order.index(label2)) == 1 and margin < 0.25:
+        note = f"Borderline between “{label}” and “{label2}”, which are neighbouring sizes."
+    return {
+        "feature": feature, "label": label, "label2": label2, "confidence": float(mean[top]),
+        "order": order, "probs": [float(mean[classes.index(c)]) for c in order],
+        "votes": int((per_model.argmax(1) == top).sum()), "n_models": int(len(per_model)),
+        "heat": occlusion(feat, image, top), "neighbours": neighbours(feat, image, feature),
+        "reliability": reliability(label) if feature == "framing" else None, "note": note,
+    }
+
+
 @app.post("/analyze")
-def analyze(feature: str = Form(...), file: UploadFile = File(...)):
-    feat = STATE.get(feature)
-    if feat is None:
-        raise HTTPException(400, f"Feature '{feature}' is not loaded. Check the server log.")
+def analyze(file: UploadFile = File(...)):
+    """One click computes everything; the page only decides which part to show."""
     try:
         image = Image.open(io.BytesIO(file.file.read())).convert("RGB")
     except Exception:
         raise HTTPException(400, "That file is not a readable image.")
+    result = {"look": look(image)}                    # no shared model state, so outside the lock
     with LOCK:                                        # one request at a time on the shared models
-        per_model = model_probs(feat, [image])[:, 0]
-        mean = per_model.mean(0)
-        classes, order = feat["classes"], feat["order"]
-        ranked = np.argsort(-mean)
-        top, second = int(ranked[0]), int(ranked[1])
-        label, label2 = classes[top], classes[second]
-        margin = float(mean[top] - mean[second])
-        note = None
-        if feature == "framing" and {label, label2} in CONFUSABLE and margin < 0.3:
-            note = f"“{label}” and “{label2}” are the pair this model mixes up most often."
-        elif feature == "shot_size" and abs(order.index(label) - order.index(label2)) == 1 and margin < 0.25:
-            note = f"Borderline between “{label}” and “{label2}”, which are neighbouring sizes."
-        return {
-            "feature": feature, "label": label, "label2": label2, "confidence": float(mean[top]),
-            "order": order, "probs": [float(mean[classes.index(c)]) for c in order],
-            "votes": int((per_model.argmax(1) == top).sum()), "n_models": int(len(per_model)),
-            "heat": occlusion(feat, image, top), "neighbours": neighbours(feat, image, feature),
-            "reliability": reliability(label) if feature == "framing" else None, "note": note,
-        }
+        for key in ("shot_size", "framing"):          # a model that is not loaded gives None
+            result[key] = classify(key, STATE[key], image) if key in STATE else None
+    return result
