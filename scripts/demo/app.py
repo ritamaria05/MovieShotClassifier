@@ -1,7 +1,7 @@
 """Visual demo server for the shot-size and framing models.
 
 Run from the repository root:
-    pip install fastapi uvicorn python-multipart
+    python -m pip install -r requirements.txt
     python -m uvicorn scripts.demo.app:app --port 8000
 Then open http://127.0.0.1:8000
 
