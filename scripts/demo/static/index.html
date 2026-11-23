@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shot reader</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap">
+<style>
+:root{--bg:#14171c;--panel:#1d222a;--line:#2e3540;--ink:#ebe6da;--dim:#9aa3ad;--accent:#79e0c1;--warm:#ffb454;
+--font:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--font)}
+main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
+header{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:end;justify-content:space-between;margin-bottom:24px}
+h1{margin:0;font-weight:800;font-size:clamp(34px,6vw,60px);line-height:.95;letter-spacing:-.03em}
+.sub{color:var(--dim);margin:8px 0 0;max-width:46ch}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:4px;background:var(--panel)}
+.seg button{border:0;background:none;color:var(--dim);font:600 15px var(--font);padding:8px 18px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+button:focus-visible,label:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.stage{position:relative;aspect-ratio:16/9;background:#0c0e11;border:1px solid var(--line);border-radius:6px;overflow:hidden;display:grid;place-items:center}
+.frame{position:relative;display:none;overflow:hidden}
+.frame.show{display:block}
+.frame img{width:100%;height:100%;display:block;transition:filter .8s ease}
+.frame.hot img{filter:brightness(.42) saturate(.45)}
+.drop{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--dim);cursor:pointer;padding:20px}
+.drop b{display:block;color:var(--ink);font-size:20px;margin-bottom:4px}
+.stage.over{border-color:var(--accent)}
+#heat{position:absolute;inset:0;width:100%;height:100%;opacity:0;filter:blur(9px) saturate(1.6);transition:opacity .9s ease;pointer-events:none}
+#heat.on{opacity:1}
+#focus{position:absolute;border:2px dashed var(--accent);box-shadow:0 0 24px rgba(121,224,193,.5);opacity:0;transition:opacity .6s ease .5s;pointer-events:none}
+#focus.on{opacity:1}
+#focus span{position:absolute;left:0;top:0;background:var(--accent);color:#08231b;font:700 12px var(--font);padding:3px 8px;white-space:nowrap}
+.scan{position:absolute;left:0;right:0;top:0;height:3px;background:var(--accent);box-shadow:0 0 28px 8px rgba(121,224,193,.45);opacity:0;pointer-events:none}
+.scan.run{opacity:1;animation:sweep 1.4s ease-in-out infinite alternate}
+@keyframes sweep{to{top:calc(100% - 3px)}}
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:14px}
+.go{background:var(--accent);color:#08231b;border:0;font:800 16px var(--font);padding:11px 28px;border-radius:6px;cursor:pointer}
+.go:disabled{opacity:.35;cursor:not-allowed}
+.ghost{background:none;border:1px solid var(--line);color:var(--ink);font:600 14px var(--font);padding:9px 14px;border-radius:6px;cursor:pointer}
+.ghost[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
+.msg{color:var(--dim);font-size:14px}.msg.err{color:var(--warm)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px}
+.card+.card{margin-top:16px}
+.verdict{display:flex;gap:18px;align-items:center}
+.verdict h2{margin:0;font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1}
+.verdict p{margin:6px 0 0;color:var(--dim);font-size:14px}
+.ring{flex:none;width:92px;height:92px}
+.ring text{fill:var(--ink);font:800 22px var(--font)}
+.note{margin-top:14px;padding:10px 12px;border-left:3px solid var(--warm);background:rgba(255,180,84,.08);font-size:14px}
+h3{margin:0 0 12px;font-size:15px;font-weight:600;color:var(--dim)}
+.ruler{display:grid;gap:6px;align-items:end;height:150px}
+.col{display:flex;flex-direction:column;justify-content:flex-end;height:100%;text-align:center;font-size:11px;color:var(--dim);line-height:1.2}
+.col i{display:block;background:var(--line);border-radius:3px 3px 0 0;margin-bottom:6px;min-height:3px;transition:height .9s cubic-bezier(.2,.8,.2,1)}
+.col.win i{background:var(--accent)}.col.win{color:var(--ink)}
+.hbar{display:grid;grid-template-columns:130px 1fr 44px;gap:10px;align-items:center;font-size:14px;margin:6px 0}
+.hbar i{display:block;height:10px;background:var(--line);border-radius:5px;overflow:hidden}
+.hbar i u{display:block;height:100%;width:0;background:var(--line);filter:brightness(1.6);transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.hbar.win i u{background:var(--accent);filter:none}
+.hbar span:last-child{text-align:right;color:var(--dim)}
+.nn{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.nn figure{margin:0;font-size:12px;color:var(--dim)}
+.nn img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:4px;display:block;margin-bottom:4px}
+.nn b{color:var(--ink);font-weight:600}
+.body svg{width:100%;display:block;border-radius:4px;background:#0c0e11;border:1px solid var(--line)}
+.hidden{display:none}
+@media(prefers-reduced-motion:reduce){.scan.run{animation:none;top:50%}.col i,.hbar i u,#heat{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div>
+    <h1>Shot reader</h1>
+    <p class="sub">Drop in a movie frame. Our fine-tuned SigLIP models read it, then show where they looked and which training frames it resembles.</p>
+  </div>
+  <div class="seg" role="group" aria-label="Feature">
+    <button id="f-shot_size" aria-pressed="true">Shot size</button>
+    <button id="f-framing" aria-pressed="false">Framing</button>
+  </div>
+</header>
+
+<div class="grid">
+  <section>
+    <div class="stage" id="stage">
+      <label class="drop" id="drop"><span><b>Drop a frame here</b>or click to choose an image</span>
+        <input type="file" id="file" accept="image/*" hidden></label>
+      <div class="frame" id="frame">
+        <img id="img" alt="Uploaded movie frame">
+        <canvas id="heat" width="8" height="8"></canvas>
+        <div id="focus"><span>Model focus</span></div>
+        <div class="scan" id="scan"></div>
+      </div>
+    </div>
+    <div class="bar">
+      <button class="go" id="go" disabled>Analyze</button>
+      <button class="ghost hidden" id="heatBtn" aria-pressed="true">Model focus</button>
+      <label class="ghost" for="file" id="swap">Change image</label>
+      <span class="msg" id="msg"></span>
+    </div>
+  </section>
+
+  <section id="out" class="hidden" aria-live="polite">
+    <div class="card">
+      <div class="verdict">
+        <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#2e3540" stroke-width="9"/>
+          <circle id="arc" cx="50" cy="50" r="42" fill="none" stroke="#79e0c1" stroke-width="9" stroke-linecap="round"
+            transform="rotate(-90 50 50)" stroke-dasharray="264" stroke-dashoffset="264" style="transition:stroke-dashoffset 1s ease"/>
+          <text id="pct" x="50" y="57" text-anchor="middle"></text>
+        </svg>
+        <div><h2 id="label"></h2><p id="meta"></p></div>
+      </div>
+      <div class="note hidden" id="note"></div>
+    </div>
+    <div class="card"><h3 id="probTitle"></h3><div id="probs"></div></div>
+    <div class="card body hidden" id="bodyCard"><h3>What this size frames</h3><div id="body"></div></div>
+    <div class="card hidden" id="nnCard"><h3>Closest frames in the training data</h3><div class="nn" id="nn"></div></div>
+  </section>
+</div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+let feature = 'shot_size', file = null;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pct = v => Math.round(v * 100) + '%';
+
+document.querySelectorAll('.seg button').forEach(b => b.onclick = () => {
+  feature = b.id.slice(2);
+  document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  $('out').classList.add('hidden'); clearHeat();
+});
+
+function setFile(f) {
+  if (!f || !f.type.startsWith('image/')) { msg('That file is not an image.', true); return; }
+  file = f;
+  $('img').onload = fit;
+  $('img').src = URL.createObjectURL(f);
+  $('frame').classList.add('show'); $('drop').classList.add('hidden');
+  $('go').disabled = false; $('out').classList.add('hidden'); clearHeat(); $('heatBtn').classList.add('hidden');
+  msg('');
+}
+function msg(t, err) { $('msg').textContent = t; $('msg').className = 'msg' + (err ? ' err' : ''); }
+$('file').onchange = e => setFile(e.target.files[0]);
+const stage = $('stage');
+stage.ondragover = e => { e.preventDefault(); stage.classList.add('over'); };
+stage.ondragleave = () => stage.classList.remove('over');
+stage.ondrop = e => { e.preventDefault(); stage.classList.remove('over'); setFile(e.dataTransfer.files[0]); };
+function fit() {                       // size the overlay box to the visible image, not the 16:9 stage
+  const im = $('img'); if (!im.naturalWidth) return;
+  const ar = im.naturalWidth / im.naturalHeight; let w = stage.clientWidth, h = w / ar;
+  if (h > stage.clientHeight) { h = stage.clientHeight; w = h * ar; }
+  $('frame').style.width = w + 'px'; $('frame').style.height = h + 'px';
+}
+addEventListener('resize', fit);
+const setHeat = on => { $('heat').classList.toggle('on', on); $('focus').classList.toggle('on', on); $('frame').classList.toggle('hot', on); };
+const clearHeat = () => setHeat(false);
+
+$('heatBtn').onclick = () => {
+  const on = $('heatBtn').getAttribute('aria-pressed') !== 'true';
+  $('heatBtn').setAttribute('aria-pressed', on); setHeat(on);
+};
+
+$('go').onclick = async () => {
+  $('go').disabled = true; $('scan').classList.add('run'); $('out').classList.add('hidden');
+  clearHeat(); msg('Reading the frame…');
+  const fd = new FormData(); fd.append('feature', feature); fd.append('file', file);
+  try {
+    const t0 = performance.now();
+    const r = await fetch('/analyze', { method: 'POST', body: fd });
+    if (!r.ok) throw new Error((await r.json()).detail || 'The server could not analyze this image.');
+    const d = await r.json();
+    await new Promise(res => setTimeout(res, Math.max(0, 1800 - (performance.now() - t0))));  // let one full sweep play
+    render(d); msg('');
+  } catch (e) { msg(e.message, true); }
+  $('scan').classList.remove('run'); $('go').disabled = false;
+};
+
+function drawHeat(grid) {
+  const n = grid.length, m = grid[0].length, c = $('heat'), g = c.getContext('2d');
+  c.width = m; c.height = n; g.clearRect(0, 0, m, n);
+  let x0 = m, y0 = n, x1 = -1, y1 = -1;
+  grid.forEach((row, y) => row.forEach((v, x) => {
+    g.fillStyle = `hsla(${200 - 170 * v},100%,${45 + 15 * v}%,${Math.min(1, v * 1.15) ** 1.2})`;   // blue → amber, strong cells opaque
+    g.fillRect(x, y, 1, 1);
+    if (v >= 0.6) { x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
+  }));
+  const f = $('focus'); f.style.display = x1 < 0 ? 'none' : '';
+  f.style.left = x0 / m * 100 + '%'; f.style.top = y0 / n * 100 + '%';
+  f.style.width = (x1 - x0 + 1) / m * 100 + '%'; f.style.height = (y1 - y0 + 1) / n * 100 + '%';
+  $('heatBtn').classList.remove('hidden'); $('heatBtn').setAttribute('aria-pressed', 'true');
+  requestAnimationFrame(() => setHeat(true));
+}
+
+function render(d) {
+  $('out').classList.remove('hidden');
+  $('label').textContent = d.label;
+  $('pct').textContent = pct(d.confidence);
+  $('arc').style.strokeDashoffset = 264 * (1 - d.confidence);
+  let meta = `${d.votes} of ${d.n_models} model${d.n_models > 1 ? 's' : ''} agree · next: ${d.label2}`;
+  if (d.reliability) meta += ` · when it says this, it was right ${pct(d.reliability.precision)} of the time on the test set`;
+  $('meta').textContent = meta;
+  $('note').textContent = d.note || ''; $('note').classList.toggle('hidden', !d.note);
+  drawHeat(d.heat);
+
+  const win = d.order.indexOf(d.label);
+  if (feature === 'shot_size') {
+    $('probTitle').textContent = 'Probability along the shot-size scale (tight to wide)';
+    $('probs').innerHTML = `<div class="ruler" style="grid-template-columns:repeat(${d.order.length},1fr)">` +
+      d.order.map((c, i) => `<div class="col ${i === win ? 'win' : ''}"><i style="height:0" data-h="${d.probs[i] * 100}"></i>${esc(c)}</div>`).join('') + '</div>';
+    requestAnimationFrame(() => document.querySelectorAll('.col i').forEach(e => e.style.height = e.dataset.h + '%'));
+    $('bodyCard').classList.remove('hidden'); $('body').innerHTML = bodyDiagram(d.label);
+  } else {
+    $('probTitle').textContent = 'Probability for each framing';
+    const idx = d.order.map((_, i) => i).sort((a, b) => d.probs[b] - d.probs[a]);
+    $('probs').innerHTML = idx.map(i => `<div class="hbar ${i === win ? 'win' : ''}"><span>${esc(d.order[i])}</span><i><u data-w="${d.probs[i] * 100}"></u></i><span>${pct(d.probs[i])}</span></div>`).join('');
+    requestAnimationFrame(() => document.querySelectorAll('.hbar u').forEach(e => e.style.width = e.dataset.w + '%'));
+    $('bodyCard').classList.add('hidden');
+  }
+  $('nnCard').classList.toggle('hidden', !d.neighbours.length);
+  $('nn').innerHTML = d.neighbours.map(n => `<figure><img src="${esc(n.url)}" alt="Similar training frame labeled ${esc(n.label)}" loading="lazy"><b>${esc(n.label)}</b><br>similarity ${n.sim.toFixed(2)}</figure>`).join('');
+}
+
+/* Frame on a fixed stick figure: scale and centre per shot size, so the cut line on the body is visible. */
+const CUTS = {'extreme close up': [6, 14, 'the eyes and nose'], 'close up': [2.2, 20, 'head and neck'],
+  'medium close up': [1.5, 30, 'head to mid-chest'], 'medium': [0.9, 50, 'head to the waist'],
+  'medium wide': [0.6, 75, 'head to the knees'], 'wide': [0.42, 100, 'the full body, with room around it'],
+  'extreme wide': [0.15, 100, 'a tiny figure in a large scene']};
+function bodyDiagram(label) {
+  const [s, cy, text] = CUTS[label] || [0.9, 50, ''];
+  return `<svg viewBox="0 0 160 90" role="img" aria-label="Frame cutting a figure at ${esc(text)}">
+    <g transform="translate(80 45) scale(${s}) translate(0 ${-cy})" fill="#ebe6da" stroke="none">
+      <circle cx="0" cy="14" r="11"/><rect x="-4" y="25" width="8" height="7"/>
+      <path d="M-26 38Q-26 31-14 31L14 31Q26 31 26 38L22 100L-22 100Z"/>
+      <rect x="-18" y="100" width="16" height="95"/><rect x="2" y="100" width="16" height="95"/>
+      <rect x="-36" y="36" width="9" height="62" rx="4"/><rect x="27" y="36" width="9" height="62" rx="4"/></g>
+    <rect x="1" y="1" width="158" height="88" fill="none" stroke="#79e0c1" stroke-width="2"/></svg>
+    <p class="msg" style="margin:8px 0 0">A ${esc(label)} shows ${esc(text)}.</p>`;
+}
+
+fetch('/status').then(r => r.json()).then(s => {
+  ['shot_size', 'framing'].forEach(k => { if (!s.features.includes(k)) { const b = $('f-' + k); b.title = 'Model not loaded. See the server log.'; b.style.opacity = .4; } });
+  if (!s.features.includes(feature) && s.features.length) $('f-' + s.features[0]).click();
+});
+</script>
+</body>
+</html>

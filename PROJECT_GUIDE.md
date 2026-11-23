@@ -69,7 +69,7 @@ does not run SigLIP embedding extraction or baseline evaluation.
 ### 1. Download ShotBench annotations
 
 ```bash
-python make_annotations.py
+python scripts/make_annotations.py
 ```
 
 Downloads the `Vchitect/ShotBench` test split with the Hugging Face `datasets`
@@ -78,7 +78,7 @@ library and saves it as `csv/annotations.csv`.
 ### 2. Parse ShotQA labels
 
 ```bash
-python build_labels.py
+python scripts/build_labels.py
 ```
 
 Reads `ShotQA_meta/sft.json`, parses question/options/answer conversations, and
@@ -96,8 +96,8 @@ These are diagnostic scripts and may be run independently after
 `csv/shotqa_labels.csv` exists:
 
 ```bash
-python check_meta.py
-python check_overlap.py
+python scripts/check_meta.py
+python scripts/check_overlap.py
 ```
 
 `check_meta.py` compares ShotQA labels with `meta.jsonl`, checks whether labels
@@ -111,7 +111,7 @@ ShotQA training labels. This is an early leakage/overlap diagnostic and expects
 ### 4. Build consolidated dimension labels
 
 ```bash
-python final_labels.py
+python scripts/final_labels.py
 ```
 
 Merges SFT labels with GRPO labels for the dimensions listed in `USE` (currently
@@ -131,7 +131,7 @@ After the requested images have been placed in `data_shotqa/` or
 `data/raw/data_shotqa/`, run:
 
 ```bash
-python verify.py
+python scripts/verify.py
 ```
 
 This reports how many labeled images exist on disk, the number of extracted
@@ -141,7 +141,7 @@ annotations.
 ### 6. Create leakage-safe train/validation/test splits
 
 ```bash
-python build_dataset.py
+python scripts/build_dataset.py
 ```
 
 For each dimension in `DIMS` (`shot_size` and `framing`), this script:
@@ -160,7 +160,7 @@ metadata is assigned its image stem as a private group.
 ### 7. Extract embeddings and evaluate the baseline
 
 ```bash
-python scripts/shotsize/embed_shotsize.py
+python -m scripts.shotsize.embed_shotsize
 ```
 
 Despite the general project theme, the current implementation loops over
