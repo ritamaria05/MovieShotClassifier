@@ -1,0 +1,6 @@
+This directory should have:
+
+raw/
+ | data_shotqa
+ | ShotBench
+ | ShotQA_meta

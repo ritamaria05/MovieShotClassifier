@@ -1,0 +1,8 @@
+This directory should have:
+
+seed_42/
+ | best_finetune.pt
+ | best_head.pt
+ | confusion_matrix.csv
+ | metrics.json
+ | predictions_test.csv

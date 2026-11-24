@@ -1,0 +1,4 @@
+This directory should have:
+
+seed2/
+ | best_model.pt
