@@ -1,8 +1,9 @@
-import glob, json, itertools
+import json, itertools
+from pathlib import Path
 import numpy as np, pandas as pd
+from scripts.paths import shot_size_runs
 
-root = "data/processed/finetune_shotsize_protocol"
-runs = sorted(glob.glob(f"{root}/seed*"))
+runs = [str(path) for path in shot_size_runs()]
 preds, rows = [], []
 for r in runs:
     hist = json.load(open(f"{r}/history.json"))
@@ -11,7 +12,7 @@ for r in runs:
         if h["val_macro_f1"] > best + 0.001:
             best, best_epoch = h["val_macro_f1"], h["epoch"]
     m = json.load(open(f"{r}/metrics.json"))
-    rows.append({"run": r.split("/")[-1], "epochs_run": len(hist), "best_epoch": best_epoch,
+    rows.append({"run": Path(r).name, "epochs_run": len(hist), "best_epoch": best_epoch,
                  "val_f1": m["best_val_macro_f1"], "test_f1": m["macro_f1"],
                  "gap_val_minus_test": m["best_val_macro_f1"] - m["macro_f1"]})
     p = pd.read_csv(f"{r}/predictions_test.csv")

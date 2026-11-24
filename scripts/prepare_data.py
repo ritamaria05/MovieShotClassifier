@@ -6,7 +6,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from paths import CSV_DIR, DATA_PROCESSED_DIR, TXT_DIR, ensure_output_dirs
+from scripts.paths import CSV_DIR, DATA_PROCESSED_DIR, TXT_DIR, ensure_output_dirs
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,7 +25,7 @@ def main() -> int:
     ensure_output_dirs()
     print(f"Running data preparation from {ROOT}")
     for number, (name, script) in enumerate(STEPS, start=1):
-        command = [sys.executable, str(ROOT / "scripts" / script)]
+        command = [sys.executable, "-m", f"scripts.{Path(script).stem}"]
         print(f"\n[{number}/{len(STEPS)}] {name}: {script}", flush=True)
         try:
             subprocess.run(command, cwd=ROOT, check=True)

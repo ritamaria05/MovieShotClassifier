@@ -6,12 +6,12 @@ decisão é uma fronteira ambígua entre classes vizinhas.
 
 Uso:
   # modo interativo (os modelos carregam uma vez; depois é só ir escrevendo)
-  python scripts/shotsize/predict_shotsize.py
+  python -m scripts.shotsize.predict_shotsize
   > /caminho/frame.jpg | close up        (etiqueta conhecida, opcional)
   > /caminho/outro_frame.jpg             (sem etiqueta)
 
   # uma imagem só
-  python scripts/shotsize/predict_shotsize.py /caminho/frame.jpg --label "close up"
+  python -m scripts.shotsize.predict_shotsize /caminho/frame.jpg --label "close up"
 
 Se a imagem estiver nos CSVs de treino/val/teste, a etiqueta é encontrada pelo
 nome do ficheiro e o script avisa se o modelo a viu no treino.
@@ -28,23 +28,17 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-DEFAULT_RUNS = "data/processed/finetune_shotsize_protocol/seed*"
-DEFAULT_ORDER = [
-    "extreme close up",
-    "close up",
-    "medium close up",
-    "medium",
-    "medium wide",
-    "wide",
-    "extreme wide",
-]
+from movieshot.models import SHOT_SIZE_ORDER, load_shot_size_models, model_probabilities, select_device
+from scripts.paths import resolve_image_path, shot_size_runs, split_file
+
+DEFAULT_ORDER = SHOT_SIZE_ORDER
 
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
     p.add_argument("images", nargs="*", help="imagens a classificar (vazio = modo interativo)")
     p.add_argument("--label", default=None, help="etiqueta conhecida (só com uma imagem)")
-    p.add_argument("--runs", nargs="+", default=[DEFAULT_RUNS], help="pastas das seeds (ou globs)")
+    p.add_argument("--runs", nargs="+", default=None, help="pastas das seeds (ou globs)")
     p.add_argument("--single", action="store_true", help="usar só a primeira seed (carrega mais depressa)")
     p.add_argument("--class-order", nargs="+", default=DEFAULT_ORDER)
     p.add_argument(
@@ -73,12 +67,8 @@ def parse_known(text: str, classes: list[str]) -> list[str]:
 def load_label_index() -> dict[str, tuple[str, str]]:
     """nome do ficheiro -> (split, etiqueta), a partir dos CSVs do projeto."""
     index: dict[str, tuple[str, str]] = {}
-    try:
-        from scripts.paths import SPLITS_DIR
-    except Exception:
-        return index
     for split in ("test", "val", "train"):
-        csv = Path(SPLITS_DIR) / f"{split}_shot_size.csv"
+        csv = split_file(f"{split}_shot_size.csv")
         if not csv.exists():
             continue
         frame = pd.read_csv(csv)
@@ -87,43 +77,11 @@ def load_label_index() -> dict[str, tuple[str, str]]:
     return index
 
 
-def load_models(run_dirs: list[Path]):
-    import torch
-    from transformers import AutoImageProcessor, AutoModel
-
-    import scripts.shotsize.finetune_shotsize as fs
-
-    device = fs.select_device()
-    models, label_to_id, model_name = [], None, None
-    for run in run_dirs:
-        print(f"A carregar {run.name} ...")
-        checkpoint = torch.load(run / "best_model.pt", map_location="cpu", weights_only=False)
-        if label_to_id is None:
-            label_to_id, model_name = checkpoint["label_to_id"], checkpoint["model_name"]
-        elif checkpoint["label_to_id"] != label_to_id:
-            raise SystemExit(f"{run.name} tem um mapeamento de classes diferente das outras seeds")
-        backbone = AutoModel.from_pretrained(checkpoint["model_name"])
-        feature_dim = getattr(backbone.config, "projection_dim", None)
-        if feature_dim is None:
-            feature_dim = backbone.config.vision_config.hidden_size
-        model = fs.SigLIPShotSizeClassifier(backbone, feature_dim, len(label_to_id))
-        model.load_state_dict(checkpoint["model_state"])
-        if hasattr(model.backbone, "text_model"):  # a torre de texto não é usada: poupa memória
-            del model.backbone.text_model
-        models.append(model.to(device).eval())
-        del checkpoint
-    processor = AutoImageProcessor.from_pretrained(model_name)
-    return models, processor, label_to_id, device, fs
-
-
-def predict_probs(models, processor, device, fs, image_path: str) -> np.ndarray:
-    import torch
+def predict_probs(models, processor, device, image_path: str) -> np.ndarray:
     from PIL import Image
 
-    image = Image.open(image_path).convert("RGB")
-    inputs = fs.move_inputs(processor(images=[image], return_tensors="pt"), device)
-    with torch.no_grad():
-        return np.stack([torch.softmax(m(inputs).float(), dim=1)[0].cpu().numpy() for m in models])
+    image = Image.open(resolve_image_path(image_path)).convert("RGB")
+    return model_probabilities(models, processor, device, [image])[:, 0]
 
 
 def report(
@@ -194,7 +152,8 @@ def parse_line(line: str) -> tuple[str, str | None]:
 
 def main() -> None:
     args = parse_args()
-    run_dirs = sorted({Path(p) for pattern in args.runs for p in glob.glob(pattern) if Path(p).is_dir()})
+    run_dirs = (sorted({Path(p) for pattern in args.runs for p in glob.glob(pattern) if Path(p).is_dir()})
+                if args.runs else shot_size_runs())
     if not run_dirs:
         raise SystemExit(f"Nenhuma pasta de seed encontrada para {args.runs}")
     if args.single:
@@ -202,7 +161,8 @@ def main() -> None:
     if args.label and len(args.images) != 1:
         raise SystemExit("--label só se usa com exatamente uma imagem")
 
-    models, processor, label_to_id, device, fs = load_models(run_dirs)
+    device = select_device()
+    models, processor, label_to_id = load_shot_size_models(run_dirs, device)
     classes = [c for c, _ in sorted(label_to_id.items(), key=lambda item: item[1])]
     if set(args.class_order) != set(classes):
         raise SystemExit(f"--class-order não corresponde às classes do modelo: {classes}")
@@ -211,7 +171,7 @@ def main() -> None:
     print(f"{len(models)} modelo(s) carregado(s) em {device}.")
 
     def run_one(image_path: str, label_text: str | None) -> None:
-        if not Path(image_path).is_file():
+        if not resolve_image_path(image_path).is_file():
             print(f"Ficheiro não encontrado: {image_path}")
             return
         try:
@@ -219,7 +179,7 @@ def main() -> None:
         except ValueError as error:
             print(error)
             return
-        probs = predict_probs(models, processor, device, fs, image_path)
+        probs = predict_probs(models, processor, device, image_path)
         report(image_path, probs, classes, rank, known, source, args.ambiguity_margin, args.show_models)
 
     if args.images:

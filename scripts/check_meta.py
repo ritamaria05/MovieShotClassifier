@@ -1,6 +1,6 @@
 import json, os, glob
 import pandas as pd
-from paths import CSV_DIR, SHOTBENCH_DIR, SHOTQA_META_DIR, TXT_DIR, ensure_output_dirs
+from scripts.paths import CSV_DIR, SHOTBENCH_DIR, SHOTQA_META_DIR, TXT_DIR, ensure_output_dirs
 
 ensure_output_dirs()
 

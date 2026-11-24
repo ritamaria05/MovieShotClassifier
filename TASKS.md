@@ -20,11 +20,10 @@
 - [ ] Create a virtual environment.
 - [ ] Install the project dependencies, including `scikit-learn`, `torch`,
   and `transformers`.
-- [ ] Obtain the ShotQA metadata files:
-  `ShotQA_meta/meta.jsonl`, `sft.json`, and `grpo.json`.
-- [ ] Obtain or extract the ShotQA images into `data_shotqa/` or
-  `data/raw/data_shotqa/`.
-- [ ] Obtain the ShotBench images in `ShotBench/image/`.
+- [ ] Obtain the ShotQA metadata files in `data/raw/ShotQA_meta/`:
+  `meta.jsonl`, `sft.json`, and `grpo.json`.
+- [ ] Obtain or extract the ShotQA images into `data/raw/data_shotqa/`.
+- [ ] Obtain the ShotBench images in `data/raw/ShotBench/image/`.
 - [ ] Record the Python version, package versions, dataset versions, and model
   revision so the experiment can be reproduced.
 
@@ -33,11 +32,11 @@
 - [ ] Run `make_annotations.py`.
 - [ ] Run `build_labels.py`.
 - [ ] Run `final_labels.py`.
-- [ ] Download/extract every image listed in `txt/lista_extrair.txt`.
+- [ ] Download/extract every image listed in `outputs/txt/lista_extrair.txt`.
 - [ ] Run `verify.py` and resolve missing images.
 - [ ] Run `check_meta.py` and inspect label/metadata disagreements.
 - [ ] Run `check_overlap.py` and investigate unexpected overlap.
-- [ ] Run `build_dataset.py` (or `python scripts/prepare_data.py` for all
+- [ ] Run `python -m scripts.build_dataset` (or `python -m scripts.prepare_data` for all
   preparation steps).
 - [ ] Confirm that the generated split files contain the expected classes and
   that films do not cross from training into the ShotBench test set.

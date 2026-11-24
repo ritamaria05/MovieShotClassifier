@@ -1,6 +1,6 @@
 import json, re, os, glob
 import pandas as pd
-from paths import CSV_DIR, SHOTQA_META_DIR, TXT_DIR, ensure_output_dirs
+from scripts.paths import CSV_DIR, SHOTBENCH_DIR, SHOTQA_META_DIR, TXT_DIR, ensure_output_dirs
 
 ensure_output_dirs()
 data = json.load(open(SHOTQA_META_DIR / 'sft.json'))
@@ -44,7 +44,7 @@ print('\nimagens por dimensão:\n', piv.sum())
 print('\nimagens com ambas as dimensões:\n', piv.T.dot(piv))
 
 stem = lambda p: os.path.splitext(os.path.basename(p))[0]
-sb = {stem(p) for p in glob.glob('ShotBench/image/*')}
+sb = {stem(p) for p in glob.glob(str(SHOTBENCH_DIR / 'image' / '*'))}
 qa = {stem(p) for p in df['image']}
 print('\nimagens em comum com o ShotBench:', len(sb & qa))
 

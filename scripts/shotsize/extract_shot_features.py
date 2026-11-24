@@ -1,25 +1,19 @@
 # pyright: reportMissingImports=false
 # pyright: reportMissingModuleSource=false
-import sys
-from pathlib import Path
 
 import cv2
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-ROOT = Path(__file__).resolve().parents[2]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
-from scripts.paths import DATA_PROCESSED_DIR, SPLITS_DIR
+from scripts.paths import DATA_PROCESSED_DIR, resolve_image_path, split_file
 
 cascade_path = cv2.data.haarcascades + "haarcascade_frontalface_alt2.xml"
 cascade = cv2.CascadeClassifier(cascade_path)
 
 
 def extract_features(path: str) -> tuple[float, float, float, float, float]:
-    image = cv2.imread(path)
+    image = cv2.imread(str(resolve_image_path(path)))
 
     if image is None:
         raise FileNotFoundError(f"Could not read image: {path}")
@@ -61,7 +55,7 @@ def extract_features(path: str) -> tuple[float, float, float, float, float]:
 
 
 def extract_split(split: str) -> None:
-    input_path = SPLITS_DIR / f"{split}_shot_size.csv"
+    input_path = split_file(f"{split}_shot_size.csv")
 
     frame = pd.read_csv(input_path)
 

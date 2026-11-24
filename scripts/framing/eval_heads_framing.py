@@ -2,7 +2,7 @@
 Compare heads on cached frozen SigLIP embeddings (framing and/or shot_size).
 Selection: GroupKFold by film over train+val (macro-F1); final fit on train+val; test with the
 same strict/lenient metrics as embed_framing.py. Never recomputes embeddings.
-Usage: python scripts/framing/eval_heads_framing.py [--dims framing shot_size] [--root DIR] [--out DIR]
+Usage: python -m scripts.framing.eval_heads_framing [--dims framing shot_size] [--root DIR] [--out DIR]
 Inputs default to the project root; output defaults to ROOT/outputs. Relative
 overrides are resolved from the current directory.
 """
@@ -15,8 +15,8 @@ from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classifi
 from sklearn.model_selection import GroupKFold
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
-from MovieShotClassifier.scripts.framing.mlp_head import MLP_GRID, make_mlp
-from scripts.paths import ROOT
+from scripts.framing.mlp_head import MLP_GRID, make_mlp
+from scripts.paths import ROOT, embedding_file, prepare_report, split_file
 
 warnings.filterwarnings('ignore')
 HEADS = {
@@ -31,9 +31,9 @@ HEADS = {
 }
 js = lambda p: {k: (list(v) if isinstance(v, tuple) else v) for k, v in p.items()}
 def run(dim, root, out, folds):
-    ld = lambda s: pd.read_csv(root / 'splits' / f'{s}_{dim}.csv')
+    ld = lambda s: pd.read_csv(split_file(f'{s}_{dim}.csv', root))
     tr, va, te = ld('train'), ld('val'), ld('test')
-    Xtr, Xva, Xte = [np.load(root / 'emb' / f'{s}_{dim}.npy') for s in ['train', 'val', 'test']]
+    Xtr, Xva, Xte = [np.load(embedding_file(f'{s}_{dim}.npy', root)) for s in ['train', 'val', 'test']]
     for d, X in [(tr, Xtr), (va, Xva), (te, Xte)]:
         assert len(d) == len(X), f'{dim}: embedding/CSV row mismatch'
     X = np.vstack([Xtr, Xva])
@@ -66,15 +66,15 @@ def run(dim, root, out, folds):
         m = metrics[name]
         print(f"[{dim}] TEST {name}: strict acc {m['test_strict_acc']:.3f} macro-F1 "
               f"{m['test_strict_macro_f1']:.3f} lenient {m['test_lenient_acc']:.3f}")
-    with (out / f'{dim}_heads_metrics.json').open('w') as f:
+    with prepare_report(out, f'{dim}_heads_metrics.json', root).open('w') as f:
         json.dump({'selected': selected, 'metrics': metrics, 'cv_grid': cv}, f, indent=2)
     pd.DataFrame({'path': te['path'], 'label': te['label'], 'multi': te['multi'],
-                  **{f'pred_{n}': p for n, p in preds.items()}}).to_csv(out / f'{dim}_heads_predictions.csv', index=False)
+                  **{f'pred_{n}': p for n, p in preds.items()}}).to_csv(prepare_report(out, f'{dim}_heads_predictions.csv', root), index=False)
     sel = preds[selected]
     rep = classification_report(te.label[single], sel[single], digits=3, zero_division=0)
-    (out / f'{dim}_report_{selected}.txt').write_text(rep, encoding='utf-8')
+    prepare_report(out, f'{dim}_report_{selected}.txt', root).write_text(rep, encoding='utf-8')
     cm = pd.DataFrame(confusion_matrix(te.label[single], sel[single], labels=labels), index=labels, columns=labels)
-    cm.to_csv(out / f'{dim}_confusion_{selected}.csv')
+    cm.to_csv(prepare_report(out, f'{dim}_confusion_{selected}.csv', root))
     print(f'[{dim}] selected {selected}\n{rep}\n{cm}')
     bad = single & (sel != te.label.values)
     w = te[bad][['path', 'label']].copy()
@@ -82,7 +82,7 @@ def run(dim, root, out, folds):
     focus = {'over the shoulder', '3 shot', 'group shot'} if dim == 'framing' else set()
     w['focus'] = w['label'].isin(focus) | w['pred'].isin(focus)
     w.sort_values(['focus', 'label'], ascending=[False, True]).to_csv(
-        out / f'{dim}_misclassified_{selected}.csv', index=False)
+        prepare_report(out, f'{dim}_misclassified_{selected}.csv', root), index=False)
     print(f'[{dim}] misclassified {len(w)} of {single.sum()}')
     
 if __name__ == '__main__':

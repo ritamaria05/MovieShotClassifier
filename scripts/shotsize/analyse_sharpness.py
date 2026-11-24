@@ -1,7 +1,7 @@
-from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from scripts.paths import DATA_PROCESSED_DIR, OUTPUTS_DIR, prepare_report
 
 
 CLASS_ORDER = [
@@ -14,13 +14,13 @@ CLASS_ORDER = [
     "extreme wide",
 ]
 
-output_dir = Path("data/processed/sharpness_analysis")
+output_dir = OUTPUTS_DIR / "sharpness_analysis"
 output_dir.mkdir(parents=True, exist_ok=True)
 
 results = {}
 
 for split in ("train", "val", "test"):
-    frame = pd.read_csv(f"data/processed/shot_features_{split}.csv")
+    frame = pd.read_csv(DATA_PROCESSED_DIR / f"shot_features_{split}.csv")
 
     # Exclude multi-label rows from this shot-size analysis
     single = frame.loc[~frame["label"].str.contains(",")]
@@ -52,10 +52,11 @@ for split in ("train", "val", "test"):
         .reset_index()
     )
     stats["median_log"] = np.log1p(stats["median"])
-    stats.to_csv(output_dir / f"sharpness_stats_{split}.csv", index=False)
+    stats.to_csv(prepare_report(output_dir, f"sharpness_stats_{split}.csv"), index=False)
     results[split] = stats
 
-print("Results saved to:", output_dir)
+print("Plots saved to:", output_dir)
+print("CSV reports saved to:", prepare_report(output_dir, "sharpness_stats_train.csv").parent)
 
 for split, stats in results.items():
     print(f"\n{split}")

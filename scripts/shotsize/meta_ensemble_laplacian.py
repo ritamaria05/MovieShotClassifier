@@ -9,14 +9,15 @@ from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import GroupKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
+from scripts.paths import DATA_PROCESSED_DIR, ensemble_artifacts, split_file
 
 
-ENSEMBLE_DIR = Path("data/processed/finetune_shotsize_protocol/ensemble")
-PROCESSED_DIR = Path("data/processed")
-OUTPUT_DIR = Path("data/processed/meta_ensemble_laplacian")
+METRICS_PATH, PREDICTIONS_DIR, PROBS_DIR = ensemble_artifacts()
+PROCESSED_DIR = DATA_PROCESSED_DIR
+OUTPUT_DIR = DATA_PROCESSED_DIR / "meta_ensemble_laplacian"
 
 ensemble_metrics = json.loads(
-    (ENSEMBLE_DIR / "ensemble_metrics.json").read_text(encoding="utf-8")
+    METRICS_PATH.read_text(encoding="utf-8")
 )
 
 classes = ensemble_metrics["classes"]
@@ -27,11 +28,11 @@ def load_split(split: str):
     features = pd.read_csv(PROCESSED_DIR / f"shot_features_{split}.csv")
 
     ensemble_probs = np.load(
-        ENSEMBLE_DIR / f"probs_{split}_plain.npy"
+        PROBS_DIR / f"probs_{split}_plain.npy"
     )
 
     predictions = pd.read_csv(
-        ENSEMBLE_DIR / f"predictions_{split}_plain.csv"
+        PREDICTIONS_DIR / f"predictions_{split}_plain.csv"
     )
 
     if len(features) != len(ensemble_probs):
@@ -52,7 +53,7 @@ def load_split(split: str):
     y = features["label"].map(class_to_id).to_numpy()
 
     if split == "val":
-        split_frame = pd.read_csv(PROCESSED_DIR / "splits/val_shot_size.csv")
+        split_frame = pd.read_csv(split_file("val_shot_size.csv"))
 
         if "film" not in split_frame.columns:
             raise ValueError("val_shot_size.csv is missing the film column")

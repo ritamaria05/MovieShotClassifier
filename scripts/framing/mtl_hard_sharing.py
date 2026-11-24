@@ -4,7 +4,7 @@ Hard-parameter-sharing MLP (shared layer + shot_size head + framing head) on fro
 embeddings, with masked loss, vs single-task MLPs with the same architecture/protocol.
 Few images carry both labels, so each image contributes only to the heads it has a label for.
 Epoch chosen by val macro-F1 (mean over tasks for MTL); test reported at that epoch.
-Usage: python scripts/mtl_hard_sharing.py [--seeds 5] [--root DIR] [--out DIR]
+Usage: python -m scripts.framing.mtl_hard_sharing [--seeds 5] [--root DIR] [--out DIR]
 By default, inputs come from the project root and output goes to its outputs directory.
 Relative --root and --out paths are resolved from the current working directory.
 """
@@ -12,7 +12,7 @@ import argparse, json
 from pathlib import Path
 import numpy as np, pandas as pd, torch, torch.nn as nn
 from sklearn.metrics import accuracy_score, f1_score
-from paths import ROOT
+from scripts.paths import ROOT, embedding_file, prepare_report, split_file
 
 DIMS = ['shot_size', 'framing']
 def load(root):
@@ -20,8 +20,8 @@ def load(root):
     for s in ['train', 'val', 'test']:
         rows = {}
         for d in DIMS:
-            df = pd.read_csv(root / 'splits' / f'{s}_{d}.csv')
-            X = np.load(root / 'emb' / f'{s}_{d}.npy')
+            df = pd.read_csv(split_file(f'{s}_{d}.csv', root))
+            X = np.load(embedding_file(f'{s}_{d}.npy', root))
             assert len(df) == len(X)
             for i, p in enumerate(df['path']):
                 r = rows.setdefault(p, {'x': X[i]})
@@ -116,5 +116,5 @@ if __name__ == '__main__':
         summary[k] = {'test_acc_mean': acc.mean(), 'test_acc_std': acc.std(),
                       'test_macro_f1_mean': f.mean(), 'test_macro_f1_std': f.std(), 'runs': v}
         print(f'{k}: acc {acc.mean():.3f}+-{acc.std():.3f}  macro-F1 {f.mean():.3f}+-{f.std():.3f}')
-    with (out / 'mtl_hard_sharing_metrics.json').open('w') as f:
+    with prepare_report(out, 'mtl_hard_sharing_metrics.json', a.root).open('w') as f:
         json.dump(summary, f, indent=2, default=float)

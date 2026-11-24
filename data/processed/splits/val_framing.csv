@@ -1,0 +1,956 @@
+path,label,film
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ULTDLGYY.jpg,insert,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NYB6I0YK.jpg,3 shot,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/USDT27NV.jpg,3 shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CLA5SK8J.jpg,single,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CQ1QK9ZF.jpg,group shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZFQ34WT4.jpg,single,Glass Onion: A Knives Out Mystery
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GWTBL2AX.jpg,insert,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6WE0P7YT.jpg,3 shot,Ophelia
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/IW98YQVO.jpg,2 shot,The Florida Project
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/P9YDZ4MB.jpg,insert,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/T5IXQX8V.jpg,single,Past Lives
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/H8LJ9AY1.jpg,over the shoulder,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DJ3P9VIZ.jpg,insert,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/UTSXFVXC.jpg,single,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OYKKRJHN.jpg,insert,Jockey
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4RQGVXTR.jpg,3 shot,Fear and Loathing in Las Vegas
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Z3IDB6XL.jpg,single,Fresh
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3FJ182BJ.jpg,insert,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TGF4Q26W.jpg,over the shoulder,On the Count of Three
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/8KP0WSWJ.jpg,group shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/E0AM2C1E.jpg,single,Happening
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/XCQVFA09.jpg,over the shoulder,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SCL53C63.jpg,single,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2BZF9B53.jpg,2 shot,Avengers: Age of Ultron
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CXLGXL24.jpg,establishing shot,Fear and Loathing in Las Vegas
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/B6756MHC.jpg,group shot,A Tale of Summer
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/IML8M70W.jpg,single,Dallas Buyers Club
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VU2FIX5E.jpg,single,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MY5IQUKQ.png,group shot,
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PGKY7CBZ.jpg,insert,Fear and Loathing in Las Vegas
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PBMD9OKA.jpg,insert,The Night House
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/I5LJYW3A.jpg,insert,Last Night in Soho
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YL77EPDR.jpg,3 shot,Knock at the Cabin
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/U30HVDMT.jpg,single,The Last Waltz
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EZPQFRHQ.jpg,group shot,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/B8ABCVOM.jpg,2 shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1XWN6EY3.jpg,2 shot,A Tale of Summer
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/E3005SA5.jpg,single,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PF6ALJWD.jpg,insert,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/697HOBP9.jpg,single,Atlanta
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PJCXCNVG.jpg,2 shot,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/IWILUZ8N.jpg,3 shot,God's Creatures
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MSNZFH0D.jpg,3 shot,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7OGCO1ZW.jpg,single,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KIDBFAJH.jpg,2 shot,Little Miss Sunshine
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9020V86B.jpg,single,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4V8M47Z8.jpg,3 shot,Tomorrowland
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YVA53K8R.jpg,group shot,The Half of It
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/8T8K83Y9.jpg,insert,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/C8VUGPVV.jpg,group shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PJA7QS71.jpg,2 shot,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BF232INT.jpg,single,Past Lives
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PP2JU7KU.jpg,insert,Wuthering Heights
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/G8QL3DDI.jpg,group shot,Midnight in Paris
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/X83C731T.jpg,insert,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QKOY000M.jpg,insert,Malcolm & Marie
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/03LRGHKE.jpg,insert,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YLM2EJQL.jpg,insert,On the Count of Three
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JI43FG4A.jpg,group shot,Ma Rainey's Black Bottom
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/K3Y9I0QS.jpg,insert,"The Weeknd - ""Blinding Lights"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YWGO769Y.jpg,insert,Farewell Amor
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Y5K9EYO8.jpg,2 shot,I May Destroy You
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MO3OLUVR.jpg,3 shot,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VHTTQV19.jpg,single,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VXCTA25Q.jpg,single,Nobody
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/E9UU2ZB3.jpg,group shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GRDNS7R1.jpg,insert,Out of the Furnace
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/W44EXL0E.jpg,establishing shot,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7QNIS3G8.jpg,single,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1BU1A71Y.jpg,insert,Barton Fink
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Z8SRV4JH.jpg,3 shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/90VGIPL3.jpg,over the shoulder,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TFO3TZT0.jpg,group shot,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/34DC7NP1.jpg,single,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JHKL6UVH.jpg,group shot,Barry
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/K5B9Z01X.jpg,3 shot,The Half of It
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QYAQ6WPH.jpg,insert,Barton Fink
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MDLM4M22.jpg,3 shot,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GW7MYL4C.jpg,insert,Jockey
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CF5WVDVL.jpg,2 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/XRPYO7C1.jpg,group shot,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BODK0LMI.jpg,3 shot,Pinocchio
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LXD0TGT7.jpg,group shot,Burning
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/W7PWUGCV.jpg,over the shoulder,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0TXAKU8B.jpg,insert,Pinocchio
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MPA4UE0G.jpg,establishing shot,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ET73YUYY.jpg,group shot,Ma Rainey's Black Bottom
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4ST2HX9O.jpg,single,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/66C2S1LA.jpg,insert,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZDQXHAE3.jpg,2 shot,I May Destroy You
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7QCTYTW3.jpg,3 shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6U0Q5I4F.jpg,3 shot,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NT4L9YL6.jpg,2 shot,Nocturnal Animals
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RJCMOCL3.jpg,establishing shot,"Husky - ""Never-Ever"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5I3XJ6HZ.jpg,single,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FU8KMFU4.jpg,group shot,The French Dispatch
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NDE04KKX.jpg,3 shot,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/IN9N5ANX.jpg,insert,Jockey
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GO77KWLY.jpg,single,The Assistant
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ER4DP8JL.jpg,insert,"Sohn - ""Hard Liquor"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/X02UHCFK.jpg,single,Barry
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JWOC65I1.jpg,over the shoulder,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DEGWPR4U.jpg,3 shot,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/G59ZK30M.jpg,single,Watcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/03RK9RY4.jpg,group shot,Barfi!
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9L46SRTP.jpg,3 shot,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GXA4SAOQ.jpg,insert,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5HZDK95O.jpg,insert,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NG3LNA5L.jpg,single,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5ELKVIO0.jpg,2 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Q08U44XC.jpg,over the shoulder,Wuthering Heights
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YBYAX6Y5.jpg,2 shot,The King's Speech
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PT30PEWE.jpg,insert,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7N0YXVMS.jpg,single,Don't Breathe
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/A551S4LP.jpg,group shot,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HX7QHU58.jpg,insert,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AURRQ0F9.jpg,single,A Hidden Life
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SPUKD605.jpg,single,Maid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4BE95MSP.jpg,2 shot,Law of Desire
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CHTBS2R9.jpg,2 shot,Jockey
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OBMSSICJ.jpg,group shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KZJ91X4P.jpg,2 shot,Ophelia
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QKLOXA6N.jpg,establishing shot,Don't Breathe
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FA5SWB8J.jpg,single,Beach Rats
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/S2IDKG1Z.jpg,2 shot,God's Creatures
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/IRDFDEKU.jpg,2 shot,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OVGC5CX4.jpg,insert,Out of the Furnace
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KUSZSM3V.jpg,insert,Beach Rats
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DPGCQIKY.jpg,3 shot,Head
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CAZIJVSQ.jpg,single,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2SP1VKKV.jpg,single,Head
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/C4RJRJNL.jpg,3 shot,Nope
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/926A671C.jpg,insert,"Sohn - ""Hard Liquor"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/V0SZX5VE.jpg,insert,Wuthering Heights
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ULQKVY9P.jpg,establishing shot,Out of the Furnace
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WV2M9H8H.jpg,2 shot,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HXWRUEXD.jpg,insert,Jockey
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/XKOIX1HY.jpg,group shot,A Tale of Summer
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VUCHO5KH.jpg,3 shot,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/V1KF2RP1.jpg,insert,The Post
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YJT420TZ.jpg,single,First Reformed
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9V36I5CO.jpg,group shot,Barfi!
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2M7V1G8D.jpg,establishing shot,Cusp
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JQICDRSA.jpg,2 shot,The Night House
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/212EM828.jpg,single,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/E8V052TP.jpg,group shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HRCJ6H6W.jpg,establishing shot,Don't Breathe
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JTTT8ER3.jpg,2 shot,The Florida Project
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9LSN15AY.jpg,3 shot,Farewell Amor
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QDF4CNJ1.jpg,group shot,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/UTPXB5Q3.jpg,single,Watcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RUUDLQLL.jpg,2 shot,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/87OORFI9.jpg,single,Little Miss Sunshine
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/I91W1F5J.jpg,2 shot,Fences
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4ZE5MLEF.jpg,establishing shot,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YJTXT88P.jpg,single,"Sohn - ""Hard Liquor"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HUYNVS56.jpg,insert,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/8V1SNABY.jpg,single,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YOCGHARV.jpg,insert,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LWD9FEVV.jpg,2 shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/87P43CF2.jpg,single,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QPC90CJS.jpg,single,Cusp
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FIIH6ZM1.jpg,2 shot,Pariah
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6XI7TFX6.jpg,single,Jockey
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KYFCWDFE.jpg,group shot,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VAXB1YIZ.jpg,establishing shot,Antlers
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WDDXINYG.jpg,single,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TECJLFXK.jpg,single,Barry
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BMWDEAQE.jpg,over the shoulder,Wuthering Heights
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CLOOAKSK.jpg,single,Ma Rainey's Black Bottom
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2R7973EM.jpg,single,The Night House
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Q7IF0S3S.jpg,insert,"Halsey - ""Graveyard"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QGZ3GSEC.jpg,single,Tenet
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FZ269PS1.jpg,2 shot,Little Miss Sunshine
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0J9UNUQT.jpg,group shot,Knock at the Cabin
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SVCIE21J.jpg,over the shoulder,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/C7H51CHB.jpg,over the shoulder,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9U7EGP6I.jpg,insert,Maid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/731ZZWXA.jpg,insert,Barry
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/46TDTG50.jpg,group shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DOY6KR58.jpg,group shot,The Half of It
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MAYPYMKT.jpg,over the shoulder,Miss Juneteenth
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QGJ3Y9VT.jpg,group shot,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Z05OMDDE.JPG,over the shoulder,
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/N9FNBEH8.jpg,establishing shot,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/47DVLPBW.jpg,single,Wildlife
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DNQW6DZB.jpg,establishing shot,Maid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/8J5PJOR9.jpg,single,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PXIVCYZN.jpg,establishing shot,Ma Rainey's Black Bottom
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/96HC7BID.jpg,3 shot,Knock at the Cabin
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BJ3CKP2I.jpg,establishing shot,"The Weeknd - ""Blinding Lights"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WO1HJ5PR.jpg,group shot,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5YA6VSQC.jpg,establishing shot,First Reformed
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EYYGKF34.jpg,single,Law of Desire
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/J40VJW90.jpg,insert,First Reformed
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2USAAM2M.jpg,group shot,Last Night in Soho
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/N1YY17HE.jpg,2 shot,Little Miss Sunshine
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/11DJDVFT.jpg,single,BlacKkKlansman
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QAUY7NW5.jpg,3 shot,Law of Desire
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/V4BIMXNW.jpg,single,The Lost Daughter
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FRMPD4I7.jpg,3 shot,Knock at the Cabin
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/8GSGQD13.jpg,over the shoulder,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RII9DDMX.jpg,3 shot,Knock at the Cabin
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1DWXRNDH.jpg,single,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/UQ1DH8JQ.jpg,2 shot,Barfi!
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5HJCGVVO.jpg,group shot,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/F8UWDSX4.jpg,insert,Miss Juneteenth
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KEWB810I.png,group shot,
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1ZZHN2RQ.jpg,3 shot,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/XFL0KLRY.jpg,single,Maid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1EJ05BLD.jpg,3 shot,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NJRHKR3W.jpg,3 shot,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GJUBA045.jpg,insert,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/R6V1LJPM.jpg,3 shot,Ophelia
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/POJEVUS0.jpg,single,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JND1ZSKE.jpg,single,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Z0R0QYL6.jpg,2 shot,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CIMBOZAH.jpg,3 shot,Law of Desire
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JYVRCG3W.jpg,3 shot,Nocturnal Animals
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JUT9VWL9.jpg,insert,Beasts of the Southern Wild
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZTC6T20S.jpg,over the shoulder,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OI0STK53.jpg,group shot,Dallas Buyers Club
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4B7SF9D6.jpg,insert,Glass Onion: A Knives Out Mystery
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7N2LXATQ.jpg,single,Happening
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OLHWSUMH.jpg,single,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BHO827WS.jpg,3 shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0Z16NTGI.jpg,insert,First Reformed
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZS7ZMDED.jpg,2 shot,Ophelia
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Y4ISIRL1.jpg,single,The Night House
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4ZTMKOKU.jpg,group shot,A Hidden Life
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YG8HVK4U.jpg,group shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/J36TBRMH.jpg,single,Barton Fink
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SAWPDYQ4.jpg,single,Barry
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/85KALOX5.jpg,group shot,Antlers
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/D94QVEH9.jpg,3 shot,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/N3H56Q7G.jpg,group shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/M5ET0Y6S.jpg,single,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HJF7SEDJ.jpg,insert,Maid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/72624D9H.jpg,single,Nobody
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RADNLNJN.jpg,insert,Fresh
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GXB97FLO.jpg,single,Barry
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/B5DALTZN.jpg,3 shot,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DZNBK36O.png,group shot,
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GW3G7BZ1.jpg,single,News of the World
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7YVPM6MH.jpg,single,Event Horizon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2IM7R2DS.jpg,group shot,Burning
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/58YN794P.jpg,3 shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MJNHRG5K.jpg,establishing shot,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/F8VWAV38.jpg,group shot,Out of the Furnace
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7CD78Q7M.jpg,3 shot,Watcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/74BKH0VV.jpg,insert,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/11X535YY.jpg,2 shot,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KC5OUEHQ.jpg,establishing shot,Midnight in Paris
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KFOZZ7OZ.jpg,2 shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FZMALCPN.jpg,2 shot,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0Z1Z2TBS.jpg,3 shot,Wildlife
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GZKGFLNX.jpg,3 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JW4M0NSH.jpg,single,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LCDLBPHM.jpg,group shot,Knock at the Cabin
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BA5LWEPB.jpg,single,God's Creatures
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PND24M5F.jpg,3 shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6HOHQJ37.jpg,group shot,The Post
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/E64GZF3H.jpg,group shot,The Last Waltz
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EHN10BFQ.jpg,2 shot,The King's Speech
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KEBYESCN.jpg,3 shot,Barfi!
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EBG9N0YK.jpg,single,Beach Rats
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/S11L6F8P.jpg,2 shot,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7F81BWS6.jpg,over the shoulder,Out of the Furnace
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/78HVG0KN.jpg,2 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TBH5BD0B.jpg,over the shoulder,Don't Breathe
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QQ74EXHV.jpg,single,A Hidden Life
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1648TCYV.jpg,single,I May Destroy You
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/8LWNUZQL.jpg,2 shot,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DKOKLH3A.jpg,insert,Antlers
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/P9GZUWCW.jpg,insert,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SNAV4RQO.jpg,single,Nope
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JM087LAL.jpg,insert,Fear and Loathing in Las Vegas
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/W505491Z.jpg,2 shot,Tenet
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MEE3VEYC.jpg,group shot,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/O4N0K11A.jpg,group shot,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4PY00LLF.jpg,group shot,The Florida Project
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/164XTQMO.jpg,insert,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/20YYWUP1.jpg,2 shot,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WKN2R20C.jpg,single,Atlanta
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MG3YJ387.jpg,group shot,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RXR1HDLL.jpg,insert,Nobody
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4BVYFOCN.png,2 shot,
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/S76KA0UD.jpg,single,Law of Desire
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QFBFAQGG.png,establishing shot,
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KRI0F2HN.jpg,insert,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SNA1JRYI.jpg,single,Law of Desire
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/X9ZV1TB0.jpg,single,Little Miss Sunshine
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TK4KJ8C6.jpg,single,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LZVIMPCJ.jpg,single,Miss Juneteenth
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/UO4RTIXX.jpg,3 shot,Nebraska
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/93O55LYV.jpg,single,Maid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/N4UHHGNA.jpg,group shot,I May Destroy You
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TTAJBVJ1.jpg,establishing shot,Out of the Furnace
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BU4X8TTQ.jpg,establishing shot,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/UID88AI2.jpg,insert,Don't Breathe
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FHIYEKXI.jpg,2 shot,A Tale of Summer
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KTBI4LZI.jpg,2 shot,Beach Rats
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QH4K9X8W.png,insert,
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WJ0ADKS9.jpg,3 shot,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WCYVQL22.jpg,insert,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/43QTXRIL.jpg,insert,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/L7LWLGCQ.jpg,3 shot,The Descendants
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/E6GSUFG7.jpg,insert,The Last Waltz
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AWMC9ECT.jpg,establishing shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YVBRLQWD.jpg,insert,Nope
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PB8H6XLA.jpg,2 shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3453YQ43.jpg,3 shot,Knock at the Cabin
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/XZOZ17EU.jpg,2 shot,Nope
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/531MGQJZ.jpg,3 shot,Nobody
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NFL4UWAZ.jpg,single,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NX2RVQY7.jpg,group shot,Antlers
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6UDX3PL7.jpg,single,Adaptation.
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PPM8CDYO.jpg,over the shoulder,Nope
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LIXK6IJ9.jpg,2 shot,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FXNM3CSQ.jpg,single,Last Night in Soho
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1WKDIS3S.jpg,group shot,Event Horizon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/8R95ICZB.jpg,establishing shot,"Moses Sumney - ""Quarrel"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YQMZ5P9R.jpg,2 shot,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AMPS0VXH.jpg,insert,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/L4NDE9OJ.jpg,3 shot,Barry
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OICG3H7C.jpg,establishing shot,Past Lives
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LAS7UEOM.jpg,2 shot,Burning
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/968I547J.jpg,3 shot,Farewell Amor
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/T0Y6YRRM.jpg,over the shoulder,Don't Breathe
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/25M2LEG7.jpg,single,Happening
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WNP9EV19.jpg,3 shot,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/UTACVWZJ.jpg,single,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZDDIRBXF.jpg,3 shot,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZJXEZ4O4.jpg,3 shot,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WG855I4M.jpg,2 shot,Pariah
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/K8AHOA3J.jpg,3 shot,The King's Speech
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/N0WMI7FS.jpg,insert,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YY1KVWL0.jpg,2 shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4KCK28HF.jpg,single,News of the World
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VXIML7DD.jpg,establishing shot,Philomena
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BXCQPGG6.jpg,single,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VROR1938.jpg,group shot,A Tale of Summer
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/J4RECJO0.jpg,single,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/IJ1JTAGN.jpg,insert,Glass Onion: A Knives Out Mystery
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/F55ASLUJ.jpg,group shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Q4LZ5UDM.jpg,2 shot,The Post
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/60F0Y7XX.jpg,3 shot,Ophelia
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/E652W7O0.jpg,group shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LI233H0Z.jpg,establishing shot,Nocturnal Animals
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/L9RQ47X3.jpg,group shot,A Hidden Life
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3OVCP9RZ.jpg,group shot,"Lapsley - ""My Love Was Like the Rain"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PI1JSNSK.jpg,insert,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1K8TIAG9.jpg,establishing shot,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/V1VJK2XD.jpg,establishing shot,Wuthering Heights
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OMQJUJ5U.jpg,group shot,The Post
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VHK68DOD.jpg,single,"Moses Sumney - ""Quarrel"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PBR1J678.jpg,single,On the Count of Three
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GXKUJR34.jpg,establishing shot,A Hidden Life
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AJ00O15U.jpg,establishing shot,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SBOB4GWT.jpg,insert,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BYO8HQKD.jpg,group shot,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7ZD5KNC7.jpg,2 shot,The Assistant
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FB59MXWC.jpg,3 shot,Wildlife
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ESADQSFO.jpg,2 shot,Glass Onion: A Knives Out Mystery
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ET1U57KL.jpg,insert,Nope
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9RTAUOHH.jpg,single,Knock at the Cabin
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CH460TYY.jpg,2 shot,The Florida Project
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/IWVPD9CN.jpg,3 shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7947M39K.jpg,group shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CYOEMLPQ.jpg,insert,Cusp
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ILB407VY.jpg,single,Midnight in Paris
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3MPBRGZT.jpg,3 shot,The Florida Project
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/W2L3VHUH.jpg,2 shot,Glass Onion: A Knives Out Mystery
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7VT0A0R0.jpg,2 shot,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/M4F98X0R.jpg,over the shoulder,Maid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AUIF0CXW.jpg,single,Little Miss Sunshine
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5WJDHMBL.jpg,2 shot,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0PF48M1M.jpg,2 shot,Tenet
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2CTX6WZM.jpg,insert,Miss Juneteenth
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AT4W7GE6.jpg,establishing shot,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OZ7ITLNI.jpg,insert,Beasts of the Southern Wild
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/US0WZRCG.jpg,single,Glass Onion: A Knives Out Mystery
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WJFBXYVF.jpg,3 shot,"Nio - ""Journey Ahead"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ENY6T2TW.jpg,insert,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/K71E668Y.jpg,establishing shot,Avengers: Age of Ultron
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CR1GWXYE.jpg,single,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LE5013WT.jpg,group shot,"Pharrell Williams feat. 21 Savage, Tyler the Creator - ""Cash In Cash Out"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/R22GEOXL.jpg,single,Ma Rainey's Black Bottom
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TJT5TNI1.jpg,group shot,Tomorrowland
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KF1I91AE.jpg,2 shot,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/A3CCHZDN.jpg,insert,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VZ71WYTB.jpg,single,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ASJYBAFX.jpg,single,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OGHKFK49.jpg,group shot,Watcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DGJSX4DZ.jpg,insert,"The Weeknd - ""Blinding Lights"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DAERJ9DV.jpg,insert,Little Miss Sunshine
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/X3PK8D8I.jpg,group shot,BlacKkKlansman
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FN31KEPG.jpg,2 shot,Wuthering Heights
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YPKM3D5L.jpg,establishing shot,The King's Speech
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MRS5X8S3.jpg,3 shot,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VRV5JIQ7.jpg,group shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NDQ33B92.jpg,group shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/IXOH9LCL.jpg,single,"Katarzia - ""Hoří i voda"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SEBFLLUV.jpg,2 shot,Wuthering Heights
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BGNK42K9.jpg,insert,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DZVFPKB6.jpg,insert,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/UVQ5906J.jpg,single,The Last Waltz
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/L9PZP4JA.jpg,single,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6HRK1RU0.jpg,3 shot,Pinocchio
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MM36SNRM.jpg,2 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0FDZ9F3N.jpg,3 shot,The Florida Project
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/D6C4BL2D.jpg,single,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/M6PTUEU5.jpg,single,Happening
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GEYGL5FR.jpg,2 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/R89WQOTV.jpg,single,The Lost Daughter
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5MP1EE0G.jpg,3 shot,The Post
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/W4JVRB2Q.jpg,insert,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HQ6LKXOA.jpg,3 shot,Ophelia
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/06GXPOW6.jpg,single,Beasts of the Southern Wild
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GV2S28F8.jpg,single,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BSG9ULIG.jpg,insert,Fresh
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/19SZV1DR.jpg,insert,Split
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3TR6YTDI.jpg,group shot,Head
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6FGVN9B6.jpg,3 shot,Burning
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/B2WVM5II.jpg,2 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZK175BBG.jpg,3 shot,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LA591K6P.jpg,2 shot,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ALBHFTN4.jpg,single,I May Destroy You
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RTM2YBW1.jpg,group shot,The Post
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WYGF23LO.jpg,single,Ophelia
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7NDFC4K5.jpg,establishing shot,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/IPFIHFWE.jpg,insert,Nobody
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OR5G56Z9.jpg,3 shot,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/94KPM7TK.jpg,single,Fear and Loathing in Las Vegas
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RR74KHPO.jpg,2 shot,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FST5CL9S.jpg,single,Miss Juneteenth
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4YKJF5FT.jpg,group shot,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KEZZG8MO.jpg,2 shot,Nobody
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WEIESHU4.jpg,2 shot,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2TL56ATN.jpg,group shot,Midnight in Paris
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BOJNFT0F.jpg,2 shot,I May Destroy You
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NNAQ2PZO.jpg,single,Tenet
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/8L0K42AR.jpg,group shot,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9G703KU0.jpg,single,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VFIJV7SI.jpg,2 shot,Cusp
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0VEMP3RX.jpg,3 shot,Beach Rats
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GP97IU08.jpg,single,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CG18COTQ.jpg,3 shot,Barry
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1AMUR26Q.jpg,over the shoulder,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/G8481Z3N.jpg,single,Fences
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Y7NG22JJ.jpg,insert,Miss Juneteenth
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/K1JMUV40.jpg,establishing shot,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9GZBB4S2.jpg,group shot,Last Night in Soho
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YIXPG9EH.jpg,establishing shot,Out of the Furnace
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3SXOVQY1.jpg,3 shot,Pinocchio
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/78JF5H9J.jpg,2 shot,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6P41F23B.jpg,3 shot,Farewell Amor
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7JQZUQ9L.jpg,2 shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AQ8GTEOG.jpg,single,The French Dispatch
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/S8AL25RB.jpg,insert,The Night House
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0W4GRKAY.jpg,single,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RHT5TS1P.jpg,2 shot,The Night House
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MDFW4A1R.jpg,establishing shot,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DTYF1WWF.jpg,3 shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/I1QWXLLQ.jpg,insert,Nocturnal Animals
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MSN6RX4J.jpg,insert,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PI9YDH72.jpg,establishing shot,Nope
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ETXAWNQ4.jpg,2 shot,Law of Desire
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KTNFNT2O.jpg,insert,I May Destroy You
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AG4L1M0B.jpg,2 shot,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/J2MK7M0R.jpg,group shot,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YB96H50S.jpg,establishing shot,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CEEBEIGL.jpg,single,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/UR10KPEY.jpg,group shot,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/L4QMPL5F.jpg,3 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SHG84LGJ.jpg,over the shoulder,Tomorrowland
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5AKGTXZ4.jpg,group shot,Knock at the Cabin
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JSKXYKOH.jpg,3 shot,The Last Waltz
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/521AL297.jpg,2 shot,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YQHCQS70.jpg,3 shot,Little Miss Sunshine
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VTG0O1DH.jpg,insert,"Halsey - ""Graveyard"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2B2WH6ZQ.jpg,2 shot,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QOBP0HDR.jpg,2 shot,Barton Fink
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DBJPW3EW.jpg,group shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7K2HMV0Q.jpg,group shot,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/A3OCIBMM.jpg,3 shot,Cusp
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SY42KHLY.jpg,group shot,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TCN0L3WF.jpg,single,Fences
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0JU9W37T.jpg,insert,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/266HN1XC.jpg,insert,Beach Rats
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/L13J5LUG.jpg,2 shot,First Reformed
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/S3GZML1T.jpg,single,Jockey
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RYAWUDJ9.jpg,group shot,The Last Waltz
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/95E9ONAZ.jpg,insert,Fresh
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FJI8ZLVO.jpg,group shot,Barry
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9887BLB7.jpg,insert,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HU50IC3G.jpg,insert,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/W2P6SZUW.jpg,establishing shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JPNFQRBL.jpg,insert,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6HPI1JWV.jpg,2 shot,The Lost Daughter
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BJ9T6X95.jpg,single,Out of the Furnace
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2V65HRDM.jpg,2 shot,Glass Onion: A Knives Out Mystery
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6ZG4XO2F.jpg,3 shot,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9B5PIBTY.jpg,establishing shot,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/568PF5KQ.jpg,3 shot,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/L5ML6TOQ.jpg,2 shot,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/87ZYFSS0.jpg,3 shot,Nocturnal Animals
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/E0NUTG6B.jpg,group shot,A Hidden Life
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5PI53O4S.jpg,3 shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZZZ78IRA.jpg,single,On the Count of Three
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4I4QZOZV.jpg,single,Pinocchio
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QDUQQFAS.jpg,3 shot,Tomorrowland
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EXESWRM2.jpg,2 shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6BY0UKNK.jpg,3 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DAFMY1UE.jpg,insert,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5D35A1Q1.jpg,group shot,Miss Juneteenth
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/K91A8EEX.jpg,establishing shot,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CIX1PYQR.jpg,single,I May Destroy You
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/R7HAZ6XL.jpg,insert,The Post
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RD1GXAMD.jpg,single,Maid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/UKI2R3U9.jpg,3 shot,Dallas Buyers Club
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/8FJXWQU8.jpg,over the shoulder,Little Miss Sunshine
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JMFKB6EZ.jpg,group shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/874A01G2.jpg,group shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3XNY93XM.jpg,single,Don't Breathe
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MP146DSB.jpg,over the shoulder,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7ZIBHV6B.jpg,group shot,The Post
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PVTGJKGM.jpg,insert,The King's Speech
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/20X62DT3.jpg,establishing shot,Nope
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DZ9VWQ7Z.jpg,single,Pariah
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZFYACEX5.jpg,single,God's Creatures
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WDHHCUT3.jpg,insert,Watcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MID1E0J5.jpg,establishing shot,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/A7J4VNCA.jpg,3 shot,I May Destroy You
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DVYG062Y.jpg,single,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7G0AF4UR.jpg,group shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/8J5R3EDK.jpg,insert,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4NFURJBB.jpg,single,Last Night in Soho
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KVOJLM16.jpg,single,Little Miss Sunshine
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GAU1NKND.jpg,3 shot,Don't Breathe
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MN3O5E5Q.jpg,insert,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HX4NUPCE.jpg,insert,The Assistant
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QJ1QL1Q7.JPG,group shot,
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LJW7T9S3.jpg,group shot,Beasts of the Southern Wild
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WXYFLLQ5.jpg,insert,Head
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0GN1BAAU.jpg,3 shot,The King's Speech
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/J7G4TKVM.jpg,over the shoulder,Atlanta
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1VF7AITQ.jpg,single,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FHANCREE.jpg,insert,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/46BRR90E.jpg,group shot,The French Dispatch
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/C59TSI79.jpg,group shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/V3OCAL6K.jpg,establishing shot,"Halsey - ""Graveyard"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/I2HMGKX6.jpg,3 shot,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HGFYTG6I.jpg,group shot,The Half of It
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VITOQCNG.jpg,group shot,Head
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4ATT2JWE.jpg,3 shot,Nope
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TC3PC02Q.jpg,2 shot,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Y6HHLMN7.jpg,single,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/P2DKT7XH.jpg,insert,The Night House
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QIG6FR41.jpg,over the shoulder,The King's Speech
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/68Y68RBB.jpg,single,Fences
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OUWLHMYO.jpg,single,Tenet
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SDCZZXXU.jpg,single,Barfi!
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6WRQQUGK.jpg,insert,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HHFYM6XE.jpg,3 shot,Tomorrowland
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/IJ40ZDVP.jpg,establishing shot,Atlanta
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/16N0UMKZ.jpg,single,Adaptation.
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YNNKKRWD.jpg,insert,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VXUH0I7H.jpg,group shot,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/017IMRFY.jpg,3 shot,Midnight in Paris
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6AR782FW.jpg,insert,The Post
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OBAK6R5N.jpg,2 shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/95YNZB7S.jpg,group shot,Head
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PPJHTFYQ.jpg,single,Pariah
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7RVF3K65.jpg,insert,Out of the Furnace
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YLKLYIUP.jpg,group shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AZZY04XZ.jpg,insert,The Night House
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5FZDBQTR.jpg,establishing shot,A Tale of Summer
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/XBYGPNE1.jpg,insert,The Lost Daughter
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TGWLWL4T.jpg,insert,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/892I65WK.jpg,insert,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DH8HMSNQ.jpg,group shot,Head
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/285SLELR.jpg,insert,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WY6JRVIP.jpg,establishing shot,Ma Rainey's Black Bottom
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WQUYDRYY.jpg,3 shot,Farewell Amor
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3BF2QK4C.jpg,3 shot,Farewell Amor
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5PSJTFDC.jpg,insert,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/K320KLW3.jpg,single,Nobody
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RPKJM6Y8.jpg,insert,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Z4PF1LY9.jpg,establishing shot,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5PW8IBQ2.jpg,group shot,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/S6VG3JAS.jpg,3 shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1Z2ZEDPO.jpg,group shot,The Night House
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FVFQPHE3.jpg,insert,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/K7K3JUY6.jpg,insert,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/UZYWNVAK.jpg,2 shot,The Lost Daughter
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GG1N9LT1.jpg,2 shot,Malcolm & Marie
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/XUJDCKJM.jpg,insert,Repo Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OV8APT82.jpg,2 shot,Farewell Amor
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VFBVFGB5.jpg,3 shot,Wildlife
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/G36PY6MZ.jpg,group shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3XMAVCAU.jpg,group shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/792GCI6S.jpg,3 shot,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FC4LDNN3.jpg,establishing shot,Tomorrowland
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DTBEJN4L.jpg,2 shot,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RWVY1Y03.jpg,2 shot,Atlanta
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3T7OO0UI.jpg,3 shot,News of the World
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/UH2R4FN9.jpg,2 shot,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EPUAL45O.jpg,single,Fences
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TYGRVC8H.jpg,insert,Atlanta
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/U3XKFGR7.jpg,insert,Pinocchio
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JKG5FECW.jpg,3 shot,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4JPQA24Z.jpg,single,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AHX1JEIM.jpg,single,Dallas Buyers Club
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/G4R2MF6G.jpg,single,Watcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4V27NRDP.jpg,3 shot,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3S7BXK5S.jpg,insert,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JV76PQE5.jpg,2 shot,Last Night in Soho
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZMR2KIFY.jpg,2 shot,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YR4FGRBE.jpg,3 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0LYX8QDP.jpg,2 shot,The Last Waltz
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DPCP7HOT.jpg,group shot,Head
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DXILQ3PT.jpg,single,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WXVHZVAY.jpg,3 shot,Glass Onion: A Knives Out Mystery
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/056LFWKS.jpg,group shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WGDW88DM.jpg,2 shot,Law of Desire
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/UK8ZPGLH.jpg,single,Barton Fink
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/503EUZC2.jpg,3 shot,Nobody
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KUD67AN0.jpg,establishing shot,The King's Speech
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/W3INPOK9.jpg,insert,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0BHKLZK7.jpg,group shot,Wuthering Heights
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JBOW9POV.jpg,2 shot,The Assistant
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/B4NX4ZZE.jpg,3 shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RUG7LXFX.jpg,insert,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RLLQWCIW.jpg,group shot,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/W4PWYE9D.jpg,single,Head
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AP5YBB6A.jpg,establishing shot,Wuthering Heights
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WN2QUSBW.jpg,single,"The Weeknd - ""Blinding Lights"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/8536W784.jpg,insert,Event Horizon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2NCR8X2X.jpg,2 shot,Last Night in Soho
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1VW1X8PO.jpg,3 shot,Beasts of the Southern Wild
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5Q3HBZ2F.jpg,over the shoulder,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/081PRKLD.jpg,3 shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LUZKAV52.jpg,establishing shot,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3M24MPU4.jpg,2 shot,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/97Q87R7N.jpg,3 shot,Nope
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QX69VAPQ.jpg,group shot,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6IZPHCCW.jpg,establishing shot,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VJMRDECZ.jpg,over the shoulder,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0GSVBAWL.jpg,establishing shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BXK6BW4Q.jpg,over the shoulder,Ma Rainey's Black Bottom
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RMCQVWQU.jpeg,over the shoulder,
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4WO3I4MJ.jpg,insert,Watcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Y0XJ2IFH.jpg,3 shot,God's Creatures
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/N2MQ4G95.jpg,insert,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EQZ5ACWE.jpg,group shot,Midnight in Paris
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ODFI29U8.jpg,single,Don't Breathe
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/IL26IJ82.jpg,2 shot,Barry
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NDI99HZN.jpg,single,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2FQJVAOV.jpg,insert,Fear and Loathing in Las Vegas
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BSGKO5DC.jpg,single,A Tale of Summer
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CQ8FAGKE.jpg,establishing shot,The King's Speech
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/K7WQL7GK.jpg,over the shoulder,The Lost Daughter
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AF4XIZ4U.jpg,single,Malcolm & Marie
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/P98O6UXV.jpg,2 shot,The Descendants
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/65LAHS0T.jpg,single,Last Night in Soho
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JQIC9V68.png,group shot,
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4M5V1G0A.jpg,3 shot,Dallas Buyers Club
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5AYC1RQ2.jpg,2 shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/P9HD609B.jpg,3 shot,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OAJNXOW7.jpg,establishing shot,The Post
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/58WS32YY.jpg,3 shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GB9EUNPF.jpg,insert,Little Miss Sunshine
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CO1DFJ7Z.jpg,establishing shot,Don't Breathe
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/O2QAE5LR.jpg,single,The Lost Daughter
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4T0AOE8A.jpg,3 shot,The Last Waltz
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NJBI3BGX.jpg,single,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6QU09XTG.jpg,insert,BlacKkKlansman
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/F9NCMQD8.jpg,2 shot,Wildlife
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/U5KYJH8L.jpg,insert,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/IC9WJQCR.jpg,2 shot,The Assistant
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/06F7N1IU.jpg,single,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZB0HZDIU.png,establishing shot,
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7Q5RI80J.jpg,over the shoulder,Atlanta
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AKOTXFVC.jpg,2 shot,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WRFUZMNW.jpg,group shot,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2LLH7JCJ.jpg,over the shoulder,Nebraska
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JJXQBCIE.jpg,single,"Sohn - ""Hard Liquor"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/U9XIXO3N.jpg,over the shoulder,Don't Breathe
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/30UTKZW7.jpg,group shot,Jockey
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Z1CTHR81.jpg,single,Last Night in Soho
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3749FRLU.jpg,group shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/IQ9HMJX2.jpg,establishing shot,"Versace - Dylan Blue - ""Fragrance Campaign"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QEXPKFYW.jpg,single,God's Creatures
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TQK3T1CE.jpg,insert,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ADNBLMAV.jpg,2 shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/05K81BXL.jpg,3 shot,Fear and Loathing in Las Vegas
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YXIRVOLC.jpg,single,Fear and Loathing in Las Vegas
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/08UXYDH5.jpg,3 shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KM6HYFUT.jpg,3 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9UZXRRNV.jpg,group shot,Nobody
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SFTPD72T.jpg,single,The Last Waltz
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WXNNSL1C.jpg,insert,Fresh
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TMCWSJMP.jpg,2 shot,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0U22TQ3A.jpg,establishing shot,Event Horizon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DLTUE26J.jpg,2 shot,Adaptation.
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6T100HDS.jpg,group shot,Event Horizon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3WUVXW0P.jpg,single,God's Creatures
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FXMF9CN8.jpg,over the shoulder,God's Creatures
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/O3JOKGIX.jpg,3 shot,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/S9I9ELP0.jpg,single,Watcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/G6C6YP5R.jpg,group shot,The King's Speech
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EHK8MHA7.jpg,2 shot,Repo Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OO46HJ6W.jpg,insert,Barton Fink
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ORMIQAE2.jpg,group shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PMRQW7ZL.jpg,single,Knock at the Cabin
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/XG9OBL2S.jpg,group shot,Beasts of the Southern Wild
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VGLNB8B5.jpg,2 shot,I May Destroy You
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/45DOI375.jpg,over the shoulder,"Pharrell Williams feat. 21 Savage, Tyler the Creator - ""Cash In Cash Out"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZYT4OMHU.jpg,single,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LGOKSKQT.jpg,insert,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/193X6JXW.jpg,3 shot,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QT9BDG0C.jpg,2 shot,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Q7N5PLQT.jpg,over the shoulder,God's Creatures
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/M50956Z0.jpg,2 shot,"Else - ""Ocean"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/T3YSYFOQ.jpg,2 shot,Ophelia
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Z5ZZU1FO.jpg,insert,Barfi!
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/X9MDVQVB.jpg,group shot,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/X6KJLUJM.jpg,insert,Glass Onion: A Knives Out Mystery
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Q0FZFV2I.jpg,2 shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EJCKP645.jpg,group shot,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/A4U1K02Z.jpg,insert,Event Horizon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AU17NV1R.jpg,establishing shot,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/K579N197.jpg,single,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VZ2ULCIG.jpg,group shot,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PI2O7V4W.jpg,3 shot,Tomorrowland
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OVIX24H7.jpg,insert,Knock at the Cabin
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DTHF7CAL.jpg,insert,Happening
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BMY4XRMA.jpg,insert,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/966KGXBF.jpg,group shot,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SUA864UB.jpg,3 shot,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VLBOVRF9.jpg,insert,Barry
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0P34PWBH.jpg,single,Fear and Loathing in Las Vegas
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DZYV2EHB.jpg,establishing shot,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LE2LEXZ4.jpg,insert,Little Miss Sunshine
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BLCJ19HH.jpg,2 shot,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9B7DT6OK.jpg,single,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WPWCC9JW.jpg,3 shot,Wildlife
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/847JU7BZ.jpg,2 shot,Fresh
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/K8X87H6O.jpg,group shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EQHZA352.jpg,3 shot,The Post
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DBCW9MKB.jpg,insert,Beach Rats
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SBCDYPLM.jpg,group shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HI97XMGU.jpg,2 shot,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MRKQVKAB.jpg,single,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0AUUWUAL.jpg,3 shot,Wuthering Heights
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/F0CVLAMP.jpg,2 shot,Midnight in Paris
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JGOLXSNL.jpg,insert,Malcolm & Marie
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/I9FMWRZE.jpg,single,Tenet
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RMEW2QWZ.jpg,establishing shot,Repo Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/206J024M.jpg,insert,Wuthering Heights
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/T02BWN5N.jpg,over the shoulder,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Q4EBBVYW.jpg,3 shot,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HSJHDNXT.jpg,establishing shot,A Hidden Life
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/XURN6YEI.jpg,single,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/M6RRLZFD.jpg,insert,"Pharrell Williams feat. 21 Savage, Tyler the Creator - ""Cash In Cash Out"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VZQ0I4IQ.jpg,group shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/D33WOOC2.jpg,3 shot,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WGGI6QYM.jpg,2 shot,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WLEN3BH5.jpg,2 shot,The Florida Project
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TVM695CU.jpg,2 shot,Event Horizon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6ZQAZV2G.jpg,insert,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QHUP8UWT.jpg,group shot,Last Night in Soho
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/G0I06DGT.jpg,3 shot,The Florida Project
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/XIOB8T6R.jpg,3 shot,Farewell Amor
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/09R0LRV0.jpg,insert,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/N4DOZ5E3.jpg,2 shot,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/G7TAILFY.jpg,single,Adaptation.
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QCJ4P5BA.jpg,group shot,Head
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/71MBIK3A.jpg,insert,Alien: Romulus
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1DYNSR76.jpg,group shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VTO63R9Z.jpg,insert,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DULLV9E2.jpg,3 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EKJO6ESX.jpg,2 shot,The Lost Daughter
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/J96EFKAV.jpg,group shot,Barry
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YXNKZFGS.jpg,over the shoulder,Maid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4Z9EGZTF.jpg,3 shot,Atlanta
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/S56NU8VU.jpg,group shot,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MXDJJYT8.jpg,3 shot,BlacKkKlansman
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MB096UT0.jpg,single,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SY39ETHX.jpg,single,Ma Rainey's Black Bottom
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JFKXO9TH.jpg,single,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OO2JQIPW.jpg,3 shot,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LWKQIL4T.jpg,single,Law of Desire
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OX6VZQK3.jpg,single,"Nio - ""Journey Ahead"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7FICC260.jpg,single,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/L4WEVRZB.jpg,over the shoulder,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Q2C4KD65.jpg,single,Barfi!
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MD155SF5.jpg,3 shot,The Florida Project
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GCEB36RC.jpg,single,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5L6BZBAF.jpg,2 shot,BlacKkKlansman
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FS8AN48A.jpg,insert,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/P6S9PEFW.jpg,group shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BK0RUPHD.jpg,2 shot,Tenet
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/F8LSEZ40.jpg,establishing shot,A Hidden Life
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/44T59S5D.jpg,2 shot,A Hidden Life
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2GTDALWZ.jpg,3 shot,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EP0WXK2W.jpg,insert,God's Creatures
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RH8MLV2J.jpg,over the shoulder,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Q8IMRI6V.jpg,single,Maid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CNY7847N.jpg,2 shot,Wildlife
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VQV83Q6S.jpg,insert,Barfi!
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HOV02QOB.jpg,insert,Barton Fink
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/D34KQ1TF.jpg,establishing shot,Event Horizon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/290CITSP.jpg,3 shot,Nope
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1RGSBALZ.jpg,single,Nobody
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3I8ILX7R.jpg,single,Happening
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KJDGFBVY.jpg,group shot,Head
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WB46KC0X.jpg,3 shot,Fences
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/R9X770N2.jpg,insert,Avengers: Age of Ultron
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/G95GJ2Y5.jpg,single,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RHJLFHGD.jpg,3 shot,Barfi!
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/H4459FWR.jpg,group shot,The Last Waltz
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NE5M6B6B.jpg,single,Nocturnal Animals
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PLU6DC1K.jpg,2 shot,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/5O38P85C.jpg,3 shot,The Florida Project
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/A26GMYSS.png,2 shot,
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BJ9BWTG7.jpg,group shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/S1T695Q6.jpg,group shot,God's Creatures
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CU8RABN4.jpg,2 shot,Knock at the Cabin
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZOWBPVXI.jpg,3 shot,Jockey
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/E6NDTBUD.jpg,over the shoulder,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QHULLNU7.jpg,2 shot,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/O8I5417N.jpg,single,Malcolm & Marie
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JCL2LVP0.jpg,single,Last Night in Soho
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SYQA0467.jpg,insert,Cusp
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9XYQ80TC.jpg,2 shot,Ophelia
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/C9R8N5SG.jpg,establishing shot,Event Horizon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/I0P95CZ1.jpg,single,Pinocchio
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4QF8MI5L.jpg,2 shot,A Tale of Summer
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BU0ZYXFT.jpg,3 shot,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HLB0C24S.jpg,2 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/INS9W3H4.jpg,3 shot,Beau Is Afraid
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/UA913YNR.jpg,single,Nope
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4D5QVIH3.jpg,3 shot,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QO6ES8W8.jpg,establishing shot,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7GLGAQQI.jpg,over the shoulder,The Lost Daughter
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/4ZR5LGRW.jpg,insert,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GPHWYSHP.jpg,2 shot,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OC8YEES5.jpg,2 shot,Blade Runner 2049
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/J8CHVHFP.jpg,group shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LZB8JDSP.jpg,2 shot,Happening
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LUJKTF2I.jpg,establishing shot,Babylon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/U6I86FTU.jpg,group shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/P4WVKALK.jpg,2 shot,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/GWEZ5X1O.jpg,3 shot,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WWSZ1XND.jpg,3 shot,I May Destroy You
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/28OCSOBH.jpg,3 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/R0ZRUDPF.jpg,insert,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7JRDCUVL.jpg,3 shot,Mean Girls
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/A9SGQA0W.jpg,group shot,Tenet
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ABS3S5B0.jpg,single,Barton Fink
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/FY7JZHWV.jpg,over the shoulder,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RG0CB08W.jpg,single,The Wrong Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DMGSCH29.jpg,insert,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2A676ADS.jpg,3 shot,Nope
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/67PS5HVC.jpg,over the shoulder,The King's Man
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/K20ZHVDT.jpg,group shot,Ferrari
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BC22A480.jpg,single,The Last Waltz
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/BXX4BWMJ.jpg,single,A Tale of Summer
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/77STYX00.jpg,2 shot,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DTCUQTNZ.jpg,single,The King's Speech
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JVO1C0M2.jpg,2 shot,I May Destroy You
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6K1XPAYE.jpg,3 shot,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CU3AFZLR.jpg,2 shot,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/F7R81G86.jpg,single,God's Creatures
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2WZI4S1W.jpg,insert,"Olivia Rodrigo - ""Drivers License"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/7O68M3QA.jpg,group shot,A Hidden Life
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/MJBYH34C.jpg,group shot,Triangle of Sadness
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/9U85KDAP.jpg,2 shot,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/08X51XOX.jpg,single,"Else - ""Ocean"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Z3OGFADT.jpg,3 shot,Law of Desire
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/M6LV75BE.jpg,group shot,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/XI1WYY4D.jpg,insert,Ophelia
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0BSI4M5G.jpg,establishing shot,Event Horizon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZB1Q9RM9.jpg,insert,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KOAIZRGQ.jpg,single,Adaptation.
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6V8TFWYS.jpg,2 shot,Midnight in Paris
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/YNQ1ONTN.jpg,3 shot,On the Count of Three
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3OGPPSCJ.jpg,single,Barfi!
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3AQMUYMU.jpg,insert,Beasts of the Southern Wild
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KBXLNI59.jpg,insert,The Post
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/W4PGGR4S.jpg,insert,Nobody
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/2N7IJSZC.jpg,single,The Lost Daughter
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NCHEFHSL.jpg,single,Ma Rainey's Black Bottom
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/SSRFS5QI.jpg,single,First Reformed
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/W3XAE6KO.jpg,single,Tenet
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/O060KLK8.jpg,2 shot,A Tale of Summer
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OVQCAMCA.jpg,2 shot,The Half of It
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/C2CDEBHT.jpg,establishing shot,Local Hero
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZAKJIKFA.jpg,establishing shot,"Husky - ""Never-Ever"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WRK1C485.jpg,establishing shot,BlacKkKlansman
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/HGQQ82XV.jpg,establishing shot,Barry
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DAKQRIHK.jpg,3 shot,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/D18HKLCF.jpg,3 shot,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/6QX7DRTT.jpg,group shot,The Half of It
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/1BMJ9SN8.jpg,group shot,Law of Desire
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/27IXORIS.jpg,group shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PXJ61KMJ.jpg,over the shoulder,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/8H553O42.jpg,single,Event Horizon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ACAZF4Q0.jpg,2 shot,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/RFVI1FYR.jpg,establishing shot,The Half of It
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/AETVZEIB.jpg,group shot,The Twilight Saga: New Moon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/JCBDGJAF.jpg,establishing shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PZ05ZO0Q.jpg,single,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/KYP794NH.jpg,3 shot,The Witcher
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NAHBT4AZ.jpg,single,Tenet
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/ZL57WKV2.jpg,insert,Jockey
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EE2TYI6Z.jpg,insert,Ma Rainey's Black Bottom
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VKJXN967.jpg,2 shot,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/XWX7H9MR.jpg,single,Polite Society
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LRYTO7QI.jpg,insert,"Else - ""Ocean"""
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EITGWLRF.jpg,2 shot,Head
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TYB31RPB.jpg,over the shoulder,Okja
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Y3F7BEWV.jpg,establishing shot,Event Horizon
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OJ2KXUY3.jpg,over the shoulder,Fences
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/A0VH2T4J.jpg,single,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/OH55KRBN.jpg,group shot,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/Z7LR23KX.jpg,3 shot,Barfi!
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/G29V2UYQ.jpg,3 shot,Law of Desire
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QS42FMS1.jpg,2 shot,Barton Fink
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/T4NQ6IBN.jpg,3 shot,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WINMCQPI.jpg,2 shot,Amsterdam
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/NL7U1CST.jpg,3 shot,"BARDO, False Chronicle of a Handful of Truths"
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3RC3B53X.jpg,single,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/O7EET93S.jpg,3 shot,Glass Onion: A Knives Out Mystery
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/QR0X1C44.jpg,insert,Law of Desire
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/N3TLT548.jpg,3 shot,The Half of It
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/PUIEDA71.jpg,single,The Half of It
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VLH7WG10.jpg,establishing shot,The Girl on the Train
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/C1PICAN5.jpg,insert,Barton Fink
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/E31NL6HO.jpg,3 shot,Beach Rats
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/53MKGWO1.jpg,group shot,Farewell Amor
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/CG1C3IXG.jpg,single,Adaptation.
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/WRP40VU2.jpg,insert,Fear and Loathing in Las Vegas
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/47W7KNZR.jpg,single,Last Night in Soho
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/8H10VXS3.jpg,establishing shot,I May Destroy You
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/VTF5H6B6.jpg,group shot,Nobody
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/B1O3IGC8.jpg,single,The Last Waltz
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/EI1VPUAQ.jpg,insert,Everything Everywhere All at Once
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/3J8L4LQO.jpg,2 shot,Red Notice
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/LGGYEGD7.jpg,single,Boyhood
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/TR3PD2RO.jpg,2 shot,Watchmen
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/DRLO79CK.jpg,group shot,The Last Waltz
+/mnt/c/users/hugsi/mestrado/4.1_vc/movieshotclassifier/data_shotqa/0L6DSC70.jpg,3 shot,Ophelia

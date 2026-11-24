@@ -186,10 +186,14 @@ const stage = $('stage');
 stage.ondragover = e => { e.preventDefault(); stage.classList.add('over'); };
 stage.ondragleave = () => stage.classList.remove('over');
 stage.ondrop = e => { e.preventDefault(); stage.classList.remove('over'); setFile(e.dataTransfer.files[0]); };
-function fit() {                       // size the overlay box to the visible image, not the 16:9 stage
+function fit() {
   const im = $('img'); if (!im.naturalWidth) return;
-  const ar = im.naturalWidth / im.naturalHeight; let w = stage.clientWidth, h = w / ar;
-  if (h > stage.clientHeight) { h = stage.clientHeight; w = h * ar; }
+  const ar = im.naturalWidth / im.naturalHeight;
+  const maxWidth = Math.max(1, stage.parentElement.clientWidth - 2);
+  const maxHeight = Math.max(1, window.innerHeight * 0.7 - 2);
+  const w = Math.min(maxWidth, maxHeight * ar), h = w / ar;
+  stage.style.width = (w + 2) + 'px'; stage.style.height = (h + 2) + 'px';
+  stage.style.aspectRatio = 'auto';
   $('frame').style.width = w + 'px'; $('frame').style.height = h + 'px';
 }
 addEventListener('resize', fit);

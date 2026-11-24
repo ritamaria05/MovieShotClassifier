@@ -2,7 +2,7 @@
 import os, json, ast, re
 import pandas as pd
 from sklearn.model_selection import GroupShuffleSplit
-from paths import (
+from scripts.paths import (
     CSV_DIR,
     SHOTBENCH_DIR,
     SHOTQA_IMAGES_DIR,

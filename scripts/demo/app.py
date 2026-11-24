@@ -6,17 +6,15 @@ Run from the repository root:
 Then open http://127.0.0.1:8000
 
 Everything shown comes from this project's own artefacts:
-  * shot size: the fine-tuned seed ensemble (data/processed/finetune_shotsize_protocol/seed*)
-  * framing:   outputs/finetune_framing/seed_42/best_finetune.pt
+  * shot size: data/processed/models/finetune_shotsize/
+  * framing:   data/processed/models/finetune_framing/seed_42/best_finetune.pt
   * heatmap:   occlusion of the model's own predicted-class probability
   * neighbours: cosine similarity in the cached frozen-SigLIP train+val embeddings
 """
 from __future__ import annotations
 
-import importlib.util
 import io
 import json
-import sys
 import threading
 import traceback
 from contextlib import asynccontextmanager
@@ -31,21 +29,16 @@ from fastapi.responses import FileResponse
 from PIL import Image, ImageDraw
 from transformers import AutoImageProcessor, AutoModel
 
-ROOT = Path(__file__).resolve().parents[2]
-for p in (ROOT, ROOT / "scripts"):          # `scripts.paths` and plain `paths` are both used in the repo
-    if str(p) not in sys.path:
-        sys.path.insert(0, str(p))
-
-from scripts.paths import DATA_PROCESSED_DIR, SPLITS_DIR                    # noqa: E402
-from scripts.shotsize.predict_shotsize import DEFAULT_ORDER, load_models    # noqa: E402
-from scripts.color.color_analysis import get_color_features                  # noqa: E402
-from scripts.lighting.light_analysis import analyze_lighting, crop_letterbox # noqa: E402
+from movieshot.models import (
+    SHOT_SIZE_ORDER, load_framing_model, load_shot_size_models, model_probabilities, select_device,
+)
+from scripts.paths import DATA_PROCESSED_DIR, ROOT, SPLITS_DIR, framing_run, resolve_image_path, shot_size_runs
+from scripts.color.color_analysis import get_color_features
+from scripts.lighting.light_analysis import analyze_lighting, crop_letterbox
 
 STATIC = Path(__file__).parent / "static"
-SS_RUNS = str(ROOT / "data/processed/finetune_shotsize_protocol/seed*")
-SS_SINGLE = ROOT / "data/processed/finetune_shotsize"      # default output dir of a single training run
-FRAMING_CKPT = ROOT / "outputs/finetune_framing/seed_42/best_finetune.pt"
-FRAMING_METRICS = ROOT / "outputs/finetune_framing/seed_42/metrics.json"
+FRAMING_CKPT = framing_run() / "best_finetune.pt"
+FRAMING_METRICS = framing_run() / "metrics.json"
 BASE_NAME = "google/siglip-base-patch16-224"
 GRID = 8
 CONFUSABLE = [{"3 shot", "group shot"}, {"over the shoulder", "2 shot"}]   # from the confusion matrices
@@ -55,25 +48,9 @@ LOCK = threading.Lock()
 
 
 # ---------------------------------------------------------------- loading
-def load_framing(device):
-    spec = importlib.util.spec_from_file_location("finetune_framing", ROOT / "scripts/framing/finetune_framing.py")
-    ff = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(ff)
-    ck = torch.load(FRAMING_CKPT, map_location="cpu", weights_only=False)
-    backbone = AutoModel.from_pretrained(ck["model_name"])
-    model = ff.FramingClassifier(backbone, backbone.config.vision_config.hidden_size,
-                                 ck["hidden_size"], len(ck["label_to_id"]))
-    model.load_state_dict(ck["model_state"])
-    if hasattr(model.backbone, "text_model"):
-        del model.backbone.text_model
-    classes = [c for c, _ in sorted(ck["label_to_id"].items(), key=lambda kv: kv[1])]
-    proc = AutoImageProcessor.from_pretrained(ck["model_name"])
-    return model.to(device).eval(), proc, classes
-
-
 def load_index(dim: str):
     """Train+val frozen embeddings and image paths for nearest-neighbour lookup."""
-    candidates = [(ROOT / "splits", ROOT / "emb", ROOT), (SPLITS_DIR, DATA_PROCESSED_DIR / "emb", Path("."))]
+    candidates = [(SPLITS_DIR, DATA_PROCESSED_DIR / "emb", ROOT), (ROOT / "splits", ROOT / "emb", ROOT)]
     for splits, emb, base in candidates:
         files = [splits / f"{s}_{dim}.csv" for s in ("train", "val")] + [emb / f"{s}_{dim}.npy" for s in ("train", "val")]
         if not all(f.exists() for f in files):
@@ -85,28 +62,24 @@ def load_index(dim: str):
             print(f"[demo] {dim}: embeddings/CSV mismatch, neighbours disabled")
             return None
         return {"X": X, "labels": df["label"].astype(str).tolist(),
-                "paths": [str(base / p) for p in df["path"]]}
+                "paths": [str(resolve_image_path(p, base)) for p in df["path"]]}
     print(f"[demo] {dim}: no cached embeddings found, neighbours disabled")
     return None
 
 
 @asynccontextmanager
 async def lifespan(app):
-    from scripts.shotsize.finetune_shotsize import select_device
     device = select_device()
     print(f"[demo] device: {device}")
     try:
-        import glob
-        runs = sorted(Path(p) for p in glob.glob(SS_RUNS) if (Path(p) / "best_model.pt").is_file())
-        if not runs and (SS_SINGLE / "best_model.pt").is_file():
-            runs = [SS_SINGLE]                                              # a single run is enough for the demo
+        runs = shot_size_runs()
         if not runs:
-            raise FileNotFoundError(f"no best_model.pt under {SS_RUNS} or {SS_SINGLE}")
+            raise FileNotFoundError("No shot-size best_model.pt found in data/processed/models or legacy locations")
         print(f"[demo] shot size runs: {[r.name for r in runs]}")
-        models, proc, label_to_id, _, _ = load_models(runs)
+        models, proc, label_to_id = load_shot_size_models(runs, device)
         models = [m.to(device).eval() for m in models]                     # same device as the inputs
         classes = [c for c, _ in sorted(label_to_id.items(), key=lambda kv: kv[1])]
-        order = [c for c in DEFAULT_ORDER if c in classes]
+        order = [c for c in SHOT_SIZE_ORDER if c in classes]
         missing = [c for c in classes if c not in order]
         if missing:                                                         # spelling/case mismatch would crash /analyze
             print(f"[demo] WARNING: classes not in DEFAULT_ORDER, appended at the end: {missing}")
@@ -118,7 +91,7 @@ async def lifespan(app):
         traceback.print_exc()
         print(f"[demo] shot size unavailable: {e!r}")
     try:
-        model, proc, classes = load_framing(device)
+        model, proc, classes = load_framing_model(FRAMING_CKPT, device)
         STATE["framing"] = {"models": [model], "proc": proc, "classes": classes, "device": device,
                             "order": classes, "index": load_index("framing")}
     except (Exception, SystemExit) as e:
@@ -136,17 +109,9 @@ app = FastAPI(lifespan=lifespan)
 
 
 # ---------------------------------------------------------------- inference
-@torch.no_grad()
 def model_probs(feat: dict, images: list[Image.Image], models=None) -> np.ndarray:
     """(n_models, n_images, n_classes) softmax probabilities."""
-    models = models or feat["models"]
-    inputs = {k: v.to(feat["device"]) for k, v in feat["proc"](images=images, return_tensors="pt").items()}
-    out = []
-    for m in models:
-        logits = m(inputs)
-        logits = getattr(logits, "logits", logits)    # accept raw tensors or HF-style outputs
-        out.append(torch.softmax(logits.float(), 1).cpu().numpy())
-    return np.stack(out)
+    return model_probabilities(models or feat["models"], feat["proc"], feat["device"], images)
 
 
 def occlusion(feat: dict, image: Image.Image, cls: int, batch: int = 12) -> list[list[float]]:

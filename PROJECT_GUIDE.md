@@ -16,18 +16,19 @@ intentionally ignored by Git and must be obtained or generated locally.
 Run the scripts from the repository root. The following paths are expected:
 
 ```text
-ShotQA_meta/meta.jsonl        # or data/raw/ShotQA_meta/meta.jsonl
-ShotQA_meta/sft.json
-ShotQA_meta/grpo.json
-data_shotqa/                  # or data/raw/data_shotqa/
-ShotBench/image/              # or data/raw/ShotBench/image/
+data/raw/ShotQA_meta/meta.jsonl
+data/raw/ShotQA_meta/sft.json
+data/raw/ShotQA_meta/grpo.json
+data/raw/data_shotqa/
+data/raw/ShotBench/image/
 ```
 
-Generated CSV files are written to `csv/`, text manifests to `txt/`, and
+Generated CSV files are written to `outputs/csv/`, text manifests to `outputs/txt/`, and
 processed split/cache files to `data/processed/`. The source datasets can stay
-in their existing root-level locations or be placed under `data/raw/`; the
-scripts resolve either layout. The repository does not contain the datasets or
-the image files.
+under `data/raw/`; root-level locations remain supported for older setups. The
+scripts also resolve old image paths recorded in split CSVs without changing
+those CSVs or the order of cached embeddings. The repository does not contain
+the datasets or the image files.
 
 ## Environment setup
 
@@ -56,10 +57,10 @@ first run.
 
 ## Pipeline order
 
-To run the complete preparation pipeline from any working directory, invoke:
+To run the complete preparation pipeline from the repository root, invoke:
 
 ```bash
-python scripts/prepare_data.py
+python -m scripts.prepare_data
 ```
 
 The runner resolves the repository root itself and executes the steps below in
@@ -69,23 +70,23 @@ does not run SigLIP embedding extraction or baseline evaluation.
 ### 1. Download ShotBench annotations
 
 ```bash
-python scripts/make_annotations.py
+python -m scripts.make_annotations
 ```
 
 Downloads the `Vchitect/ShotBench` test split with the Hugging Face `datasets`
-library and saves it as `csv/annotations.csv`.
+library and saves it as `outputs/csv/annotations.csv`.
 
 ### 2. Parse ShotQA labels
 
 ```bash
-python scripts/build_labels.py
+python -m scripts.build_labels
 ```
 
-Reads `ShotQA_meta/sft.json`, parses question/options/answer conversations, and
+Reads `data/raw/ShotQA_meta/sft.json`, parses question/options/answer conversations, and
 writes:
 
-- `csv/shotqa_labels.csv`: image, question, and resolved label rows.
-- `txt/lista_shot_size.txt`: image paths associated with shot-size questions.
+- `outputs/csv/shotqa_labels.csv`: image, question, and resolved label rows.
+- `outputs/txt/lista_shot_size.txt`: image paths associated with shot-size questions.
 
 It also prints label counts, dimension coverage, overlap with ShotBench, and a
 small sample from `grpo.json`.
@@ -93,45 +94,44 @@ small sample from `grpo.json`.
 ### 3. Check metadata and overlap
 
 These are diagnostic scripts and may be run independently after
-`csv/shotqa_labels.csv` exists:
+`outputs/csv/shotqa_labels.csv` exists:
 
 ```bash
-python scripts/check_meta.py
-python scripts/check_overlap.py
+python -m scripts.check_meta
+python -m scripts.check_overlap
 ```
 
 `check_meta.py` compares ShotQA labels with `meta.jsonl`, checks whether labels
 agree with the metadata `Frame Size`, counts films, and creates
-`txt/lista_<dimension>_tar.txt` files for shot size, framing, and camera angle.
+`outputs/txt/lista_<dimension>_tar.txt` files for shot size, framing, and camera angle.
 
 `check_overlap.py` checks whether ShotBench images or films also appear in the
 ShotQA training labels. This is an early leakage/overlap diagnostic and expects
-`csv/labels_shot_size.csv`.
+`outputs/csv/labels_shot_size.csv`.
 
 ### 4. Build consolidated dimension labels
 
 ```bash
-python scripts/final_labels.py
+python -m scripts.final_labels
 ```
 
 Merges SFT labels with GRPO labels for the dimensions listed in `USE` (currently
 `shot_size` and `framing`), joins film metadata, marks multi-label examples,
 and writes:
 
-- `csv/labels_shot_size.csv`
-- `csv/labels_framing.csv`
-- `txt/lista_extrair.txt`: the combined list of image files to extract/download.
+- `outputs/csv/labels_shot_size.csv`
+- `outputs/csv/labels_framing.csv`
+- `outputs/txt/lista_extrair.txt`: the combined list of image files to extract/download.
 
 To include camera angle, add `camera_angle` to `USE` in the script before
 running it.
 
 ### 5. Verify the local data
 
-After the requested images have been placed in `data_shotqa/` or
-`data/raw/data_shotqa/`, run:
+After the requested images have been placed in `data/raw/data_shotqa/`, run:
 
 ```bash
-python scripts/verify.py
+python -m scripts.verify
 ```
 
 This reports how many labeled images exist on disk, the number of extracted
@@ -141,7 +141,7 @@ annotations.
 ### 6. Create leakage-safe train/validation/test splits
 
 ```bash
-python scripts/build_dataset.py
+python -m scripts.build_dataset
 ```
 
 For each dimension in `DIMS` (`shot_size` and `framing`), this script:
@@ -185,7 +185,7 @@ After the split CSVs and referenced images exist, train a shot-size classifier
 with:
 
 ```bash
-python scripts/shotsize/finetune_shotsize.py
+python -m scripts.shotsize.finetune_shotsize
 ```
 
 The script reuses `data/processed/splits/train_shot_size.csv`,
@@ -194,13 +194,13 @@ default (`--mode head`) SigLIP is frozen and only a linear classification head
 is trained. To also train the final vision layers, use for example:
 
 ```bash
-python scripts/shotsize/finetune_shotsize.py --mode last_layers --unfreeze-last-layers 2 \
+python -m scripts.shotsize.finetune_shotsize --mode last_layers --unfreeze-last-layers 2 \
   --epochs 5 --batch-size 16 --learning-rate 1e-4
 ```
 
 Important options include `--model-name`, `--epochs`, `--batch-size`,
 `--learning-rate`, `--seed`, and `--output-dir`. The default output directory
-is `data/processed/finetune_shotsize/` and contains the best validation
+is `data/processed/models/finetune_shotsize/` and contains the best validation
 macro-F1 checkpoint, `class_mapping.json`, `history.json`, test predictions,
 and `metrics.json`. Test metrics are computed once from the best validation
 checkpoint on single-label test rows; multi-label test rows remain in the
@@ -231,7 +231,7 @@ Run the separate comparison workflow from the repository root after preparing
 the existing split CSVs:
 
 ```bash
-python scripts/shotsize/compare_shotsize_models.py
+python -m scripts.shotsize.compare_shotsize_models
 ```
 
 By default it compares `google/siglip-base-patch16-224` and
@@ -247,8 +247,9 @@ confidence intervals for accuracy and macro-F1.
 Embeddings are cached under `data/processed/compare_shotsize/embeddings/` with
 model name, revision, split, and an image-path/order/stat fingerprint in each
 filename and metadata sidecar. Prediction CSVs are written under
-`data/processed/compare_shotsize/predictions/`, and the machine-readable report
-is written to `data/processed/compare_shotsize/comparison_results.json`. Use
+`outputs/csv/compare_shotsize/predictions/`, and the machine-readable report
+is written to `outputs/json/compare_shotsize/comparison_results.json`. Existing
+comparison caches under `outputs/compare_shotsize/embeddings/` remain usable. Use
 `--base-model`, `--so400m-model`, `--model-revision`, `--output-dir`,
 `--batch-size`, `--image-workers`, `--logistic-c`, `--svm-c`, and `--svm-gamma`
 to configure the comparison. The safer macOS/MPS defaults are batch size 2 and

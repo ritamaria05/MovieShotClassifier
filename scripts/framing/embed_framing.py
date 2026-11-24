@@ -2,7 +2,7 @@
 
 Select the MLP's settings by validation macro-F1, then fit on train+val.
 
-Usage: python scripts/framing/embed_framing.py [--root DIR] [--out DIR]
+Usage: python -m scripts.framing.embed_framing [--root DIR] [--out DIR]
 Inputs and embedding caches default to the project root; output defaults to
 ROOT/outputs. Relative overrides are resolved from the current directory.
 """
@@ -14,8 +14,8 @@ from transformers import AutoModel, AutoImageProcessor
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
-from MovieShotClassifier.scripts.framing.mlp_head import MLP_GRID, make_mlp
-from scripts.paths import ROOT
+from scripts.framing.mlp_head import MLP_GRID, make_mlp
+from scripts.paths import ROOT, embedding_file, prepare_report, resolve_image_path, split_file
 
 ap = argparse.ArgumentParser()
 ap.add_argument('--root', type=Path, default=ROOT,
@@ -25,7 +25,7 @@ ap.add_argument('--out', type=Path, default=None,
 a = ap.parse_args()
 root = a.root
 out_dir = a.out if a.out is not None else root / 'outputs'
-emb_dir = root / 'emb'
+emb_dir = root / 'data' / 'processed' / 'emb'
 
 dev = 'mps' if torch.backends.mps.is_available() else 'cuda' if torch.cuda.is_available() else 'cpu'
 NAME = 'google/siglip-base-patch16-224'
@@ -40,9 +40,10 @@ def load(p):
 
 @torch.no_grad()
 def embed(df, cache, bs=32):
-    if cache.exists():
-        return np.load(cache)
-    paths, out = [root / p for p in df['path']], []
+    existing = embedding_file(cache.name, root)
+    if existing.exists():
+        return np.load(existing)
+    paths, out = [resolve_image_path(p, root) for p in df['path']], []
     with ThreadPoolExecutor(max_workers=8) as ex:
         for i in tqdm(range(0, len(paths), bs), desc=cache.name):
             imgs = list(ex.map(load, paths[i:i+bs]))
@@ -55,7 +56,7 @@ def embed(df, cache, bs=32):
     return e
 
 for name in ['framing']:
-    tr, va, te = [pd.read_csv(root / 'splits' / f'{s}_{name}.csv') for s in ['train', 'val', 'test']]
+    tr, va, te = [pd.read_csv(split_file(f'{s}_{name}.csv', root)) for s in ['train', 'val', 'test']]
     Xtr, Xva, Xte = [embed(d, emb_dir / f'{s}_{name}.npy') for d, s in [(tr, 'train'), (va, 'val'), (te, 'test')]]
 
     # near-duplicates: teste vs treino+val
@@ -92,4 +93,4 @@ for name in ['framing']:
         columns=labels,
     )
     out_dir.mkdir(parents=True, exist_ok=True)
-    cm.to_csv(out_dir / f'confusion_matrix_{name}_MLP.csv', index_label='actual')
+    cm.to_csv(prepare_report(out_dir, f'confusion_matrix_{name}_MLP.csv', root), index_label='actual')

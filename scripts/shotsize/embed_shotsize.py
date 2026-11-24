@@ -5,25 +5,26 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
-from scripts.paths import DATA_PROCESSED_DIR, SPLITS_DIR, ensure_output_dirs
+from scripts.paths import EMBEDDINGS_DIR, embedding_file, resolve_image_path, split_file, ensure_output_dirs
 
 dev = 'mps' if torch.backends.mps.is_available() else 'cuda' if torch.cuda.is_available() else 'cpu'
 NAME = 'google/siglip-base-patch16-224'
 model = AutoModel.from_pretrained(NAME).eval().to(dev)
 proc = AutoImageProcessor.from_pretrained(NAME)
-EMB_DIR = DATA_PROCESSED_DIR / 'emb'
+EMB_DIR = EMBEDDINGS_DIR
 ensure_output_dirs()
 EMB_DIR.mkdir(parents=True, exist_ok=True)
 
 def load(p):
-    im = Image.open(p)
+    im = Image.open(resolve_image_path(p))
     im.draft('RGB', (448, 448))      # descodifica o JPEG já em tamanho reduzido
     return im.convert('RGB')
 
 @torch.no_grad()
 def embed(df, cache, bs=32):
-    if os.path.exists(cache):
-        return np.load(cache)
+    existing = embedding_file(cache.name)
+    if existing.is_file():
+        return np.load(existing)
     paths, out = df['path'].tolist(), []
     with ThreadPoolExecutor(max_workers=8) as ex:
         for i in tqdm(range(0, len(paths), bs), desc=os.path.basename(cache)):
@@ -38,7 +39,7 @@ def embed(df, cache, bs=32):
 
 for name in ['shot_size']:
     tr, va, te = [
-        pd.read_csv(SPLITS_DIR / f'{s}_{name}.csv')
+        pd.read_csv(split_file(f'{s}_{name}.csv'))
         for s in ['train', 'val', 'test']
     ]
     Xtr, Xva, Xte = [
