@@ -1,4 +1,4 @@
-# MovieShotClassifier
+# MovieShotClassifier WILL UPDATE
 
 Analyze movie frames by shot size, framing, color and lighting.
 
@@ -57,12 +57,27 @@ python -m uvicorn scripts.demo.app:app --host 127.0.0.1 --port 8000
 ```
 
 Open http://127.0.0.1:8000. Restart the server after training to load the
-checkpoint. Color and lighting work without trained classifiers. The demo
-loads the single shot-size checkpoint above if present; otherwise it loads the
-ensemble from `data/processed/models/finetune_shotsize/seed*/`. It also
-supports older checkpoint locations. Framing uses the seed 42
-checkpoint above. Loading checkpoints also requires the Hugging Face model and
-image processor to be downloaded or already cached.
+checkpoint. Color and lighting work without trained classifiers. For shot size,
+the demo prefers the local single checkpoint above, or the available local
+ensemble in `data/processed/models/finetune_shotsize/seed*/`. For framing it
+prefers the local seed 42 checkpoint. Older checkpoint locations are also
+supported.
+
+If either model is missing locally, the demo downloads that model from
+[hugomelo17/MovieShotClassifier](https://huggingface.co/hugomelo17/MovieShotClassifier)
+and stores it in the Hugging Face cache (normally `~/.cache/huggingface/hub/`).
+The shot-size fallback downloads all five seeds; framing uses `framing_model.pt`.
+The fallback uses a pinned repository revision for reproducibility. The first
+download requires internet and roughly 4.9 GB for these six checkpoints, plus
+space for the pretrained Hugging Face backbone and image processor. Subsequent
+runs reuse the cache. To use the cache offline, start with `HF_HUB_OFFLINE=1`.
+Download errors are reported in the server log; the other features remain
+available. Framing's per-class reliability and nearest-neighbour examples
+require local metrics and datasets/embedding caches respectively.
+
+The shot-size command `python -m scripts.shotsize.predict_shotsize` uses the
+same local-first fallback; `--single` downloads only the first seed when no
+local model is available. Explicit `--runs` directories remain local-only.
 
 ## Artifact locations
 

@@ -28,8 +28,11 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from movieshot.models import SHOT_SIZE_ORDER, load_shot_size_models, model_probabilities, select_device
-from scripts.paths import resolve_image_path, shot_size_runs, split_file
+from movieshot.models import (
+    SHOT_SIZE_ORDER, load_shot_size_checkpoints, model_probabilities, select_device,
+    shot_size_checkpoints,
+)
+from scripts.paths import resolve_image_path, split_file
 
 DEFAULT_ORDER = SHOT_SIZE_ORDER
 
@@ -152,17 +155,18 @@ def parse_line(line: str) -> tuple[str, str | None]:
 
 def main() -> None:
     args = parse_args()
-    run_dirs = (sorted({Path(p) for pattern in args.runs for p in glob.glob(pattern) if Path(p).is_dir()})
-                if args.runs else shot_size_runs())
-    if not run_dirs:
-        raise SystemExit(f"Nenhuma pasta de seed encontrada para {args.runs}")
-    if args.single:
-        run_dirs = run_dirs[:1]
     if args.label and len(args.images) != 1:
         raise SystemExit("--label só se usa com exatamente uma imagem")
 
+    if args.runs:
+        run_dirs = sorted({Path(p) for pattern in args.runs for p in glob.glob(pattern) if Path(p).is_dir()})
+        if not run_dirs:
+            raise SystemExit(f"Nenhuma pasta de seed encontrada para {args.runs}")
+        checkpoints = [run / "best_model.pt" for run in (run_dirs[:1] if args.single else run_dirs)]
+    else:
+        checkpoints = shot_size_checkpoints(single=args.single)
     device = select_device()
-    models, processor, label_to_id = load_shot_size_models(run_dirs, device)
+    models, processor, label_to_id = load_shot_size_checkpoints(checkpoints, device)
     classes = [c for c, _ in sorted(label_to_id.items(), key=lambda item: item[1])]
     if set(args.class_order) != set(classes):
         raise SystemExit(f"--class-order não corresponde às classes do modelo: {classes}")

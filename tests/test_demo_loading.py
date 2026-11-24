@@ -25,6 +25,36 @@ class FakeProcessor:
 
 
 class DemoLoadingTests(unittest.TestCase):
+    def test_demo_downloads_missing_models_and_analyzes(self):
+        demo.STATE.clear()
+        model, processor = FakeModel(), FakeProcessor()
+        with tempfile.TemporaryDirectory() as temp, \
+             patch("movieshot.models.shot_size_runs", return_value=[]), \
+             patch("movieshot.models.framing_run", return_value=Path(temp)), \
+             patch("movieshot.models.hf_hub_download",
+                   side_effect=lambda repo, name, revision: str(Path(temp) / name)) as download, \
+             patch.object(demo, "select_device", return_value=torch.device("cpu")), \
+             patch.object(demo, "load_shot_size_checkpoints",
+                          return_value=([model], processor, {"close up": 0, "medium": 1})) as shot_loader, \
+             patch.object(demo, "load_framing_model",
+                          return_value=(model, processor, ["single", "insert"])) as frame_loader, \
+             patch.object(demo, "load_index", return_value=None), \
+             patch.object(demo, "look", return_value=None):
+            with TestClient(demo.app) as client:
+                self.assertEqual(client.get("/status").json(), {"features": ["shot_size", "framing"]})
+                image = io.BytesIO()
+                Image.new("RGB", (32, 32)).save(image, format="PNG")
+                response = client.post("/analyze", files={"file": ("image.png", image.getvalue(), "image/png")})
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.json()["shot_size"]["label"], "close up")
+                self.assertEqual(response.json()["framing"]["label"], "single")
+                self.assertIsNone(response.json()["framing"]["reliability"])
+            self.assertEqual(download.call_count, 6)
+            self.assertEqual(shot_loader.call_args.args[0],
+                             [Path(temp) / f"shotsize_model_{seed}.pt" for seed in range(1, 6)])
+            self.assertEqual(frame_loader.call_args.args[0], Path(temp) / "framing_model.pt")
+        demo.STATE.clear()
+
     def test_framing_borderline_note_applies_to_any_close_pair(self):
         image = Image.new("RGB", (4, 4))
         feat = {"classes": ["single", "insert", "group shot"],
@@ -79,9 +109,10 @@ class DemoLoadingTests(unittest.TestCase):
         model = FakeModel()
         processor = FakeProcessor()
         with patch.object(demo, "select_device", return_value=torch.device("cpu")), \
-             patch.object(demo, "shot_size_runs", return_value=[Path("legacy/seed1")]), \
-             patch.object(demo, "load_shot_size_models",
+             patch.object(demo, "shot_size_checkpoints", return_value=[Path("legacy/seed1/best_model.pt")]), \
+             patch.object(demo, "load_shot_size_checkpoints",
                           return_value=([model], processor, {"close up": 0, "medium": 1})) as loader, \
+             patch.object(demo, "framing_checkpoint", return_value=Path("missing.pt")), \
              patch.object(demo, "load_framing_model", side_effect=FileNotFoundError("no framing checkpoint")), \
              patch.object(demo, "load_index", return_value=None), \
              patch.object(demo, "look", return_value={"lighting": "test"}):
@@ -94,7 +125,7 @@ class DemoLoadingTests(unittest.TestCase):
                 self.assertEqual(response.json()["shot_size"]["label"], "close up")
                 self.assertEqual(len(response.json()["shot_size"]["heat"]), 8)
                 self.assertIsNone(response.json()["framing"])
-            loader.assert_called_once_with([Path("legacy/seed1")], torch.device("cpu"))
+            loader.assert_called_once_with([Path("legacy/seed1/best_model.pt")], torch.device("cpu"))
         demo.STATE.clear()
 
 

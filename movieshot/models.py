@@ -4,9 +4,15 @@ from pathlib import Path
 
 import numpy as np
 import torch
+from huggingface_hub import hf_hub_download
 from PIL import Image
 from torch import nn
 from transformers import AutoImageProcessor, AutoModel
+
+from scripts.paths import framing_run, shot_size_runs
+
+MODEL_REPO = "hugomelo17/MovieShotClassifier"
+MODEL_REVISION = "4c9571c3492102ff519bcb12a976f624c6bcd7ea"
 
 SHOT_SIZE_ORDER = [
     "extreme close up",
@@ -55,17 +61,39 @@ class FramingClassifier(nn.Module):
         return self.classifier(nn.functional.normalize(features.float(), dim=-1))
 
 
+def shot_size_checkpoints(single: bool = False) -> list[Path]:
+    runs = shot_size_runs()
+    if runs:
+        return [run / "best_model.pt" for run in (runs[:1] if single else runs)]
+    print(f"No local shot-size checkpoint found; downloading from {MODEL_REPO}.")
+    seeds = range(1, 2 if single else 6)
+    return [Path(hf_hub_download(MODEL_REPO, f"shotsize_model_{seed}.pt", revision=MODEL_REVISION))
+            for seed in seeds]
+
+
+def framing_checkpoint() -> Path:
+    local = framing_run() / "best_finetune.pt"
+    if local.is_file():
+        return local
+    print(f"No local framing checkpoint found; downloading from {MODEL_REPO}.")
+    return Path(hf_hub_download(MODEL_REPO, "framing_model.pt", revision=MODEL_REVISION))
+
+
 def load_shot_size_models(run_dirs: list[Path], device: torch.device):
-    if not run_dirs:
-        raise ValueError("No shot-size checkpoint directories provided")
+    return load_shot_size_checkpoints([run / "best_model.pt" for run in run_dirs], device)
+
+
+def load_shot_size_checkpoints(checkpoint_paths: list[Path], device: torch.device):
+    if not checkpoint_paths:
+        raise ValueError("No shot-size checkpoints provided")
     models, label_to_id, model_name = [], None, None
-    for run in run_dirs:
-        print(f"Loading {run} ...")
-        checkpoint = torch.load(run / "best_model.pt", map_location="cpu", weights_only=False)
+    for path in checkpoint_paths:
+        print(f"Loading {path} ...")
+        checkpoint = torch.load(path, map_location="cpu", weights_only=False)
         if label_to_id is None:
             label_to_id, model_name = checkpoint["label_to_id"], checkpoint["model_name"]
         elif checkpoint["label_to_id"] != label_to_id or checkpoint["model_name"] != model_name:
-            raise ValueError(f"{run}: checkpoint classes or model name differ from the other runs")
+            raise ValueError(f"{path}: checkpoint classes or model name differ from the other runs")
         backbone = AutoModel.from_pretrained(model_name)
         feature_dim = getattr(backbone.config, "projection_dim", None)
         if feature_dim is None:

@@ -6,8 +6,7 @@ Run from the repository root:
 Then open http://127.0.0.1:8000
 
 Everything shown comes from this project's own artefacts:
-  * shot size: data/processed/models/finetune_shotsize/
-  * framing:   data/processed/models/finetune_framing/seed_42/best_finetune.pt
+  * shot size and framing: local checkpoints, or Hugging Face when missing
   * heatmap:   occlusion of the model's own predicted-class probability
   * neighbours: cosine similarity in the cached frozen-SigLIP train+val embeddings
 """
@@ -30,15 +29,14 @@ from PIL import Image, ImageDraw
 from transformers import AutoImageProcessor, AutoModel
 
 from movieshot.models import (
-    SHOT_SIZE_ORDER, load_framing_model, load_shot_size_models, model_probabilities, select_device,
+    SHOT_SIZE_ORDER, framing_checkpoint, load_framing_model, load_shot_size_checkpoints,
+    model_probabilities, select_device, shot_size_checkpoints,
 )
-from scripts.paths import DATA_PROCESSED_DIR, ROOT, SPLITS_DIR, framing_run, resolve_image_path, shot_size_runs
+from scripts.paths import DATA_PROCESSED_DIR, ROOT, SPLITS_DIR, resolve_image_path
 from scripts.color.color_analysis import get_color_features
 from scripts.lighting.light_analysis import analyze_lighting, crop_letterbox
 
 STATIC = Path(__file__).parent / "static"
-FRAMING_CKPT = framing_run() / "best_finetune.pt"
-FRAMING_METRICS = framing_run() / "metrics.json"
 BASE_NAME = "google/siglip-base-patch16-224"
 GRID = 8
 CONFUSABLE = [{"3 shot", "group shot"}, {"over the shoulder", "2 shot"}]   # from the confusion matrices
@@ -72,11 +70,8 @@ async def lifespan(app):
     device = select_device()
     print(f"[demo] device: {device}")
     try:
-        runs = shot_size_runs()
-        if not runs:
-            raise FileNotFoundError("No shot-size best_model.pt found in data/processed/models or legacy locations")
-        print(f"[demo] shot size runs: {[r.name for r in runs]}")
-        models, proc, label_to_id = load_shot_size_models(runs, device)
+        checkpoints = shot_size_checkpoints()
+        models, proc, label_to_id = load_shot_size_checkpoints(checkpoints, device)
         models = [m.to(device).eval() for m in models]                     # same device as the inputs
         classes = [c for c, _ in sorted(label_to_id.items(), key=lambda kv: kv[1])]
         order = [c for c in SHOT_SIZE_ORDER if c in classes]
@@ -91,9 +86,11 @@ async def lifespan(app):
         traceback.print_exc()
         print(f"[demo] shot size unavailable: {e!r}")
     try:
-        model, proc, classes = load_framing_model(FRAMING_CKPT, device)
+        checkpoint = framing_checkpoint()
+        model, proc, classes = load_framing_model(checkpoint, device)
         STATE["framing"] = {"models": [model], "proc": proc, "classes": classes, "device": device,
-                            "order": classes, "index": load_index("framing")}
+                            "order": classes, "index": load_index("framing"),
+                            "metrics_path": checkpoint.parent / "metrics.json"}
     except (Exception, SystemExit) as e:
         traceback.print_exc()
         print(f"[demo] framing unavailable: {e!r}")
@@ -184,10 +181,10 @@ def look(image: Image.Image) -> dict | None:
         return None
 
 
-def reliability(label: str):
-    if not FRAMING_METRICS.exists():
+def reliability(label: str, metrics_path: Path | None):
+    if metrics_path is None or not metrics_path.exists():
         return None
-    rep = json.loads(FRAMING_METRICS.read_text())["test_classification_report"].get(label)
+    rep = json.loads(metrics_path.read_text())["test_classification_report"].get(label)
     return {"precision": rep["precision"], "recall": rep["recall"]} if rep else None
 
 
@@ -233,7 +230,7 @@ def classify(feature: str, feat: dict, image: Image.Image) -> dict:
         "order": order, "probs": [float(mean[classes.index(c)]) for c in order],
         "votes": int((per_model.argmax(1) == top).sum()), "n_models": int(len(per_model)),
         "heat": occlusion(feat, image, top), "neighbours": neighbours(feat, image, feature),
-        "reliability": reliability(label) if feature == "framing" else None, "note": note,
+        "reliability": reliability(label, feat.get("metrics_path")) if feature == "framing" else None, "note": note,
     }
 
 

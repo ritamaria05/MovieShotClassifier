@@ -11,10 +11,12 @@ import torch
 from PIL import Image
 from torch import nn
 
+from movieshot import models as model_helpers
 from movieshot.models import (
     FramingClassifier,
     SigLIPShotSizeClassifier,
     load_framing_model,
+    load_shot_size_checkpoints,
     load_shot_size_models,
     model_probabilities,
 )
@@ -26,6 +28,7 @@ from scripts import paths
 from movieshot.training import shotsize
 from movieshot.evaluation import compare_shotsize_models
 from movieshot.evaluation import ensemble_seeds
+from scripts.shotsize import predict_shotsize
 
 
 class FakeBackbone(nn.Module):
@@ -134,6 +137,65 @@ class PathsAndModelsTests(unittest.TestCase):
                 (directory / "best_finetune.pt").touch()
                 self.assertEqual(framing_run(root), directory)
 
+    def test_inference_checkpoints_use_local_before_hugging_face(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            runs = [root / "seed1", root / "seed2"]
+            framing = root / "framing"
+            framing.mkdir()
+            (framing / "best_finetune.pt").touch()
+            with patch.object(model_helpers, "shot_size_runs", return_value=runs), \
+                 patch.object(model_helpers, "framing_run", return_value=framing), \
+                 patch.object(model_helpers, "hf_hub_download") as download:
+                self.assertEqual(model_helpers.shot_size_checkpoints(),
+                                 [run / "best_model.pt" for run in runs])
+                self.assertEqual(model_helpers.shot_size_checkpoints(single=True),
+                                 [runs[0] / "best_model.pt"])
+                self.assertEqual(model_helpers.framing_checkpoint(), framing / "best_finetune.pt")
+                download.assert_not_called()
+
+    def test_missing_checkpoints_use_hugging_face_and_propagate_errors(self):
+        with tempfile.TemporaryDirectory() as temp, \
+             patch.object(model_helpers, "shot_size_runs", return_value=[]), \
+             patch.object(model_helpers, "framing_run", return_value=Path(temp)), \
+             patch.object(model_helpers, "hf_hub_download", side_effect=lambda repo, name, revision: str(Path(temp) / name)) as download:
+            expected = [Path(temp) / f"shotsize_model_{seed}.pt" for seed in range(1, 6)]
+            self.assertEqual(model_helpers.shot_size_checkpoints(), expected)
+            self.assertEqual([call.args[1] for call in download.call_args_list],
+                             [path.name for path in expected])
+            self.assertTrue(all(call.args[0] == model_helpers.MODEL_REPO and
+                                call.kwargs["revision"] == model_helpers.MODEL_REVISION
+                                for call in download.call_args_list))
+            download.reset_mock()
+            self.assertEqual(model_helpers.shot_size_checkpoints(single=True), expected[:1])
+            self.assertEqual(download.call_count, 1)
+            self.assertEqual(model_helpers.framing_checkpoint(), Path(temp) / "framing_model.pt")
+            download.side_effect = OSError("download failed")
+            with self.assertRaisesRegex(OSError, "download failed"):
+                model_helpers.framing_checkpoint()
+
+    def test_prediction_cli_uses_fallback_and_preserves_explicit_runs(self):
+        labels = {label: i for i, label in enumerate(predict_shotsize.DEFAULT_ORDER)}
+        with tempfile.TemporaryDirectory() as temp:
+            run = Path(temp) / "seed"
+            run.mkdir()
+            remote = Path(temp) / "shotsize_model_1.pt"
+            with patch.object(predict_shotsize, "shot_size_checkpoints", return_value=[remote]) as resolve, \
+                 patch.object(predict_shotsize, "load_shot_size_checkpoints",
+                              return_value=([FakeBackbone()], FakeProcessor(), labels)) as load, \
+                 patch.object(predict_shotsize, "load_label_index", return_value={}), \
+                 patch.object(predict_shotsize, "select_device", return_value=torch.device("cpu")), \
+                 patch("builtins.input", return_value="q"), \
+                 patch.object(sys, "argv", ["predict", "--single"]):
+                predict_shotsize.main()
+                resolve.assert_called_once_with(single=True)
+                self.assertEqual(load.call_args.args[0], [remote])
+                resolve.reset_mock()
+                with patch.object(sys, "argv", ["predict", "--runs", str(run)]):
+                    predict_shotsize.main()
+                resolve.assert_not_called()
+                self.assertEqual(load.call_args.args[0], [run / "best_model.pt"])
+
     def test_report_routing_preserves_experiment_and_custom_paths(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
@@ -186,8 +248,13 @@ class PathsAndModelsTests(unittest.TestCase):
             with patch("movieshot.models.AutoModel.from_pretrained", side_effect=lambda *a: FakeBackbone()), \
                  patch("movieshot.models.AutoImageProcessor.from_pretrained", return_value=FakeProcessor()):
                 models, processor, loaded_labels = load_shot_size_models([root], torch.device("cpu"))
+                remote = root / "shotsize_model_1.pt"
+                (root / "best_model.pt").rename(remote)
+                remote_models, _, remote_labels = load_shot_size_checkpoints([remote], torch.device("cpu"))
                 loaded_framing, _, classes = load_framing_model(root / "framing.pt", torch.device("cpu"))
             self.assertEqual(loaded_labels, labels)
+            self.assertEqual(remote_labels, labels)
+            self.assertEqual(len(remote_models), 1)
             self.assertEqual(classes, ["a", "b"])
             images = [Image.new("RGB", (4, 4))]
             for model in (models[0], loaded_framing):
