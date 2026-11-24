@@ -25,6 +25,31 @@ class FakeProcessor:
 
 
 class DemoLoadingTests(unittest.TestCase):
+    def test_framing_borderline_note_applies_to_any_close_pair(self):
+        image = Image.new("RGB", (4, 4))
+        feat = {"classes": ["single", "insert", "group shot"],
+                "order": ["single", "insert", "group shot"]}
+        with patch.object(demo, "model_probs") as probabilities, \
+             patch.object(demo, "occlusion", return_value=[]), \
+             patch.object(demo, "neighbours", return_value=[]), \
+             patch.object(demo, "reliability", return_value=None):
+            probabilities.return_value = np.array([[[0.45, 0.30, 0.25]]])
+            result = demo.classify("framing", feat, image)
+            self.assertEqual(result["note"],
+                             "Borderline between “single” and “insert”, which are ambiguous in this picture.")
+            probabilities.return_value = np.array([[[0.70, 0.20, 0.10]]])
+            self.assertIsNone(demo.classify("framing", feat, image)["note"])
+
+    def test_framing_borderline_preserves_known_confusion_warning(self):
+        feat = {"classes": ["3 shot", "group shot"], "order": ["3 shot", "group shot"]}
+        with patch.object(demo, "model_probs", return_value=np.array([[[0.55, 0.45]]])), \
+             patch.object(demo, "occlusion", return_value=[]), \
+             patch.object(demo, "neighbours", return_value=[]), \
+             patch.object(demo, "reliability", return_value=None):
+            note = demo.classify("framing", feat, Image.new("RGB", (4, 4)))["note"]
+        self.assertIn("ambiguous in this picture", note)
+        self.assertIn("model often confuses", note)
+
     def test_neighbour_index_resolves_paths_from_before_move(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp) / "project"

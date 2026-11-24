@@ -222,8 +222,10 @@ def classify(feature: str, feat: dict, image: Image.Image) -> dict:
     label, label2 = classes[top], classes[second]
     margin = float(mean[top] - mean[second])
     note = None
-    if feature == "framing" and {label, label2} in CONFUSABLE and margin < 0.3:
-        note = f"“{label}” and “{label2}” are the pair this model mixes up most often."
+    if feature == "framing" and margin < 0.3:
+        note = f"Borderline between “{label}” and “{label2}”, which are ambiguous in this picture."
+        if {label, label2} in CONFUSABLE:
+            note += " This is also a pair the model often confuses."
     elif feature == "shot_size" and abs(order.index(label) - order.index(label2)) == 1 and margin < 0.25:
         note = f"Borderline between “{label}” and “{label2}”, which are neighbouring sizes."
     return {

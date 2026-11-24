@@ -51,15 +51,14 @@ button:focus-visible,label:focus-within{outline:2px solid var(--accent);outline-
 .ring text{fill:var(--ink);font:800 22px var(--font)}
 .note{margin-top:14px;padding:10px 12px;border-left:3px solid var(--warm);background:rgba(255,180,84,.08);font-size:14px}
 h3{margin:0 0 12px;font-size:15px;font-weight:600;color:var(--dim)}
-.ruler{display:grid;gap:6px;align-items:end;height:150px}
-.col{display:flex;flex-direction:column;justify-content:flex-end;height:100%;text-align:center;font-size:11px;color:var(--dim);line-height:1.2}
-.col i{display:block;background:var(--line);border-radius:3px 3px 0 0;margin-bottom:6px;min-height:3px;transition:height .9s cubic-bezier(.2,.8,.2,1)}
+#probs{overflow-x:auto}
+.ruler{display:grid;gap:6px;min-width:400px}
+.col{display:grid;grid-template-rows:150px auto auto;align-content:start;min-width:0;text-align:center;font-size:11px;color:var(--dim);line-height:1.2}
+.bar-area{display:flex;align-items:end;height:150px}
+.col i{display:block;width:100%;background:var(--line);border-radius:3px 3px 0 0;min-height:3px;transition:height .9s cubic-bezier(.2,.8,.2,1)}
+.col .prob-label{padding-top:6px;overflow-wrap:anywhere}
+.col .prob-value{padding-top:3px}
 .col.win i{background:var(--accent)}.col.win{color:var(--ink)}
-.hbar{display:grid;grid-template-columns:130px 1fr 44px;gap:10px;align-items:center;font-size:14px;margin:6px 0}
-.hbar i{display:block;height:10px;background:var(--line);border-radius:5px;overflow:hidden}
-.hbar i u{display:block;height:100%;width:0;background:var(--line);filter:brightness(1.6);transition:width .9s cubic-bezier(.2,.8,.2,1)}
-.hbar.win i u{background:var(--accent);filter:none}
-.hbar span:last-child{text-align:right;color:var(--dim)}
 .nn{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .nn figure{margin:0;font-size:12px;color:var(--dim)}
 .nn img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:4px;display:block;margin-bottom:4px}
@@ -80,7 +79,7 @@ h3{margin:0 0 12px;font-size:15px;font-weight:600;color:var(--dim)}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:13px;color:var(--dim)}
 .stats b{display:block;color:var(--ink);font-size:18px;font-weight:800}
 .hidden{display:none}
-@media(prefers-reduced-motion:reduce){.scan.run{animation:none;top:50%}.col i,.hbar i u,#heat,.hist i,.palette div{transition:none}}
+@media(prefers-reduced-motion:reduce){.scan.run{animation:none;top:50%}.col i,#heat,.hist i,.palette div{transition:none}}
 </style>
 </head>
 <body>
@@ -266,11 +265,12 @@ function renderModel(feature, d) {
   drawHeat(d.heat);
 
   const win = d.order.indexOf(d.label);
+  $('probTitle').textContent = feature === 'shot_size'
+    ? 'Probability along the shot-size scale (tight to wide)' : 'Probability for each framing';
+  $('probs').innerHTML = `<div class="ruler" style="grid-template-columns:repeat(${d.order.length},minmax(0,1fr))">` +
+    d.order.map((c, i) => `<div class="col ${i === win ? 'win' : ''}"><div class="bar-area"><i style="height:0" data-h="${d.probs[i] * 100}"></i></div><span class="prob-label">${esc(c)}</span><span class="prob-value">${pct(d.probs[i])}</span></div>`).join('') + '</div>';
+  requestAnimationFrame(() => $('probs').querySelectorAll('.col i').forEach(e => e.style.height = e.dataset.h + '%'));
   if (feature === 'shot_size') {
-    $('probTitle').textContent = 'Probability along the shot-size scale (tight to wide)';
-    $('probs').innerHTML = `<div class="ruler" style="grid-template-columns:repeat(${d.order.length},1fr)">` +
-      d.order.map((c, i) => `<div class="col ${i === win ? 'win' : ''}"><i style="height:0" data-h="${d.probs[i] * 100}"></i>${esc(c)}</div>`).join('') + '</div>';
-    requestAnimationFrame(() => document.querySelectorAll('.col i').forEach(e => e.style.height = e.dataset.h + '%'));
     $('bodyCard').classList.remove('hidden');
     const insert = data.framing && data.framing.label === 'insert';   // the framing model sees an object/detail, not a person
     $('bodyTitle').textContent = insert ? 'Detail / insert shot' : 'What this size frames';
@@ -278,10 +278,6 @@ function renderModel(feature, d) {
       ? `<p class="msg" style="margin:0">The framing model reads this frame as an <b style="color:var(--ink)">insert</b>: a detail of an object rather than a person. Here “${esc(d.label)}” describes how tightly the <i>object</i> is framed, so the body diagram does not apply. In the training data, 78% of insert frames are labelled “extreme close up”.</p>`
       : bodyDiagram(d.label);
   } else {
-    $('probTitle').textContent = 'Probability for each framing';
-    const idx = d.order.map((_, i) => i).sort((a, b) => d.probs[b] - d.probs[a]);
-    $('probs').innerHTML = idx.map(i => `<div class="hbar ${i === win ? 'win' : ''}"><span>${esc(d.order[i])}</span><i><u data-w="${d.probs[i] * 100}"></u></i><span>${pct(d.probs[i])}</span></div>`).join('');
-    requestAnimationFrame(() => document.querySelectorAll('.hbar u').forEach(e => e.style.width = e.dataset.w + '%'));
     $('bodyCard').classList.add('hidden');
   }
   $('nnCard').classList.toggle('hidden', !d.neighbours.length);
