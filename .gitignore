@@ -226,3 +226,9 @@ data_shotqa/
 .venv/
 !requirements.txt
 *.pt
+/csv/
+/txt/
+outputs/finetune_framing/
+data/processed/finetune_shotsize_protocol/
+shot_features_*.csv
+.DS_Store
