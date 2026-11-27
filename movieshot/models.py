@@ -11,7 +11,7 @@ from transformers import AutoImageProcessor, AutoModel
 
 from scripts.paths import framing_run, shot_size_runs
 
-MODEL_REPO = "hugomelo17/MovieShotClassifier"
+MODEL_REPO = "hugomelo17/MovieShotClassifier-models"
 MODEL_REVISION = "4c9571c3492102ff519bcb12a976f624c6bcd7ea"
 
 SHOT_SIZE_ORDER = [
@@ -61,14 +61,22 @@ class FramingClassifier(nn.Module):
         return self.classifier(nn.functional.normalize(features.float(), dim=-1))
 
 
+def download_shot_size_checkpoints(single: bool = False) -> list[Path]:
+    seeds = range(1, 2 if single else 6)
+    return [Path(hf_hub_download(MODEL_REPO, f"shotsize_model_{seed}.pt", revision=MODEL_REVISION))
+            for seed in seeds]
+
+
 def shot_size_checkpoints(single: bool = False) -> list[Path]:
     runs = shot_size_runs()
     if runs:
         return [run / "best_model.pt" for run in (runs[:1] if single else runs)]
     print(f"No local shot-size checkpoint found; downloading from {MODEL_REPO}.")
-    seeds = range(1, 2 if single else 6)
-    return [Path(hf_hub_download(MODEL_REPO, f"shotsize_model_{seed}.pt", revision=MODEL_REVISION))
-            for seed in seeds]
+    return download_shot_size_checkpoints(single)
+
+
+def download_framing_checkpoint() -> Path:
+    return Path(hf_hub_download(MODEL_REPO, "framing_model.pt", revision=MODEL_REVISION))
 
 
 def framing_checkpoint() -> Path:
@@ -76,7 +84,7 @@ def framing_checkpoint() -> Path:
     if local.is_file():
         return local
     print(f"No local framing checkpoint found; downloading from {MODEL_REPO}.")
-    return Path(hf_hub_download(MODEL_REPO, "framing_model.pt", revision=MODEL_REVISION))
+    return download_framing_checkpoint()
 
 
 def load_shot_size_models(run_dirs: list[Path], device: torch.device):

@@ -1,12 +1,12 @@
 """Visual demo server for the shot-size and framing models.
 
 Run from the repository root:
-    python -m pip install -r requirements.txt
+    python -m pip install -r demo_requirements.txt
     python -m uvicorn scripts.demo.app:app --port 8000
 Then open http://127.0.0.1:8000
 
 Everything shown comes from this project's own artefacts:
-  * shot size and framing: local checkpoints, or Hugging Face when missing
+  * shot size and framing: Hugging Face checkpoints
   * heatmap:   occlusion of the model's own predicted-class probability
   * neighbours: cosine similarity in the cached frozen-SigLIP train+val embeddings
 """
@@ -14,42 +14,70 @@ from __future__ import annotations
 
 import io
 import json
+import logging
+import re
 import threading
 import traceback
 from contextlib import asynccontextmanager
 from pathlib import Path
 
 import cv2
+import httpx2
 import numpy as np
 import pandas as pd
 import torch
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
+from huggingface_hub import hf_hub_download
 from PIL import Image, ImageDraw
 from transformers import AutoImageProcessor, AutoModel
 
 from movieshot.models import (
-    SHOT_SIZE_ORDER, framing_checkpoint, load_framing_model, load_shot_size_checkpoints,
-    model_probabilities, select_device, shot_size_checkpoints,
+    SHOT_SIZE_ORDER, download_framing_checkpoint, download_shot_size_checkpoints,
+    load_framing_model, load_shot_size_checkpoints, model_probabilities, select_device,
 )
-from scripts.paths import DATA_PROCESSED_DIR, ROOT, SPLITS_DIR, resolve_image_path
+from scripts.paths import DATA_PROCESSED_DIR, ROOT, SPLITS_DIR
 from scripts.color.color_analysis import get_color_features
 from scripts.lighting.light_analysis import analyze_lighting, crop_letterbox
 
 STATIC = Path(__file__).parent / "static"
 BASE_NAME = "google/siglip-base-patch16-224"
+DATASET_REPO = "hugomelo17/MovieShotClassifier-dataset"
+DATASET_REVISION = "dccc8f570b92363138aa909af0c251e6c4646eed"
 GRID = 8
 CONFUSABLE = [{"3 shot", "group shot"}, {"over the shoulder", "2 shot"}]   # from the confusion matrices
 
 STATE: dict = {}
 LOCK = threading.Lock()
+LOGGER = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------- loading
+def reference_image_path(path: str) -> str | None:
+    """Map a ShotQA split path to its uploaded dataset image."""
+    parts = str(path).replace("\\", "/").split("/")
+    if ".." in parts or len(parts) < 2 or parts[-2] != "data_shotqa":
+        return None
+    prefix = [part for part in parts[:-2] if part and part != "."]
+    project_names = {ROOT.name.casefold(), "movieshotclassifier"}
+    project_path = not prefix or prefix[-1].casefold() in project_names
+    raw_path = prefix == ["data", "raw"] or (
+        len(prefix) >= 3 and prefix[-2:] == ["data", "raw"]
+        and prefix[-3].casefold() in project_names
+    )
+    name = parts[-1]
+    if not (project_path or raw_path) or not re.fullmatch(
+        r"[A-Z0-9][A-Za-z0-9._-]*\.(?:jpg|jpeg|png)", name, re.IGNORECASE
+    ) or name[0] not in "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        return None
+    folder = "0-H" if name[0] in "0123456789ABCDEFGH" else "I-Z"
+    return f"images/{folder}/{name}"
+
+
 def load_index(dim: str):
     """Train+val frozen embeddings and image paths for nearest-neighbour lookup."""
-    candidates = [(SPLITS_DIR, DATA_PROCESSED_DIR / "emb", ROOT), (ROOT / "splits", ROOT / "emb", ROOT)]
-    for splits, emb, base in candidates:
+    candidates = [(SPLITS_DIR, DATA_PROCESSED_DIR / "emb"), (ROOT / "splits", ROOT / "emb")]
+    for splits, emb in candidates:
         files = [splits / f"{s}_{dim}.csv" for s in ("train", "val")] + [emb / f"{s}_{dim}.npy" for s in ("train", "val")]
         if not all(f.exists() for f in files):
             continue
@@ -60,7 +88,7 @@ def load_index(dim: str):
             print(f"[demo] {dim}: embeddings/CSV mismatch, neighbours disabled")
             return None
         return {"X": X, "labels": df["label"].astype(str).tolist(),
-                "paths": [str(resolve_image_path(p, base)) for p in df["path"]]}
+                "remote_paths": [reference_image_path(p) for p in df["path"]]}
     print(f"[demo] {dim}: no cached embeddings found, neighbours disabled")
     return None
 
@@ -70,7 +98,7 @@ async def lifespan(app):
     device = select_device()
     print(f"[demo] device: {device}")
     try:
-        checkpoints = shot_size_checkpoints()
+        checkpoints = download_shot_size_checkpoints()
         models, proc, label_to_id = load_shot_size_checkpoints(checkpoints, device)
         models = [m.to(device).eval() for m in models]                     # same device as the inputs
         classes = [c for c, _ in sorted(label_to_id.items(), key=lambda kv: kv[1])]
@@ -86,7 +114,7 @@ async def lifespan(app):
         traceback.print_exc()
         print(f"[demo] shot size unavailable: {e!r}")
     try:
-        checkpoint = framing_checkpoint()
+        checkpoint = download_framing_checkpoint()
         model, proc, classes = load_framing_model(checkpoint, device)
         STATE["framing"] = {"models": [model], "proc": proc, "classes": classes, "device": device,
                             "order": classes, "index": load_index("framing"),
@@ -204,9 +232,17 @@ def thumb(key: str, i: int):
     if key not in ("shot_size", "framing"):
         raise HTTPException(404)
     index = STATE.get(key, {}).get("index")
-    if not index or not 0 <= i < len(index["paths"]) or not Path(index["paths"][i]).is_file():
+    if not index or not 0 <= i < len(index["remote_paths"]):
         raise HTTPException(404)
-    return FileResponse(index["paths"][i])
+    remote_path = index["remote_paths"][i]
+    if remote_path is None:
+        raise HTTPException(404)
+    try:
+        path = Path(hf_hub_download(DATASET_REPO, remote_path, repo_type="dataset", revision=DATASET_REVISION))
+    except (OSError, httpx2.HTTPError) as exc:
+        LOGGER.exception("Could not download reference image %s", remote_path)
+        raise HTTPException(503, "Could not retrieve the reference image from Hugging Face.") from exc
+    return FileResponse(path)
 
 
 def classify(feature: str, feat: dict, image: Image.Image) -> dict:

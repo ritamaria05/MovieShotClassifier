@@ -14,7 +14,7 @@ import numpy as np, pandas as pd, torch, torch.nn as nn
 from sklearn.metrics import accuracy_score, f1_score
 from scripts.paths import ROOT, embedding_file, prepare_report, split_file
 
-DIMS = ['shot_size', 'framing']
+DIMS = ['framing']
 def load(root):
     data = {}
     for s in ['train', 'val', 'test']:

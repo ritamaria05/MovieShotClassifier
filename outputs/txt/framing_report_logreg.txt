@@ -1,0 +1,13 @@
+                   precision    recall  f1-score   support
+
+           2 shot      0.889     0.828     0.857        58
+           3 shot      0.766     0.571     0.655        63
+establishing shot      0.656     0.784     0.714        51
+       group shot      0.674     0.705     0.689        44
+           insert      0.892     0.829     0.859        70
+over the shoulder      0.537     0.763     0.630        38
+           single      0.891     0.851     0.870        67
+
+         accuracy                          0.765       391
+        macro avg      0.758     0.761     0.754       391
+     weighted avg      0.781     0.765     0.768       391
